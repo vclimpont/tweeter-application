@@ -6,7 +6,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Graph graph = new SingleGraph("Tutorial1");
-		graph.addAttribute("ui.stylesheet", "url('file:///C://Users//valen//eclipse-workspace//graphstream//stylesheets//stylesheet.css')");
+		graph.addAttribute("ui.stylesheet", "url('file:///..//tweeter-application//GraphStyle//stylesheet.css')");
 		
 		for(int i = 0; i < 30; i++)
 		{
