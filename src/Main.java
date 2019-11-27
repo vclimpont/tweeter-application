@@ -1,4 +1,4 @@
-import org.graphstream.graph.Graph;
+import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 
 public class Main {
@@ -10,7 +10,9 @@ public class Main {
 		
 		for(int i = 0; i < 30; i++)
 		{
-			graph.addNode(""+i);
+			Node n = graph.addNode(""+i);
+			n.addAttribute("ui.color", i/29.0);
+			n.addAttribute("ui.size", 20+i);
 		}
 		for(int i = 0; i < 30; i++)
 		{
