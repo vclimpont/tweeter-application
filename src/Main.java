@@ -25,20 +25,6 @@ public class Main {
 				graph.addEdge(""+i+""+(i+1), ""+i, ""+(i+1), true);
 			}
 		}
-		/*Node n1 = graph.addNode("A");
-		Node n2 = graph.addNode("B");
-		Node n3 = graph.addNode("C");
-		
-		graph.addEdge("AB", "A", "B", true);
-		graph.addEdge("BC", "B", "C", true);
-		graph.addEdge("CA", "C", "A", true);
-		
-		n1.addAttribute("ui.color", 1);
-		n1.addAttribute("ui.size", 50);
-		n2.addAttribute("ui.color", 0.8);
-		n2.addAttribute("ui.size", 50*0.8);
-		n3.addAttribute("ui.color", 0.6);
-		n3.addAttribute("ui.size", 50*0.6);*/
 		
 		graph.display();
 	}
