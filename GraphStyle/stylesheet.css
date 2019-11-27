@@ -1,6 +1,6 @@
 node {
 	fill-mode : dyn-plain;
-	fill-color : blue, cyan, yellow, red;
+	fill-color : blue, red;
 	size-mode : dyn-size;
 	size : 20px;
 }

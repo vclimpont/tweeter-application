@@ -1,32 +1,32 @@
-import org.graphstream.graph.*;
-import org.graphstream.graph.implementations.SingleGraph;
+import java.util.Random;
 
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Graph graph = new SingleGraph("Tutorial1");
-		graph.addAttribute("ui.stylesheet", "url('file:///..//GraphStyle//stylesheet.css')");
 		
-		for(int i = 0; i < 30; i++)
+		UsersBase base = new UsersBase();
+		UsersGraph graph = new UsersGraph(base);
+		
+		for(int i = 0; i < 50; i++)
 		{
-			Node n = graph.addNode(""+i);
-			n.addAttribute("ui.color", i/29.0);
-			n.addAttribute("ui.size", 20+i);
-		}
-		for(int i = 0; i < 30; i++)
-		{
-			if(i == 29)
-			{
-				graph.addEdge("290", "29", "0", true);
-			}
-			else
-			{
-				graph.addEdge(""+i+""+(i+1), ""+i, ""+(i+1), true);
-			}
+			base.addUser(new User(""+i));
 		}
 		
-		graph.display();
+		Random rand = new Random();
+		for(User u : base.getUsers())
+		{
+			int i = rand.nextInt(10 - 0 + 1) + 0;
+			while(i > 0)
+			{
+				int j = rand.nextInt(50);
+				u.addLinkedUser(base.getUser(""+j));
+				i--;
+			}
+		}
+		
+		base.setMaxLinks();
+		graph.build();
+		graph.displayGraph(); 
 	}
 
 }

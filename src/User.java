@@ -39,6 +39,11 @@ public class User {
 		return id;
 	}
 	
+	public int getLinksNumber()
+	{
+		return linkedUsers.size();
+	}
+	
 	public ArrayList<User> getLinkedUsers()
 	{
 		return linkedUsers;
