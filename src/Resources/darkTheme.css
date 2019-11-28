@@ -1,9 +1,19 @@
-BorderPane, Pane{
+BorderPane{
 	-fx-background-color: #323232;
 }
 MenuBar, MenuBar *{
 	-fx-background-color: #000;
 }
 MenuBar .label {
+	-fx-text-fill: #ffffff;
+}
+
+#statsPanel{
+	-fx-background-color: transparent;
+}
+#statsPanel > AnchorPane{
+	-fx-background-color: #424242;
+}
+#statsPanel > AnchorPane .label{
 	-fx-text-fill: #ffffff;
 }

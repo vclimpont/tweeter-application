@@ -7,20 +7,21 @@
 <?import javafx.scene.layout.BorderPane?>
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" stylesheets="@Resources/darkTheme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MainController">
-  <!-- TODO Add Nodes -->
-  <top>
-    <MenuBar>
+   <top>
+    <MenuBar prefWidth="800.0" BorderPane.alignment="CENTER">
       <menus>
         <Menu mnemonicParsing="false" text="Fichier">
           <items>
                   <MenuItem fx:id="openMenuItem" mnemonicParsing="false" onAction="#open" text="Ouvrir">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator></MenuItem>
+                     </accelerator>
+                  </MenuItem>
             <MenuItem mnemonicParsing="false" onAction="#quit" text="Fermer">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="Q" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator></MenuItem>
+                     </accelerator>
+                  </MenuItem>
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Thèmes">
@@ -31,5 +32,5 @@
         </Menu>
       </menus>
     </MenuBar>
-  </top>
+   </top>
 </BorderPane>

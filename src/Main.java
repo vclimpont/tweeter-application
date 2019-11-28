@@ -17,7 +17,8 @@ public class Main extends Application {
 	
 	private Stage primaryStage;
     private BorderPane rootLayout;
-    private AnchorPane mainViewLayout;
+    private BorderPane mainViewLayout;
+    private AnchorPane statsPanelLayout;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -25,12 +26,35 @@ public class Main extends Application {
         this.primaryStage.setTitle("Projet Java");
         
         initRootLayout();
+        initMainView();
+        initStatsPanelView();
         
-        try {
+        
+	}
+	
+	private void initStatsPanelView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+	        loader.setLocation(Main.class.getResource("StatsPanelView.fxml"));
+	        statsPanelLayout = (AnchorPane) loader.load();
+	        statsPanelLayout.setPrefHeight(rootLayout.getPrefWidth());
+	        
+            //rootLayout.getChildren().add(statsPanelLayout);
+            //StackPane.setAlignment(statsPanelLayout,Pos.TOP_RIGHT);
+	        mainViewLayout.setRight(statsPanelLayout);
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	private void initMainView() {
+		try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("MainView.fxml"));
-            mainViewLayout = (AnchorPane) loader.load();
+            mainViewLayout = (BorderPane) loader.load();
             
+            //rootLayout.getChildren().add(mainViewLayout);
+            //StackPane.setAlignment(mainViewLayout,Pos.CENTER);
             rootLayout.setCenter(mainViewLayout);
             
         } catch (IOException e) {
@@ -38,7 +62,7 @@ public class Main extends Application {
         }
 	}
 	
-	public void initRootLayout() {
+	private void initRootLayout() {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
@@ -83,13 +107,16 @@ public class Main extends Application {
 
 		rootLayout.getStylesheets().clear();
 		mainViewLayout.getStylesheets().clear();
+		statsPanelLayout.getStylesheets().clear();
 		
 		if(theme == THEME_DARK) {
 			rootLayout.getStylesheets().add("/Resources/darkTheme.css");
 			mainViewLayout.getStylesheets().add("/Resources/darkTheme.css");
+			statsPanelLayout.getStylesheets().add("/Resources/darkTheme.css");
 		} else if(theme == THEME_LIGHT) {
 			rootLayout.getStylesheets().add("/Resources/lightTheme.css");
 			mainViewLayout.getStylesheets().add("/Resources/lightTheme.css");
+			statsPanelLayout.getStylesheets().add("/Resources/lightTheme.css");
 		}
 		
 	}
