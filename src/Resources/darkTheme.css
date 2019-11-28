@@ -1,0 +1,9 @@
+BorderPane, Pane{
+	-fx-background-color: #323232;
+}
+MenuBar, MenuBar *{
+	-fx-background-color: #000;
+}
+MenuBar .label {
+	-fx-text-fill: #ffffff;
+}

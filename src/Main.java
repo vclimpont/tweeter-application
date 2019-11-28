@@ -12,25 +12,26 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	public final int THEME_DARK = 0;
+	public final int THEME_LIGHT = 1;
+	
 	private Stage primaryStage;
     private BorderPane rootLayout;
+    private AnchorPane mainViewLayout;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Importation Donnees");
+        this.primaryStage.setTitle("Projet Java");
         
         initRootLayout();
         
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("ImportationDonneesView.fxml"));
-            AnchorPane importationDonnee = (AnchorPane) loader.load();
+            loader.setLocation(Main.class.getResource("MainView.fxml"));
+            mainViewLayout = (AnchorPane) loader.load();
             
-            rootLayout.setCenter(importationDonnee);
-            
-            ImportationDonneesController controller = loader.getController();
-            controller.setMain(this);
+            rootLayout.setCenter(mainViewLayout);
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,6 +49,10 @@ public class Main extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
+            
+
+            MainController controller = loader.getController();
+            controller.setMain(this);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,5 +77,24 @@ public class Main extends Application {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void changeTheme(int theme) {
+
+		rootLayout.getStylesheets().clear();
+		mainViewLayout.getStylesheets().clear();
+		
+		if(theme == THEME_DARK) {
+			rootLayout.getStylesheets().add("/Resources/darkTheme.css");
+			mainViewLayout.getStylesheets().add("/Resources/darkTheme.css");
+		} else if(theme == THEME_LIGHT) {
+			rootLayout.getStylesheets().add("/Resources/lightTheme.css");
+			mainViewLayout.getStylesheets().add("/Resources/lightTheme.css");
+		}
+		
+	}
+	
+	public void quit() {
+		primaryStage.close();
 	}
 }
