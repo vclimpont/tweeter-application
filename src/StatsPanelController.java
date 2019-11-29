@@ -1,10 +1,6 @@
-import javafx.animation.Animation;
-import javafx.animation.Transition;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
 
 public class StatsPanelController {
 	@FXML
@@ -12,9 +8,11 @@ public class StatsPanelController {
 	@FXML
 	private AnchorPane statsPanel;
 	
-	private int expandedWidth = 300;
 	private boolean isShrinked = true;
 	
+	/*
+	EXEMPLE : déclaration d'animation javafx
+		
 	final Animation hideStatPanel = new Transition() {
 		{ setCycleDuration(Duration.millis(250)); }
 		protected void interpolate(double frac) {
@@ -31,7 +29,7 @@ public class StatsPanelController {
 			statsPanel.setTranslateX(-expandedWidth + curWidth);
 		}
 	};
-	
+	*/
 	
 	@FXML
     private void shrink() {

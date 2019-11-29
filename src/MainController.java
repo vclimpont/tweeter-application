@@ -28,8 +28,7 @@ public class MainController {
 	private Main main;
 	private FileChooser fileChooser;
 	private File lastOpened;
-	
-	public MainController() {}
+
 
     @FXML
     private void open() {

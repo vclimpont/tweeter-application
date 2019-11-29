@@ -3,6 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javafx.application.Application;
+import javafx.beans.InvalidationListener;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
@@ -38,9 +39,13 @@ public class Main extends Application {
 	        loader.setLocation(Main.class.getResource("StatsPanelView.fxml"));
 	        statsPanelLayout = (AnchorPane) loader.load();
 	        statsPanelLayout.setPrefHeight(rootLayout.getPrefWidth());
-	        
-            //rootLayout.getChildren().add(statsPanelLayout);
-            //StackPane.setAlignment(statsPanelLayout,Pos.TOP_RIGHT);
+
+            // Listener which check when the rootLayout height change
+            rootLayout.heightProperty().addListener((InvalidationListener) observable -> {
+            	// Set the statsPanelLayout height depending on rootLayout
+            	statsPanelLayout.setPrefHeight(rootLayout.getHeight());
+            });
+            
 	        mainViewLayout.setRight(statsPanelLayout);
 		} catch (IOException e) {
             e.printStackTrace();
@@ -52,9 +57,18 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("MainView.fxml"));
             mainViewLayout = (BorderPane) loader.load();
+
+            // Listener which check when the rootLayout height change
+            rootLayout.heightProperty().addListener((InvalidationListener) observable -> {
+            	// Set the mainViewLayout height depending on rootLayout
+            	mainViewLayout.setPrefHeight(rootLayout.getHeight());
+            });
+            // Listener which check when the rootLayout width change
+            rootLayout.widthProperty().addListener((InvalidationListener) observable -> {
+            	// Set the mainViewLayout width depending on rootLayout
+            	mainViewLayout.setPrefWidth(rootLayout.getWidth());
+            });
             
-            //rootLayout.getChildren().add(mainViewLayout);
-            //StackPane.setAlignment(mainViewLayout,Pos.CENTER);
             rootLayout.setCenter(mainViewLayout);
             
         } catch (IOException e) {
