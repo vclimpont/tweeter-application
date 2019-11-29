@@ -15,8 +15,9 @@ public class UsersGraph {
 
 	public void buildNodes()
 	{
-		for(User u : base.getUsers())
+		for(String id : base.getUsers().keySet())
 		{
+			User u = base.getUsers().get(id);
 			Node n = graph.addNode(u.getId());
 			
 			double k = (u.getInternalLinksNumber() * 1.0) / base.getMaxLinks();
@@ -28,8 +29,9 @@ public class UsersGraph {
 		
 	public void buildEdges()
 	{
-		for(User u : base.getUsers())
+		for(String id : base.getUsers().keySet())
 		{
+			User u = base.getUsers().get(id);
 			for(User lu : u.getExternalLinks())
 			{
 				graph.addEdge(u.getId()+"."+lu.getId(), u.getId(), lu.getId(), true);

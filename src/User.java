@@ -1,10 +1,10 @@
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class User {
 
 	private String id;
-	private ArrayList<User> externalLinks;
+	private HashMap<User> externalLinks;
 	private ArrayList<User> internalLinks;
 	private ArrayList<Tweet> tweets;
 	

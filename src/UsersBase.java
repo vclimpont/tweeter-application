@@ -1,15 +1,14 @@
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
 
 
 public class UsersBase {
 	
-	private Set<User> users;
+	private HashMap<String,User> users;
 	private int maxLinks;
 	
 	public UsersBase()
 	{
-		users = new HashSet<User>();
+		users = new HashMap<String,User>();
 		maxLinks = 0;
 	}
 	
@@ -17,12 +16,12 @@ public class UsersBase {
 	{
 		if(data.length == 4)
 		{
-			//User u = getUser(data[1]);	
-			//if(u == null) // Add user in the base if he does not exist
-			//{
-				User u = new User(data[1]);
+			User u = users.get(data[1]);
+			if(u == null) // Add user in the base if he does not exist
+			{
+				u = new User(data[1]);
 				addUser(u);
-			//}			
+			}			
 			
 			/*Tweet t = u.getTweet(data[3]);
 			if(t == null) // Add tweet to the user-author if it does not exist
@@ -33,19 +32,19 @@ public class UsersBase {
 		}
 		else if(data.length == 5) // It's a retweet
 		{
-			//User rtu = getUser(data[1]);	
-			//if(rtu == null) // Add the user who RT'd in the base
-			//{
-				User rtu = new User(data[1]);
+			User rtu = users.get(data[1]);	
+			if(rtu == null) // Add the user who RT'd in the base
+			{
+				rtu = new User(data[1]);
 				addUser(rtu);
-			//}
+			}
 			
-			//User u = getUser(data[4]);	
-			//if(u == null) // Add user in the base if he does not exist
-			//{
-				User u = new User(data[4]);
+			User u = users.get(data[4]);	
+			if(u == null) // Add user in the base if he does not exist
+			{
+				u = new User(data[4]);
 				addUser(u);
-			//}			
+			}			
 			
 			/*Tweet t = u.getTweet(data[3]);
 			if(t == null) // Add tweet to the user-author if it does not exist
@@ -64,30 +63,22 @@ public class UsersBase {
 	
 	public void addUser(User _user)
 	{
-		users.add(_user);
+		users.put(_user.getId(), _user);
 		System.out.println("User " + _user.getId() + " added.");
 	}
 		
 	public User getUser(String id)
 	{
-		for(User u : users)
-		{
-			if(u.getId().equals(id))
-			{
-				return u;
-			}
-		}
-		//System.out.println("User introuvable");
-		return null;
+		return users.get(id);
 	}
 	
 	public void setMaxLinks()
 	{
-		for(User u : users)
+		for(String id : users.keySet())
 		{
-			if(maxLinks < u.getInternalLinksNumber())
+			if(maxLinks < users.get(id).getInternalLinksNumber())
 			{
-				maxLinks = u.getInternalLinksNumber();
+				maxLinks = users.get(id).getInternalLinksNumber();
 			}
 		}
 	}
@@ -97,7 +88,7 @@ public class UsersBase {
 		return maxLinks;
 	}
 	
-	public Set<User> getUsers()
+	public HashMap<String,User> getUsers()
 	{
 		return users;
 	}
