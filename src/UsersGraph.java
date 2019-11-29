@@ -13,22 +13,28 @@ public class UsersGraph {
 		graph.addAttribute("ui.stylesheet", "url('file:///..//GraphStyle//stylesheet.css')");
 	}
 
-	public void buildNodes(User u)
+	public void buildNodes()
 	{
-		Node n = graph.addNode(u.getId());
-		
-		double k = (u.getInternalLinksNumber() * 1.0) / base.getMaxLinks();
-		setColor(n, k);
-		setSize(n, k);
-		System.out.println("Added node : " + u.getId());
+		for(User u : base.getUsers())
+		{
+			Node n = graph.addNode(u.getId());
+			
+			double k = (u.getInternalLinksNumber() * 1.0) / base.getMaxLinks();
+			setColor(n, k);
+			setSize(n, k);
+			System.out.println("Added node : " + u.getId() + " k = " + k + " " + u.getInternalLinksNumber() + " " + base.getMaxLinks());	
+		}
 	}
 		
-	public void buildEdges(User u)
+	public void buildEdges()
 	{
-		for(User lu : u.getExternalLinks())
+		for(User u : base.getUsers())
 		{
-			graph.addEdge(u.getId()+"."+lu.getId(), u.getId(), lu.getId(), true);
-			System.out.println("Added edge " + u.getId() + " --> " + lu.getId());
+			for(User lu : u.getExternalLinks())
+			{
+				graph.addEdge(u.getId()+"."+lu.getId(), u.getId(), lu.getId(), true);
+				System.out.println("Added edge " + u.getId() + " --> " + lu.getId());
+			}
 		}
 	}
 	
@@ -44,11 +50,8 @@ public class UsersGraph {
 	
 	public void build()
 	{
-		for(User u : base.getUsers())
-		{
-			buildNodes(u);
-			buildEdges(u);
-		}
+		buildNodes();
+		buildEdges();
 	}
 	
 	public void displayGraph()

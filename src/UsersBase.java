@@ -1,14 +1,15 @@
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class UsersBase {
 	
-	private ArrayList<User> users;
+	private Set<User> users;
 	private int maxLinks;
 	
 	public UsersBase()
 	{
-		users = new ArrayList<User>();
+		users = new HashSet<User>();
 		maxLinks = 0;
 	}
 	
@@ -16,42 +17,42 @@ public class UsersBase {
 	{
 		if(data.length == 4)
 		{
-			User u = getUser(data[1]);	
-			if(u == null) // Add user in the base if he does not exist
-			{
-				u = new User(data[1]);
+			//User u = getUser(data[1]);	
+			//if(u == null) // Add user in the base if he does not exist
+			//{
+				User u = new User(data[1]);
 				addUser(u);
-			}			
+			//}			
 			
-			Tweet t = u.getTweet(data[3]);
+			/*Tweet t = u.getTweet(data[3]);
 			if(t == null) // Add tweet to the user-author if it does not exist
 			{
 				t = new Tweet(u, data[2], data[3]);
 				u.addTweet(t);
-			}
+			}*/
 		}
 		else if(data.length == 5) // It's a retweet
 		{
-			User rtu = getUser(data[1]);	
-			if(rtu == null) // Add the user who RT'd in the base
-			{
-				rtu = new User(data[1]);
+			//User rtu = getUser(data[1]);	
+			//if(rtu == null) // Add the user who RT'd in the base
+			//{
+				User rtu = new User(data[1]);
 				addUser(rtu);
-			}
+			//}
 			
-			User u = getUser(data[4]);	
-			if(u == null) // Add user in the base if he does not exist
-			{
-				u = new User(data[4]);
+			//User u = getUser(data[4]);	
+			//if(u == null) // Add user in the base if he does not exist
+			//{
+				User u = new User(data[4]);
 				addUser(u);
-			}			
+			//}			
 			
-			Tweet t = u.getTweet(data[3]);
+			/*Tweet t = u.getTweet(data[3]);
 			if(t == null) // Add tweet to the user-author if it does not exist
 			{
 				t = new Tweet(u, data[2], data[3]);
 				u.addTweet(t);
-			}
+			}*/
 			
 			rtu.addExternalLink(u);
 		}
@@ -76,7 +77,7 @@ public class UsersBase {
 				return u;
 			}
 		}
-		System.out.println("User introuvable");
+		//System.out.println("User introuvable");
 		return null;
 	}
 	
@@ -96,7 +97,7 @@ public class UsersBase {
 		return maxLinks;
 	}
 	
-	public ArrayList<User> getUsers()
+	public Set<User> getUsers()
 	{
 		return users;
 	}

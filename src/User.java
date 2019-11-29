@@ -1,3 +1,4 @@
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 public class User {
@@ -91,4 +92,40 @@ public class User {
 	{
 		return tweets;
 	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		// TODO Auto-generated method stub
+		if(arg0 instanceof User)
+		{
+			return ((User)arg0).getId().equals(this.getId());
+		}
+		else
+		{
+			return false;
+		}	
+	}
+
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+        try {
+			byte[] bytes = getId().getBytes("US-ASCII");
+			
+			String s = "";
+			for(int i=0; i<3; i++)
+			{
+				s += bytes[i];
+			}
+			System.out.println(s);
+			return Integer.parseInt(s);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        return -1;
+	}
+	
+	
 }

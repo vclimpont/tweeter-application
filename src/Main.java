@@ -129,7 +129,6 @@ public class Main extends Application {
 	public void readData(String filename) {
 		BufferedReader csvReader;
 		String row;
-		int i = 1;
 		try {
 			csvReader = new BufferedReader(new FileReader("./Data/"+filename));
 			while ((row = csvReader.readLine()) != null) {
