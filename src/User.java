@@ -1,18 +1,18 @@
-import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class User {
 
 	private String id;
-	private HashMap<User> externalLinks;
-	private ArrayList<User> internalLinks;
+	private HashMap<String,User> externalLinks;
+	private HashMap<String,User> internalLinks;
 	private ArrayList<Tweet> tweets;
 	
 	public User(String _id)
 	{
 		id = _id;
-		externalLinks = new ArrayList<User>();
-		internalLinks = new ArrayList<User>();
+		externalLinks = new HashMap<String,User>();
+		internalLinks = new HashMap<String,User>();
 		tweets = new ArrayList<Tweet>();
 	}
 	
@@ -20,7 +20,7 @@ public class User {
 	{
 		if(!isExtLinkedTo(_user))
 		{
-			externalLinks.add(_user);
+			externalLinks.put(_user.getId(), _user);
 			_user.addInternalLink(this);
 		}
 	}
@@ -29,7 +29,7 @@ public class User {
 	{
 		if(!isIntLinkedTo(_user))
 		{
-			internalLinks.add(_user);
+			internalLinks.put(_user.getId(), _user);
 		}
 	}
 	
@@ -41,12 +41,12 @@ public class User {
 	
 	public boolean isExtLinkedTo(User _user)
 	{
-		return externalLinks.contains(_user);
+		return externalLinks.containsKey(_user.getId());
 	}
 	
 	public boolean isIntLinkedTo(User _user)
 	{
-		return internalLinks.contains(_user);
+		return internalLinks.containsKey(_user.getId());
 	}
 	
 	public String getId()
@@ -59,7 +59,7 @@ public class User {
 		return internalLinks.size();
 	}
 	
-	public ArrayList<User> getInternalLinks()
+	public HashMap<String,User> getInternalLinks()
 	{
 		return internalLinks;
 	}
@@ -69,7 +69,7 @@ public class User {
 		return externalLinks.size();
 	}
 	
-	public ArrayList<User> getExternalLinks()
+	public HashMap<String,User> getExternalLinks()
 	{
 		return externalLinks;
 	}
@@ -93,7 +93,7 @@ public class User {
 		return tweets;
 	}
 
-	@Override
+	/*@Override
 	public boolean equals(Object arg0) {
 		// TODO Auto-generated method stub
 		if(arg0 instanceof User)
@@ -125,7 +125,7 @@ public class User {
 		}
         
         return -1;
-	}
+	}*/
 	
 	
 }
