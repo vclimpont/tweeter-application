@@ -1,5 +1,8 @@
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.swingViewer.ViewPanel;
+import org.graphstream.ui.view.View;
+import org.graphstream.ui.view.Viewer;
 
 public class UsersGraph {
 
@@ -10,7 +13,9 @@ public class UsersGraph {
 	{
 		base = _base;
 		graph = new SingleGraph("Tweeter users relationship");
-	//	graph.addAttribute("ui.stylesheet", "url('file:///..//GraphStyle//stylesheet.css')");
+		graph.addAttribute("ui.stylesheet", "url('file:///..//GraphStyle//stylesheet.css')");
+		graph.addAttribute("ui.quality");
+		graph.addAttribute("ui.antialias");
 	}
 
 	public void buildNodes()
@@ -21,8 +26,8 @@ public class UsersGraph {
 			Node n = graph.addNode(u.getId());
 			
 			double k = (u.getInternalLinksNumber() * 1.0) / base.getMaxLinks();
-			//setColor(n, k);
-			//setSize(n, k);
+			setColor(n, k);
+			setSize(n, k);
 			System.out.println("Added node : " + u.getId());	
 		}
 	}
@@ -48,7 +53,7 @@ public class UsersGraph {
 	
 	private void setSize(Node n, double alpha)
 	{
-		n.addAttribute("ui.size", 30 + 20 * alpha);
+		n.addAttribute("ui.size", 10 + 10 * alpha);
 	}
 	
 	public void build()
@@ -59,6 +64,10 @@ public class UsersGraph {
 	
 	public void displayGraph()
 	{
-		graph.display();
+		Viewer viewer = graph.display();
+		ViewPanel view = viewer.getDefaultView();
+		view.resizeFrame(800, 600);
+		view.getCamera().setViewCenter(0, 0, 0);
+		view.getCamera().setViewPercent(0.50);
 	}
 }

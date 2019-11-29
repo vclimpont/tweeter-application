@@ -2,6 +2,12 @@ node {
 	fill-mode : dyn-plain;
 	fill-color : blue, red;
 	size-mode : dyn-size;
-	size : 2px;
+	size : 1px;
+}
+
+edge {
+	shape: line;
+	fill-color : #222;
+	arrow-size : 1px, 1px;
 }
 
