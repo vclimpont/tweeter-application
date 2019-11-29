@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -99,10 +98,10 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 
-	/*			
+				
 		UsersBase base = new UsersBase();
 		UsersGraph graph = new UsersGraph(base);
-		
+	/*	
 		// Add some users
 		for(int i = 0; i < 10; i++)
 		{
@@ -124,14 +123,13 @@ public class Main extends Application {
 				i--;
 			}
 		}
-		
+		*/
 		// Find the maximum amount of links for 1 user
 		base.setMaxLinks();
 		// Build nodes and edges
 		graph.build();
 		// Display the graph
 		graph.displayGraph(); 
-		*/
 	}
 	
 	public void readTweets(String filename) {
