@@ -19,8 +19,7 @@ public class UsersGraph {
 		{
 			Node n = graph.addNode(u.getId());
 			
-			double k = (u.getLinksNumber() * 1.0) / base.getMaxLinks();
-			System.out.println(base.getMaxLinks());
+			double k = (u.getInternalLinksNumber() * 1.0) / base.getMaxLinks();
 			setColor(n, k);
 			setSize(n, k);
 			System.out.println("Added node : " + u.getId());
@@ -31,7 +30,7 @@ public class UsersGraph {
 	{
 		for(User u : base.getUsers())
 		{
-			for(User lu : u.getLinkedUsers())
+			for(User lu : u.getExternalLinks())
 			{
 				graph.addEdge(u.getId()+"."+lu.getId(), u.getId(), lu.getId(), true);
 				System.out.println("Added edge " + u.getId() + " --> " + lu.getId());

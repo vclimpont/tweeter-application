@@ -38,9 +38,9 @@ public class UsersBase {
 	{
 		for(User u : users)
 		{
-			if(maxLinks < u.getLinksNumber())
+			if(maxLinks < u.getInternalLinksNumber())
 			{
-				maxLinks = u.getLinksNumber();
+				maxLinks = u.getInternalLinksNumber();
 			}
 		}
 	}

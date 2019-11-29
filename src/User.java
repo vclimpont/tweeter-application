@@ -3,21 +3,32 @@ import java.util.ArrayList;
 public class User {
 
 	private String id;
-	private ArrayList<User> linkedUsers;
+	private ArrayList<User> externalLinks;
+	private ArrayList<User> internalLinks;
 	private ArrayList<Tweet> tweets;
 	
 	public User(String _id)
 	{
 		id = _id;
-		linkedUsers = new ArrayList<User>();
+		externalLinks = new ArrayList<User>();
+		internalLinks = new ArrayList<User>();
 		tweets = new ArrayList<Tweet>();
 	}
 	
-	public void addLinkedUser(User _user)
+	public void addExternalLink(User _user)
 	{
-		if(!isLinkedTo(_user))
+		if(!isExtLinkedTo(_user))
 		{
-			linkedUsers.add(_user);
+			externalLinks.add(_user);
+			_user.addInternalLink(this);
+		}
+	}
+	
+	public void addInternalLink(User _user)
+	{
+		if(!isIntLinkedTo(_user))
+		{
+			internalLinks.add(_user);
 		}
 	}
 	
@@ -29,9 +40,14 @@ public class User {
 		}
 	}
 	
-	public boolean isLinkedTo(User _user)
+	public boolean isExtLinkedTo(User _user)
 	{
-		return linkedUsers.contains(_user);
+		return externalLinks.contains(_user);
+	}
+	
+	public boolean isIntLinkedTo(User _user)
+	{
+		return internalLinks.contains(_user);
 	}
 	
 	public String getId()
@@ -39,14 +55,24 @@ public class User {
 		return id;
 	}
 	
-	public int getLinksNumber()
+	public int getInternalLinksNumber()
 	{
-		return linkedUsers.size();
+		return internalLinks.size();
 	}
 	
-	public ArrayList<User> getLinkedUsers()
+	public ArrayList<User> getInternalLinks()
 	{
-		return linkedUsers;
+		return internalLinks;
+	}
+	
+	public int getExternalLinksNumber()
+	{
+		return externalLinks.size();
+	}
+	
+	public ArrayList<User> getExternalLinks()
+	{
+		return externalLinks;
 	}
 	
 	public ArrayList<Tweet> getTweets()
