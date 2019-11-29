@@ -39,7 +39,7 @@ public class MainController {
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		
 		if(selectedFile != null) {
-			main.readTweets(selectedFile.getName());
+			main.readData(selectedFile.getName());
 			lastOpened = selectedFile.getParentFile();
 		}
     }

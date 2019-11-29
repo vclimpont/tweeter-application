@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+	private static UsersBase base = new UsersBase();
+	private static UsersGraph graph = new UsersGraph(base);
+	
 	public final int THEME_DARK = 0;
 	public final int THEME_LIGHT = 1;
 	
@@ -97,10 +100,6 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-
-				
-		UsersBase base = new UsersBase();
-		UsersGraph graph = new UsersGraph(base);
 	/*	
 		// Add some users
 		for(int i = 0; i < 10; i++)
@@ -124,15 +123,10 @@ public class Main extends Application {
 			}
 		}
 		*/
-		// Find the maximum amount of links for 1 user
-		base.setMaxLinks();
-		// Build nodes and edges
-		graph.build();
-		// Display the graph
-		graph.displayGraph(); 
+
 	}
 	
-	public void readTweets(String filename) {
+	public void readData(String filename) {
 		BufferedReader csvReader;
 		String row;
 		int i = 1;
@@ -140,13 +134,20 @@ public class Main extends Application {
 			csvReader = new BufferedReader(new FileReader("./Data/"+filename));
 			while ((row = csvReader.readLine()) != null) {
 			    String[] data = row.split("\t");
-			    System.out.println(i + " - " + data[1]);
-			    i++;
+			    
+			    base.rowDataToUser(data);
 			}
 			csvReader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		// Find the maximum amount of links for 1 user
+		base.setMaxLinks();
+		// Build nodes and edges
+		graph.build();
+		// Display the graph
+		graph.displayGraph(); 
 	}
 	
 	public void changeTheme(int theme) {

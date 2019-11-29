@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -8,12 +10,19 @@ public class Tweet {
 	private String text;
 	private ArrayList<User> retweets;
 	
-	public Tweet(User _author, Date _date, String _text)
+	public Tweet(User _author, String _date, String _text)
 	{
 		author = _author;
-		date = _date;
 		text = _text; 
 		retweets = new ArrayList<User>();
+		
+		SimpleDateFormat f =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS");
+		try {
+			date = f.parse(_date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public User getAuthor() {

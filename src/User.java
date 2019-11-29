@@ -34,10 +34,8 @@ public class User {
 	
 	public void addTweet(Tweet _tweet)
 	{
-		if(!tweets.contains(_tweet))
-		{
-			tweets.add(_tweet);
-		}
+		tweets.add(_tweet);
+		System.out.println("Added tweet : " + _tweet.getText());
 	}
 	
 	public boolean isExtLinkedTo(User _user)
@@ -73,6 +71,20 @@ public class User {
 	public ArrayList<User> getExternalLinks()
 	{
 		return externalLinks;
+	}
+	
+	public Tweet getTweet(String text)
+	{
+		for(Tweet t : tweets)
+		{
+			if(t.getText().equals(text))
+			{
+				return t;
+			}
+		}
+		
+		System.out.println("Tweet introuvable");
+		return null;
 	}
 	
 	public ArrayList<Tweet> getTweets()
