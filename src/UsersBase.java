@@ -17,7 +17,7 @@ public class UsersBase {
 		if(!users.contains(_user))
 		{
 			users.add(_user);
-			System.out.println("User " + _user.getId() + " added.");
+			//System.out.println("User " + _user.getId() + " added.");
 		}
 	}
 	

@@ -1,3 +1,4 @@
+
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 
@@ -10,7 +11,8 @@ public class UsersGraph {
 	{
 		base = _base;
 		graph = new SingleGraph("Tweeter users relationship");
-		graph.addAttribute("ui.stylesheet", "url('file:///..//GraphStyle//stylesheet.css')");
+		
+		//graph.setAttribute("ui.stylesheet", "url('file:///..//GraphStyle//stylesheet.css')");
 	}
 
 	public void buildNodes()
@@ -22,7 +24,7 @@ public class UsersGraph {
 			double k = (u.getInternalLinksNumber() * 1.0) / base.getMaxLinks();
 			setColor(n, k);
 			setSize(n, k);
-			System.out.println("Added node : " + u.getId());
+			//System.out.println("Added node : " + u.getId());
 		}
 	}
 		
@@ -40,12 +42,12 @@ public class UsersGraph {
 	
 	private void setColor(Node n, double alpha)
 	{
-		n.addAttribute("ui.color", alpha);
+		n.setAttribute("ui.color", alpha);
 	}
 	
 	private void setSize(Node n, double alpha)
 	{
-		n.addAttribute("ui.size", 30 + 20 * alpha);
+		n.setAttribute("ui.size", 30 + 20 * alpha);
 	}
 	
 	public void build()
@@ -54,8 +56,11 @@ public class UsersGraph {
 		buildEdges();
 	}
 	
-	public void displayGraph()
-	{
+	public Graph getGraph() {
+		return this.graph;
+	}
+	
+	public void displayGraph() {
 		graph.display();
 	}
 }
