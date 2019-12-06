@@ -8,13 +8,18 @@ import org.graphstream.ui.fx_viewer.FxViewer;
 import org.graphstream.ui.javafx.FxGraphRenderer;
 import org.graphstream.ui.view.ViewerListener;
 
+import com.sun.nio.sctp.SctpStandardSocketOptions.InitMaxStreams;
+
 import javafx.application.Application;
 import javafx.beans.InvalidationListener;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import jdk.management.resource.internal.inst.InitInstrumentation;
 
 public class Main extends Application implements ViewerListener {
 
@@ -23,7 +28,7 @@ public class Main extends Application implements ViewerListener {
 	
 	private Stage primaryStage;
     private BorderPane rootLayout;
-    //private BorderPane mainViewLayout;
+    private StackPane mainViewLayout;
     private AnchorPane statsPanelLayout;
     
 
@@ -41,12 +46,9 @@ public class Main extends Application implements ViewerListener {
         this.primaryStage.setTitle("Projet Java");
         
         initRootLayout();
-        initStatsPanelView();
+        initMainView();
         initView();
-        
-        //initRootLayout();
-        //initMainView();
-        //initStatsPanelView();
+        initStatsPanelView();
         
       	
       	// Add some users
@@ -89,10 +91,11 @@ public class Main extends Application implements ViewerListener {
 		
 		panelGraph = (FxViewPanel) viewerGraph.addDefaultView(false, new FxGraphRenderer());
 		
-        rootLayout.setCenter(panelGraph);
+        mainViewLayout.getChildren().add(panelGraph);
+        mainViewLayout.setAlignment(Pos.CENTER);
         
-        //controller.getPanel().getCamera().resetView();
-        
+        panelGraph.setPrefHeight(mainViewLayout.getHeight());
+
 		Scene scene = new Scene(rootLayout);
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -105,24 +108,35 @@ public class Main extends Application implements ViewerListener {
 	        statsPanelLayout = (AnchorPane) loader.load();
 	        statsPanelLayout.setPrefHeight(rootLayout.getPrefWidth());
 
+
+            StatsPanelController controller = loader.getController();
+            controller.initGraph(userGraph.getGraph());
+            controller.initButtonText();
+            
+            
+            mainViewLayout.getChildren().add(statsPanelLayout);
+            mainViewLayout.setAlignment(Pos.CENTER_RIGHT);
+            
+
             // Listener which check when the rootLayout height change
             rootLayout.heightProperty().addListener((InvalidationListener) observable -> {
             	// Set the statsPanelLayout height depending on rootLayout
             	statsPanelLayout.setPrefHeight(rootLayout.getHeight());
             });
             
-	        rootLayout.setRight(statsPanelLayout);
 		} catch (IOException e) {
             e.printStackTrace();
         }
 	}
 	
-	/*private void initMainView() {
+	private void initMainView() {
 		try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("MainView.fxml"));
-            mainViewLayout = (BorderPane) loader.load();
+            mainViewLayout = (StackPane) loader.load();
 
+        	mainViewLayout.setPrefHeight(rootLayout.getHeight());
+        	
             // Listener which check when the rootLayout height change
             rootLayout.heightProperty().addListener((InvalidationListener) observable -> {
             	// Set the mainViewLayout height depending on rootLayout
@@ -139,7 +153,7 @@ public class Main extends Application implements ViewerListener {
         } catch (IOException e) {
             e.printStackTrace();
         }
-	}*/
+	}
 	
 	private void initRootLayout() {
         try {
@@ -209,7 +223,7 @@ public class Main extends Application implements ViewerListener {
 		}
 	}
 	
-	/*public void changeTheme(int theme) {
+	public void changeTheme(int theme) {
 
 		rootLayout.getStylesheets().clear();
 		mainViewLayout.getStylesheets().clear();
@@ -225,7 +239,7 @@ public class Main extends Application implements ViewerListener {
 			statsPanelLayout.getStylesheets().add("/Resources/lightTheme.css");
 		}
 		
-	}*/
+	}
 	
 	public void quit() {
 		primaryStage.close();

@@ -1,4 +1,7 @@
-BorderPane{
+BorderPane, StackPane{
+	-fx-background-color: #323232;
+}
+FxViewPanel{
 	-fx-background-color: #323232;
 }
 MenuBar, MenuBar *{

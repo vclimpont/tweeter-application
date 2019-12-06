@@ -1,15 +1,41 @@
+import static org.graphstream.algorithm.Toolkit.*;
+import org.graphstream.graph.Graph;
+
+import com.sun.org.apache.xml.internal.security.Init;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 public class StatsPanelController {
+	
 	@FXML
 	private Button shrinkButton;
 	@FXML
 	private AnchorPane statsPanel;
+	@FXML
+	private Label label_volume;
+	@FXML
+	private Label label_ordre;
+	@FXML
+	private Label label_diametre;
+	@FXML
+	private Label label_degreMoyen;
+	
+	private String buttonText;
 	
 	private boolean isShrinked = true;
+
+	private Graph graph;
 	
+	public void initGraph(Graph g) {
+		graph = g;
+		label_degreMoyen.setText(Double.toString(averageDegree(graph)));
+	}
+	public void initButtonText() {
+		buttonText = shrinkButton.getText().split("\\s+")[0];
+	}
 	/*
 	EXEMPLE : déclaration d'animation javafx
 		
@@ -35,10 +61,10 @@ public class StatsPanelController {
     private void shrink() {
 		if(isShrinked) {
 			statsPanel.setTranslateX(0);
-			shrinkButton.setText(">");
+			shrinkButton.setText(buttonText + " ▼");
 		} else {
 			statsPanel.setTranslateX(300);
-			shrinkButton.setText("<");
+			shrinkButton.setText(buttonText + " ▲");
 		}
 		isShrinked = !isShrinked;
 	}

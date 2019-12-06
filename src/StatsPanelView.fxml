@@ -9,7 +9,7 @@
 
 <AnchorPane id="statsPanel" fx:id="statsPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@Resources/darkTheme.css" translateX="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StatsPanelController">
    <children>
-      <Button fx:id="shrinkButton" mnemonicParsing="false" onAction="#shrink" prefHeight="38.0" prefWidth="47.0" text="&lt;">
+      <Button fx:id="shrinkButton" layoutX="-31.0" layoutY="40.0" mnemonicParsing="false" onAction="#shrink" prefHeight="40.0" prefWidth="120.0" rotate="270.0" text="Statistiques ▲">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
@@ -44,22 +44,22 @@
             </VBox>
             <VBox AnchorPane.leftAnchor="150.0">
                <children>
-                  <Label prefHeight="30.0" prefWidth="150.0">
+                  <Label fx:id="label_volume" prefHeight="30.0" prefWidth="150.0">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </Label>
-                  <Label prefHeight="30.0" prefWidth="150.0">
+                  <Label fx:id="label_ordre" prefHeight="30.0" prefWidth="150.0">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </Label>
-                  <Label prefHeight="30.0" prefWidth="150.0">
+                  <Label fx:id="label_diametre" prefHeight="30.0" prefWidth="150.0">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>
                   </Label>
-                  <Label prefHeight="30.0" prefWidth="150.0">
+                  <Label fx:id="label_degreMoyen" prefHeight="30.0" prefWidth="150.0">
                      <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </padding>

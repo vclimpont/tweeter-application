@@ -55,10 +55,10 @@ public class MainController {
 
 	@FXML
 	private void setDarkTheme() {
-		//main.changeTheme(main.THEME_DARK);
+		main.changeTheme(main.THEME_DARK);
 	}
 	@FXML
 	private void setLightTheme() {
-		//main.changeTheme(main.THEME_LIGHT);
+		main.changeTheme(main.THEME_LIGHT);
 	}
 }
