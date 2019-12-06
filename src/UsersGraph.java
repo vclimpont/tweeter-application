@@ -67,7 +67,8 @@ public class UsersGraph {
 		Viewer viewer = graph.display();
 		ViewPanel view = viewer.getDefaultView();
 		view.resizeFrame(800, 600);
-		view.getCamera().setViewCenter(0, 0, 0);
-		view.getCamera().setViewPercent(0.50);
+		//view.getCamera().setViewCenter(0, 0, 0);
+		//view.getCamera().setViewPercent(0);
+		view.requestFocusInWindow();
 	}
 }
