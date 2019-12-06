@@ -1,26 +1,31 @@
 node.blue {
 	fill-color : blue;
+	z-index : 2;
 	size : 10px;
 }
 
 node.green {
 	fill-color : green;
+	z-index : 3;
 	size : 15px;
 }
 
 node.yellow {
 	fill-color : yellow;
-	size : 30px;
+	z-index : 4;
+	size : 25px;
 }
 
 node.orange {
 	fill-color : orange;
-	size : 50px;
+	z-index : 5;
+	size : 35px;
 }
 
 node.red {
 	fill-color : red;
-	size : 80px;
+	z-index : 6;
+	size : 45px;
 }
 
 edge {
