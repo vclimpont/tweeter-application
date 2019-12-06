@@ -4,12 +4,10 @@ import java.util.HashMap;
 public class UsersBase {
 	
 	private HashMap<String,User> users;
-	private int maxLinks;
-	
+
 	public UsersBase()
 	{
 		users = new HashMap<String,User>();
-		maxLinks = 0;
 	}
 	
 	public void rowDataToUser(String[] data)
@@ -22,13 +20,7 @@ public class UsersBase {
 				u = new User(data[1]);
 				addUser(u);
 			}			
-			
-			/*Tweet t = u.getTweet(data[3]);
-			if(t == null) // Add tweet to the user-author if it does not exist
-			{
-				t = new Tweet(u, data[2], data[3]);
-				u.addTweet(t);
-			}*/
+
 		}
 		else if(data.length == 5) // It's a retweet
 		{
@@ -45,14 +37,7 @@ public class UsersBase {
 				u = new User(data[4]);
 				addUser(u);
 			}			
-			
-			/*Tweet t = u.getTweet(data[3]);
-			if(t == null) // Add tweet to the user-author if it does not exist
-			{
-				t = new Tweet(u, data[2], data[3]);
-				u.addTweet(t);
-			}*/
-			
+
 			rtu.addExternalLink(u);
 		}
 		else
@@ -72,22 +57,35 @@ public class UsersBase {
 		return users.get(id);
 	}
 	
-	public void setMaxLinks()
-	{
+	public void setUsersCentrality()
+	{	
 		for(String id : users.keySet())
-		{
-			if(maxLinks < users.get(id).getInternalLinksNumber())
+		{	
+			User u = getUser(id);
+			int i = u.getInternalLinksNumber();	
+			if(i < 10)
 			{
-				maxLinks = users.get(id).getInternalLinksNumber();
+				u.setCentrality("blue");
+			}
+			else if(i < 100)
+			{
+				u.setCentrality("green");
+			}
+			else if(i < 1000)
+			{
+				u.setCentrality("yellow");
+			}
+			else if(i < 10000)
+			{
+				u.setCentrality("orange");
+			}
+			else
+			{
+				u.setCentrality("red");
 			}
 		}
 	}
-	
-	public int getMaxLinks()
-	{
-		return maxLinks;
-	}
-	
+		
 	public HashMap<String,User> getUsers()
 	{
 		return users;

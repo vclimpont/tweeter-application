@@ -100,7 +100,7 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 		
-		//System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
+		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		launch(args);
 	/*	
 		// Add some users
@@ -143,8 +143,8 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 		
-		// Find the maximum amount of links for 1 user
-		base.setMaxLinks();
+		// Set the centrality of users based of the amount of links
+		base.setUsersCentrality();
 		// Build nodes and edges
 		graph.build();
 		// Display the graph

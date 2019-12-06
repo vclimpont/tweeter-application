@@ -1,8 +1,26 @@
-node {
-	fill-mode : dyn-plain;
-	fill-color : blue, red;
-	size-mode : dyn-size;
-	size : 1px;
+node.blue {
+	fill-color : blue;
+	size : 10px;
+}
+
+node.green {
+	fill-color : green;
+	size : 15px;
+}
+
+node.yellow {
+	fill-color : yellow;
+	size : 30px;
+}
+
+node.orange {
+	fill-color : orange;
+	size : 50px;
+}
+
+node.red {
+	fill-color : red;
+	size : 80px;
 }
 
 edge {

@@ -7,6 +7,8 @@ public class User {
 	private HashMap<String,User> externalLinks;
 	private HashMap<String,User> internalLinks;
 	private ArrayList<Tweet> tweets;
+	private String centrality;
+	private boolean hidden;
 	
 	public User(String _id)
 	{
@@ -14,6 +16,8 @@ public class User {
 		externalLinks = new HashMap<String,User>();
 		internalLinks = new HashMap<String,User>();
 		tweets = new ArrayList<Tweet>();
+		hidden = false;
+		centrality = "blue";
 	}
 	
 	public void addExternalLink(User _user)
@@ -93,39 +97,21 @@ public class User {
 		return tweets;
 	}
 
-	/*@Override
-	public boolean equals(Object arg0) {
-		// TODO Auto-generated method stub
-		if(arg0 instanceof User)
-		{
-			return ((User)arg0).getId().equals(this.getId());
-		}
-		else
-		{
-			return false;
-		}	
+	public String getCentrality() {
+		return centrality;
 	}
 
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-        try {
-			byte[] bytes = getId().getBytes("US-ASCII");
-			
-			String s = "";
-			for(int i=0; i<3; i++)
-			{
-				s += bytes[i];
-			}
-			System.out.println(s);
-			return Integer.parseInt(s);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        
-        return -1;
-	}*/
+	public void setCentrality(String centrality) {
+		this.centrality = centrality;
+	}
+
+	public boolean isHidden()
+	{
+		return hidden;
+	}
 	
-	
+	public void setHidden(boolean h)
+	{
+		hidden = h;
+	}
 }
