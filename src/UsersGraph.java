@@ -14,9 +14,7 @@ public class UsersGraph {
 
 	private Graph graph;
 	private UsersBase base;	
-	
-	private double modularity;
-	private HashMap<Integer, ArrayList<User>> communities;
+	private LouvainAlgorithm louv;
 	
 	private int[][] c = {{-100000,-100000},{-100000,100000},{100000,-100000},{100000,100000}};
 	
@@ -30,8 +28,8 @@ public class UsersGraph {
 		graph.addAttribute("layout.weight", 10);
 		//graph.addAttribute("ui.antialias");
 		//graph.addAttribute("ui.quality");
-		modularity = 0;
-		communities = new HashMap<Integer, ArrayList<User>>();
+		
+		louv = new LouvainAlgorithm(base, graph);
 	}
 
 	public void buildNodes()
@@ -66,21 +64,7 @@ public class UsersGraph {
 		}
 	}
 	
-	private void initModularity()
-	{
-		int m = graph.getEdgeCount();
-		double s_ij = 0;
-		
-		for(Edge e : graph.getEdgeSet())
-		{
-			double ki = base.getUser(e.getNode0().getId()).getExternalLinksNumber() * 1.0;
-			double kj = base.getUser(e.getNode1().getId()).getExternalLinksNumber() * 1.0;
-			
-			s_ij += (1 - (ki * kj)/(2.0 * m));
-		}
-		
-		modularity = (1/(2.0 * m)) * s_ij;
-	}
+
 	
 	public void maximizeModularity()
 	{
@@ -91,7 +75,7 @@ public class UsersGraph {
 	{
 		buildNodes();
 		buildEdges();
-		initModularity();
+		louv.initModularity();
 	}
 	
 	public void displayGraph()
@@ -103,5 +87,10 @@ public class UsersGraph {
 		//view.getCamera().setViewCenter(0, 0, 0);
 		//view.getCamera().setViewPercent(0.5);
 		view.requestFocusInWindow();
+	}
+	
+	public Graph getGraph()
+	{
+		return graph;
 	}
 }

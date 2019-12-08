@@ -11,7 +11,7 @@ public class User {
 	private int community;
 	private boolean hidden;
 	
-	public User(String _id, int _community)
+	public User(String _id)
 	{
 		id = _id;
 		externalLinks = new HashMap<String,User>();
@@ -19,7 +19,7 @@ public class User {
 		tweets = new ArrayList<Tweet>();
 		hidden = false;
 		centrality = "blue";
-		community = _community; 
+		community = -1; 
 	}
 	
 	public void addExternalLink(User _user)
