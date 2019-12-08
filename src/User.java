@@ -8,6 +8,7 @@ public class User {
 	private HashMap<String,User> internalLinks;
 	private ArrayList<Tweet> tweets;
 	private String centrality;
+	private LNode lnode;
 	private int community;
 	private boolean hidden;
 	
@@ -123,5 +124,13 @@ public class User {
 	public void setHidden(boolean h)
 	{
 		hidden = h;
+	}
+
+	public LNode getLNode() {
+		return lnode;
+	}
+
+	public void setLNode(LNode lnode) {
+		this.lnode = lnode;
 	}
 }

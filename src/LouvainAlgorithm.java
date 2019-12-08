@@ -35,6 +35,8 @@ public class LouvainAlgorithm {
 			User uj = base.getUser(e.getNode1().getId());
 			setCommunity(uj);
 			
+			createLEdge(ui.getLNode(), uj.getLNode(), 1);
+			
 			double ki = ui.getExternalLinksNumber() * 1.0;
 			double kj = uj.getExternalLinksNumber() * 1.0;
 			
@@ -69,7 +71,13 @@ public class LouvainAlgorithm {
 	{
 		LNode ln = new LNode(community);
 		ln.addUser(u);
+		u.setLNode(ln);
 		addToCommunities(community, ln);
+	}
+	
+	private void createLEdge(LNode li, LNode lj, int weight)
+	{
+		li.addLEdge(lj, weight);
 	}
 
 	public double getModularity()
