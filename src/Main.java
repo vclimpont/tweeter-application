@@ -148,7 +148,7 @@ public class Main extends Application {
 		// Build nodes and edges
 		graph.build();
 		// Display the graph
-		graph.displayGraph(); 
+		//graph.displayGraph(); 
 	}
 	
 	public void changeTheme(int theme) {

@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 
 import org.graphstream.graph.*;
@@ -76,6 +74,7 @@ public class UsersGraph {
 		buildNodes();
 		buildEdges();
 		louv.initModularity();
+		louv.iterate();
 	}
 	
 	public void displayGraph()
