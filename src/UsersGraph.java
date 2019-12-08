@@ -11,8 +11,9 @@ public class UsersGraph {
 	{
 		base = _base;
 		graph = new SingleGraph("Tweeter users relationship");
-		
-		//graph.setAttribute("ui.stylesheet", "url('file:///..//GraphStyle//stylesheet.css')");
+
+		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//stylesheet.css')");
+
 	}
 
 	public void buildNodes()
@@ -21,7 +22,7 @@ public class UsersGraph {
 		{
 			Node n = graph.addNode(u.getId());
 			
-			double k = (u.getInternalLinksNumber() * 1.0) / base.getMaxLinks();
+			float k = (float)((u.getInternalLinksNumber() * 1.0) / base.getMaxLinks());
 			setColor(n, k);
 			setSize(n, k);
 			//System.out.println("Added node : " + u.getId());
@@ -40,12 +41,12 @@ public class UsersGraph {
 		}
 	}
 	
-	private void setColor(Node n, double alpha)
+	private void setColor(Node n, float alpha)
 	{
 		n.setAttribute("ui.color", alpha);
 	}
 	
-	private void setSize(Node n, double alpha)
+	private void setSize(Node n, float alpha)
 	{
 		n.setAttribute("ui.size", 30 + 20 * alpha);
 	}
@@ -63,4 +64,5 @@ public class UsersGraph {
 	public void displayGraph() {
 		graph.display();
 	}
+
 }

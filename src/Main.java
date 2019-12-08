@@ -6,12 +6,11 @@ import java.util.Random;
 import org.graphstream.ui.fx_viewer.FxViewPanel;
 import org.graphstream.ui.fx_viewer.FxViewer;
 import org.graphstream.ui.javafx.FxGraphRenderer;
-import org.graphstream.ui.view.ViewerListener;
-
-import com.sun.nio.sctp.SctpStandardSocketOptions.InitMaxStreams;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,9 +18,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import jdk.management.resource.internal.inst.InitInstrumentation;
+import javafx.stage.WindowEvent;
 
-public class Main extends Application implements ViewerListener {
+public class Main extends Application {
 
 	public final int THEME_DARK = 0;
 	public final int THEME_LIGHT = 1;
@@ -32,13 +31,13 @@ public class Main extends Application implements ViewerListener {
     private AnchorPane statsPanelLayout;
     
 
-	//private MultiGraph graph;
 	private FxViewPanel panelGraph;
 	private FxViewer viewerGraph;
 	
 	private UsersBase base;
   	private UsersGraph userGraph;
 
+	private StatsPanelController statController;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -76,6 +75,17 @@ public class Main extends Application implements ViewerListener {
  		// Build nodes and edges
  		userGraph.build();
  		
+ 		// Set stats in the panel
+ 		statController.setStats(base);
+ 		
+ 		// Force the application to quit after closing the window
+ 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+ 		    @Override
+ 		    public void handle(WindowEvent t) {
+ 		    	quit();
+ 		    }
+ 		});
+ 		
 		primaryStage.show();
 	}
 	
@@ -109,9 +119,9 @@ public class Main extends Application implements ViewerListener {
 	        statsPanelLayout.setPrefHeight(rootLayout.getPrefWidth());
 
 
-            StatsPanelController controller = loader.getController();
-            controller.initGraph(userGraph.getGraph());
-            controller.initButtonText();
+	        statController = loader.getController();
+            statController.initGraph(userGraph.getGraph());
+            statController.initButtonText();
             
             
             mainViewLayout.getChildren().add(statsPanelLayout);
@@ -171,39 +181,6 @@ public class Main extends Application implements ViewerListener {
 
 	public static void main(String[] args) {
 		launch(args);
-
-				
-		//UsersBase base = new UsersBase();
-		//UsersGraph graph = new UsersGraph(base);
-	/*	
-		// Add some users
-		for(int i = 0; i < 10; i++)
-		{
-			base.addUser(new User(""+i));
-		}
-		
-		// Add some links to users
-		Random rand = new Random();
-		for(User u : base.getUsers())
-		{
-			int i = rand.nextInt(10 - 0 + 1) + 0;
-			while(i > 0)
-			{
-				int j = rand.nextInt(10);
-				if(u.getId().compareTo(""+j) != 0)
-				{
-					u.addExternalLink(base.getUser(""+j));
-				}
-				i--;
-			}
-		}
-		*/
-		// Find the maximum amount of links for 1 user
-		//base.setMaxLinks();
-		// Build nodes and edges
-		//graph.build();
-		// Display the graph
-		//graph.displayGraph(); 
 	}
 	
 	public void readTweets(String filename) {
@@ -226,52 +203,19 @@ public class Main extends Application implements ViewerListener {
 	public void changeTheme(int theme) {
 
 		rootLayout.getStylesheets().clear();
-		mainViewLayout.getStylesheets().clear();
 		statsPanelLayout.getStylesheets().clear();
 		
 		if(theme == THEME_DARK) {
 			rootLayout.getStylesheets().add("/Resources/darkTheme.css");
-			mainViewLayout.getStylesheets().add("/Resources/darkTheme.css");
-			statsPanelLayout.getStylesheets().add("/Resources/darkTheme.css");
 		} else if(theme == THEME_LIGHT) {
 			rootLayout.getStylesheets().add("/Resources/lightTheme.css");
-			mainViewLayout.getStylesheets().add("/Resources/lightTheme.css");
-			statsPanelLayout.getStylesheets().add("/Resources/lightTheme.css");
 		}
 		
 	}
 	
 	public void quit() {
 		primaryStage.close();
-	}
-
-	@Override
-	public void buttonPushed(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void buttonReleased(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseLeft(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseOver(String arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void viewClosed(String arg0) {
-		// TODO Auto-generated method stub
-		
+        Platform.exit();
+        System.exit(0);
 	}
 }

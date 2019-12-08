@@ -1,7 +1,5 @@
-import static org.graphstream.algorithm.Toolkit.*;
+import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Graph;
-
-import com.sun.org.apache.xml.internal.security.Init;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -31,11 +29,30 @@ public class StatsPanelController {
 	
 	public void initGraph(Graph g) {
 		graph = g;
-		label_degreMoyen.setText(Double.toString(averageDegree(graph)));
 	}
+	
 	public void initButtonText() {
 		buttonText = shrinkButton.getText().split("\\s+")[0];
 	}
+	
+	public void setStats(UsersBase base) {
+		setOrder(base.getUsers().size());
+		setDegree(Toolkit.averageDegree(graph));
+		setDiameter(Toolkit.diameter(graph));
+	}
+	
+	private void setOrder(int order) {
+		label_ordre.setText(Integer.toString(order));
+	}
+
+	private void setDegree(double degree) {
+		label_degreMoyen.setText(Double.toString(degree));
+	}
+	
+	private void setDiameter(double diameter) {
+		label_diametre.setText(Double.toString(diameter));
+	}
+	
 	/*
 	EXEMPLE : déclaration d'animation javafx
 		
