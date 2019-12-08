@@ -75,7 +75,6 @@ public class UsersGraph {
 		{
 			double ki = base.getUser(e.getNode0().getId()).getExternalLinksNumber() * 1.0;
 			double kj = base.getUser(e.getNode1().getId()).getExternalLinksNumber() * 1.0;
-			e.
 			
 			s_ij += (1 - (ki * kj)/(2.0 * m));
 		}
