@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
+
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.layout.Layout;
@@ -11,6 +15,11 @@ public class UsersGraph {
 	private Graph graph;
 	private UsersBase base;	
 	
+	private double modularity;
+	private HashMap<Integer, ArrayList<User>> communities;
+	
+	private int[][] c = {{-100000,-100000},{-100000,100000},{100000,-100000},{100000,100000}};
+	
 	public UsersGraph(UsersBase _base)
 	{
 		base = _base;
@@ -21,26 +30,25 @@ public class UsersGraph {
 		graph.addAttribute("layout.weight", 10);
 		//graph.addAttribute("ui.antialias");
 		//graph.addAttribute("ui.quality");
+		modularity = 0;
+		communities = new HashMap<Integer, ArrayList<User>>();
 	}
 
 	public void buildNodes()
 	{
 		for(String id : base.getUsers().keySet())
 		{
+			Random r = new Random();
 			User u = base.getUser(id);
-			if(u.getCentrality().equals("blue"))
-			{
-				//n.addAttribute("ui.hide");
-				u.setHidden(true);
-			}
-			else
-			{
-				Node n = graph.addNode(u.getId());
-				
-				n.addAttribute("ui.class", u.getCentrality());
-
-				System.out.println("Added node : " + u.getId());
-			}	
+			//u.setCommunity(r.nextInt(4)); // 0 à 3
+			
+			Node n = graph.addNode(u.getId());
+			
+			n.addAttribute("ui.class", u.getCentrality());
+			//int x = r.nextInt((c[u.getCommunity()][0] + 50000 - (c[u.getCommunity()][0] - 50000)) + 1) + (c[u.getCommunity()][0] - 50000);
+			//int y = r.nextInt((c[u.getCommunity()][1] + 50000 - (c[u.getCommunity()][1] - 50000)) + 1) + (c[u.getCommunity()][1] - 50000);
+			//n.setAttribute("xyz", x, y, 0);
+			//System.out.println("Added node : " + u.getId() + " at x = "+x+" | y = "+y);
 		}
 	}
 		
@@ -49,25 +57,42 @@ public class UsersGraph {
 		for(String id : base.getUsers().keySet())
 		{
 			User u = base.getUser(id);
-			if(!u.getCentrality().equals("blue"))
-			{
 				for(String idl : u.getExternalLinks().keySet())
 				{
 					User lu = u.getExternalLinks().get(idl);
-					if(!lu.getCentrality().equals("blue"))
-					{
-						graph.addEdge(u.getId()+"."+lu.getId(), u.getId(), lu.getId(), true);
-					}
+					graph.addEdge(u.getId()+"."+lu.getId(), u.getId(), lu.getId(), true);
 					System.out.println("Added edge " + u.getId() + " --> " + lu.getId());
 				}
-			}
 		}
+	}
+	
+	private void initModularity()
+	{
+		int m = graph.getEdgeCount();
+		double s_ij = 0;
+		
+		for(Edge e : graph.getEdgeSet())
+		{
+			double ki = base.getUser(e.getNode0().getId()).getExternalLinksNumber() * 1.0;
+			double kj = base.getUser(e.getNode1().getId()).getExternalLinksNumber() * 1.0;
+			e.
+			
+			s_ij += (1 - (ki * kj)/(2.0 * m));
+		}
+		
+		modularity = (1/(2.0 * m)) * s_ij;
+	}
+	
+	public void maximizeModularity()
+	{
+
 	}
 	
 	public void build()
 	{
 		buildNodes();
 		buildEdges();
+		initModularity();
 	}
 	
 	public void displayGraph()

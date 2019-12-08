@@ -8,9 +8,10 @@ public class User {
 	private HashMap<String,User> internalLinks;
 	private ArrayList<Tweet> tweets;
 	private String centrality;
+	private int community;
 	private boolean hidden;
 	
-	public User(String _id)
+	public User(String _id, int _community)
 	{
 		id = _id;
 		externalLinks = new HashMap<String,User>();
@@ -18,6 +19,7 @@ public class User {
 		tweets = new ArrayList<Tweet>();
 		hidden = false;
 		centrality = "blue";
+		community = _community; 
 	}
 	
 	public void addExternalLink(User _user)
@@ -103,6 +105,14 @@ public class User {
 
 	public void setCentrality(String centrality) {
 		this.centrality = centrality;
+	}
+
+	public int getCommunity() {
+		return community;
+	}
+
+	public void setCommunity(int community) {
+		this.community = community;
 	}
 
 	public boolean isHidden()

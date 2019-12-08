@@ -4,10 +4,12 @@ import java.util.HashMap;
 public class UsersBase {
 	
 	private HashMap<String,User> users;
+	private int nbCommunities;
 
 	public UsersBase()
 	{
 		users = new HashMap<String,User>();
+		nbCommunities = 1;
 	}
 	
 	public void rowDataToUser(String[] data)
@@ -17,7 +19,7 @@ public class UsersBase {
 			User u = users.get(data[1]);
 			if(u == null) // Add user in the base if he does not exist
 			{
-				u = new User(data[1]);
+				u = new User(data[1], nbCommunities);
 				addUser(u);
 			}			
 
@@ -27,14 +29,14 @@ public class UsersBase {
 			User rtu = users.get(data[1]);	
 			if(rtu == null) // Add the user who RT'd in the base
 			{
-				rtu = new User(data[1]);
+				rtu = new User(data[1], nbCommunities);
 				addUser(rtu);
 			}
 			
 			User u = users.get(data[4]);	
 			if(u == null) // Add user in the base if he does not exist
 			{
-				u = new User(data[4]);
+				u = new User(data[4], nbCommunities);
 				addUser(u);
 			}			
 
@@ -49,6 +51,7 @@ public class UsersBase {
 	public void addUser(User _user)
 	{
 		users.put(_user.getId(), _user);
+		nbCommunities++;
 		System.out.println("User " + _user.getId() + " added.");
 	}
 		
@@ -89,5 +92,10 @@ public class UsersBase {
 	public HashMap<String,User> getUsers()
 	{
 		return users;
+	}
+	
+	public int getNbCommunities()
+	{
+		return nbCommunities;
 	}
 }
