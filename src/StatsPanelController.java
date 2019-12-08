@@ -1,10 +1,14 @@
 import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Graph;
 
+import javafx.animation.Animation;
+import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 public class StatsPanelController {
 	
@@ -22,13 +26,26 @@ public class StatsPanelController {
 	private Label label_degreMoyen;
 	
 	private String buttonText;
-	
+
 	private boolean isShrinked = true;
 
 	private Graph graph;
+
+	private TranslateTransition hideStatPanel;
+	private TranslateTransition showStatPanel;
 	
 	public void initGraph(Graph g) {
 		graph = g;
+
+		showStatPanel = new TranslateTransition();
+		showStatPanel.setDuration(new Duration(150));
+		showStatPanel.setNode(statsPanel);
+		showStatPanel.setToX(0);
+		
+		hideStatPanel = new TranslateTransition();
+		hideStatPanel.setDuration(new Duration(150));
+		hideStatPanel.setNode(statsPanel); 
+		hideStatPanel.setToX(statsPanel.getTranslateX());
 	}
 	
 	public void initButtonText() {
@@ -53,36 +70,17 @@ public class StatsPanelController {
 		label_diametre.setText(Double.toString(diameter));
 	}
 	
-	/*
-	EXEMPLE : déclaration d'animation javafx
-		
-	final Animation hideStatPanel = new Transition() {
-		{ setCycleDuration(Duration.millis(250)); }
-		protected void interpolate(double frac) {
-			final double curWidth = expandedWidth * (1.0 - frac);
-			statsPanel.setPrefWidth(curWidth);
-			statsPanel.setTranslateX(-expandedWidth + curWidth);
-		}
-	};
-	final Animation showStatPanel = new Transition() {
-		{ setCycleDuration(Duration.millis(250)); }
-		protected void interpolate(double frac) {
-			final double curWidth = expandedWidth * frac;
-			statsPanel.setPrefWidth(curWidth);
-			statsPanel.setTranslateX(-expandedWidth + curWidth);
-		}
-	};
-	*/
-	
 	@FXML
     private void shrink() {
-		if(isShrinked) {
-			statsPanel.setTranslateX(0);
+		
+		if(!isShrinked) {
+			hideStatPanel.play();
 			shrinkButton.setText(buttonText + " ▼");
 		} else {
-			statsPanel.setTranslateX(300);
+			showStatPanel.play();
 			shrinkButton.setText(buttonText + " ▲");
 		}
 		isShrinked = !isShrinked;
+		
 	}
 }
