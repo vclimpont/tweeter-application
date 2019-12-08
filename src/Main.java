@@ -126,7 +126,6 @@ public class Main extends Application {
             
             mainViewLayout.getChildren().add(statsPanelLayout);
             mainViewLayout.setAlignment(Pos.CENTER_RIGHT);
-            
 
             // Listener which check when the rootLayout height change
             rootLayout.heightProperty().addListener((InvalidationListener) observable -> {

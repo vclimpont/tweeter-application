@@ -75,10 +75,10 @@ public class StatsPanelController {
 		
 		if(!isShrinked) {
 			hideStatPanel.play();
-			shrinkButton.setText(buttonText + " ▼");
+			shrinkButton.setText(buttonText + " ▲");
 		} else {
 			showStatPanel.play();
-			shrinkButton.setText(buttonText + " ▲");
+			shrinkButton.setText(buttonText + " ▼");
 		}
 		isShrinked = !isShrinked;
 		
