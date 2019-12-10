@@ -32,14 +32,16 @@ public class UsersGraph {
 			//Random r = new Random();
 			User u = base.getUser(id);
 			//u.setCommunity(r.nextInt(4)); // 0 � 3
-			
-			Node n = graph.addNode(u.getId());
-			
-			n.setAttribute("ui.class", u.getCentrality());
-			//int x = r.nextInt((c[u.getCommunity()][0] + 50000 - (c[u.getCommunity()][0] - 50000)) + 1) + (c[u.getCommunity()][0] - 50000);
-			//int y = r.nextInt((c[u.getCommunity()][1] + 50000 - (c[u.getCommunity()][1] - 50000)) + 1) + (c[u.getCommunity()][1] - 50000);
-			//n.setAttribute("xyz", x, y, 0);
-			//System.out.println("Added node : " + u.getId() + " at x = "+x+" | y = "+y);
+			if(!u.getCentrality().equals("blue"))
+			{
+				Node n = graph.addNode(u.getId());
+				
+				n.setAttribute("ui.class", u.getCentrality());
+				//int x = r.nextInt((c[u.getCommunity()][0] + 50000 - (c[u.getCommunity()][0] - 50000)) + 1) + (c[u.getCommunity()][0] - 50000);
+				//int y = r.nextInt((c[u.getCommunity()][1] + 50000 - (c[u.getCommunity()][1] - 50000)) + 1) + (c[u.getCommunity()][1] - 50000);
+				//n.setAttribute("xyz", x, y, 0);
+				//System.out.println("Added node : " + u.getId() + " at x = "+x+" | y = "+y);
+			}
 		}
 	}
 		
@@ -48,12 +50,18 @@ public class UsersGraph {
 		for(String id : base.getUsers().keySet())
 		{
 			User u = base.getUser(id);
+			if(!u.getCentrality().equals("blue"))
+			{
 				for(String idl : u.getExternalLinks().keySet())
 				{
 					User lu = u.getExternalLinks().get(idl);
-					graph.addEdge(u.getId()+"."+lu.getId(), u.getId(), lu.getId(), true);
-					System.out.println("Added edge " + u.getId() + " --> " + lu.getId());
-				}
+					if(!lu.getCentrality().equals("blue"))
+					{
+						graph.addEdge(u.getId()+"."+lu.getId(), u.getId(), lu.getId(), true);
+						System.out.println("Added edge " + u.getId() + " --> " + lu.getId());
+					}
+				}	
+			}
 		}
 	}
 

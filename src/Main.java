@@ -49,33 +49,6 @@ public class Main extends Application {
         initView();
         initStatsPanelView();
         
-      	
-      	// Add some users
-      	// for(int i = 0; i < 10; i++) {
- 		// 	base.addUser(new User(""+i));
- 		// }
-      	
-      	// Random rand = new Random();
-		// for(User u : base.getUsers())
-		// {
-		// 	int i = rand.nextInt(10 - 0 + 1) + 0;
-		// 	while(i > 0)
-		// 	{
-		// 		int j = rand.nextInt(10);
-		// 		if(u.getId().compareTo(""+j) != 0)
-		// 		{
-		// 			u.addExternalLink(base.getUser(""+j));
-		// 		}
-		// 		i--;
-		// 	}
-		// }
-      	
-        
- 		// Build nodes and edges
- 		graph.build();
- 		
- 		// Set stats in the panel
- 		statController.setStats(base);
  		
  		// Force the application to quit after closing the window
  		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -201,10 +174,12 @@ public class Main extends Application {
 		// Set the centrality of users based of the amount of links
 		base.setUsersCentrality();
 		// Build nodes and edges
-		System.out.println("READ DATA");
 		graph.build();
 		// Display the graph
-		//graph.displayGraph(); 
+		//graph.displayGraph();
+		
+ 		// Set stats in the panel
+ 		statController.setStats(base);
 	}
 	
 	public void changeTheme(int theme) {
