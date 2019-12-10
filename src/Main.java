@@ -177,7 +177,6 @@ public class Main extends Application {
 		graph.build();
 		// Display the graph
 		//graph.displayGraph();
-		
  		// Set stats in the panel
  		statController.setStats(base);
 	}

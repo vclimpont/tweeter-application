@@ -19,8 +19,8 @@ public class UsersGraph {
 		graph.setAttribute("layout.stabilization-limit", 0.01);
 		graph.setAttribute("layout.quality", 0);
 		graph.setAttribute("layout.weight", 10);
-		//graph.setAttribute("ui.antialias");
-		//graph.setAttribute("ui.quality");
+		graph.removeAttribute("ui.antialias");
+		graph.removeAttribute("ui.quality");
 		
 		louv = new LouvainAlgorithm(base, graph);
 	}
