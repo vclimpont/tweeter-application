@@ -1,22 +1,12 @@
 import java.io.File;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 
-public class MainController {	
-
-	@FXML
-	private Label stats_volume;
-	@FXML
-	private Label stats_ordre;
-	@FXML
-	private Label stats_diametre;
-	@FXML
-	private Label stats_degreMoyen;
+public class MainController {
 
 	@FXML
 	private MenuItem theme_buttonDark;

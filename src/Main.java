@@ -1,14 +1,24 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
+
+import org.graphstream.ui.fx_viewer.FxViewPanel;
+import org.graphstream.ui.fx_viewer.FxViewer;
+import org.graphstream.ui.javafx.FxGraphRenderer;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Main extends Application {
 
@@ -20,8 +30,17 @@ public class Main extends Application {
 	
 	private Stage primaryStage;
     private BorderPane rootLayout;
-    private BorderPane mainViewLayout;
+    private StackPane mainViewLayout;
     private AnchorPane statsPanelLayout;
+    
+
+	private FxViewPanel panelGraph;
+	private FxViewer viewerGraph;
+	
+	private UsersBase base;
+  	private UsersGraph userGraph;
+
+	private StatsPanelController statController;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -30,9 +49,69 @@ public class Main extends Application {
         
         initRootLayout();
         initMainView();
+        initView();
         initStatsPanelView();
         
+      	
+      	// Add some users
+      	// for(int i = 0; i < 10; i++) {
+ 		// 	base.addUser(new User(""+i));
+ 		// }
+      	
+      	// Random rand = new Random();
+		// for(User u : base.getUsers())
+		// {
+		// 	int i = rand.nextInt(10 - 0 + 1) + 0;
+		// 	while(i > 0)
+		// 	{
+		// 		int j = rand.nextInt(10);
+		// 		if(u.getId().compareTo(""+j) != 0)
+		// 		{
+		// 			u.addExternalLink(base.getUser(""+j));
+		// 		}
+		// 		i--;
+		// 	}
+		// }
+      	
+ 		// Find the maximum amount of links for 1 user
+ 		base.setMaxLinks();
+ 		// Build nodes and edges
+ 		userGraph.build();
+ 		
+ 		// Set stats in the panel
+ 		statController.setStats(base);
+ 		
+ 		// Force the application to quit after closing the window
+ 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+ 		    @Override
+ 		    public void handle(WindowEvent t) {
+ 		    	quit();
+ 		    }
+ 		});
+ 		
+		primaryStage.show();
+	}
+	
+	private void initView() {
+
+        base = new UsersBase();
+      	userGraph = new UsersGraph(base);
+		
+      	// Create a graph viewer, which will contains the graph
+		viewerGraph = new FxViewer(userGraph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
+		// Let graphStream manage the placement of the nodes
+		viewerGraph.enableAutoLayout();
+		
+		panelGraph = (FxViewPanel) viewerGraph.addDefaultView(false, new FxGraphRenderer());
+		
+        mainViewLayout.getChildren().add(panelGraph);
+        mainViewLayout.setAlignment(Pos.CENTER);
         
+        panelGraph.setPrefHeight(mainViewLayout.getHeight());
+
+		Scene scene = new Scene(rootLayout);
+		primaryStage.setScene(scene);
+		primaryStage.show();
 	}
 	
 	private void initStatsPanelView() {
@@ -42,13 +121,21 @@ public class Main extends Application {
 	        statsPanelLayout = (AnchorPane) loader.load();
 	        statsPanelLayout.setPrefHeight(rootLayout.getPrefWidth());
 
+
+	        statController = loader.getController();
+            statController.initGraph(userGraph.getGraph());
+            statController.initButtonText();
+            
+            
+            mainViewLayout.getChildren().add(statsPanelLayout);
+            mainViewLayout.setAlignment(Pos.CENTER_RIGHT);
+
             // Listener which check when the rootLayout height change
             rootLayout.heightProperty().addListener((InvalidationListener) observable -> {
             	// Set the statsPanelLayout height depending on rootLayout
             	statsPanelLayout.setPrefHeight(rootLayout.getHeight());
             });
             
-	        mainViewLayout.setRight(statsPanelLayout);
 		} catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,8 +145,10 @@ public class Main extends Application {
 		try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("MainView.fxml"));
-            mainViewLayout = (BorderPane) loader.load();
+            mainViewLayout = (StackPane) loader.load();
 
+        	mainViewLayout.setPrefHeight(rootLayout.getHeight());
+        	
             // Listener which check when the rootLayout height change
             rootLayout.heightProperty().addListener((InvalidationListener) observable -> {
             	// Set the mainViewLayout height depending on rootLayout
@@ -84,12 +173,6 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(Main.class.getResource("RootLayout.fxml"));
             rootLayout = (BorderPane) loader.load();
-            
-            // Show the scene containing the root layout.
-            Scene scene = new Scene(rootLayout);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-            
 
             MainController controller = loader.getController();
             controller.setMain(this);
@@ -102,30 +185,6 @@ public class Main extends Application {
 		
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		launch(args);
-	/*	
-		// Add some users
-		for(int i = 0; i < 10; i++)
-		{
-			base.addUser(new User(""+i));
-		}
-		
-		// Add some links to users
-		Random rand = new Random();
-		for(User u : base.getUsers())
-		{
-			int i = rand.nextInt(10 - 0 + 1) + 0;
-			while(i > 0)
-			{
-				int j = rand.nextInt(10);
-				if(u.getId().compareTo(""+j) != 0)
-				{
-					u.addExternalLink(base.getUser(""+j));
-				}
-				i--;
-			}
-		}
-		*/
-
 	}
 	
 	public void readData(String filename) {
@@ -154,22 +213,19 @@ public class Main extends Application {
 	public void changeTheme(int theme) {
 
 		rootLayout.getStylesheets().clear();
-		mainViewLayout.getStylesheets().clear();
 		statsPanelLayout.getStylesheets().clear();
 		
 		if(theme == THEME_DARK) {
 			rootLayout.getStylesheets().add("/Resources/darkTheme.css");
-			mainViewLayout.getStylesheets().add("/Resources/darkTheme.css");
-			statsPanelLayout.getStylesheets().add("/Resources/darkTheme.css");
 		} else if(theme == THEME_LIGHT) {
 			rootLayout.getStylesheets().add("/Resources/lightTheme.css");
-			mainViewLayout.getStylesheets().add("/Resources/lightTheme.css");
-			statsPanelLayout.getStylesheets().add("/Resources/lightTheme.css");
 		}
 		
 	}
 	
 	public void quit() {
 		primaryStage.close();
+        Platform.exit();
+        System.exit(0);
 	}
 }

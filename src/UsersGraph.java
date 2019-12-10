@@ -20,12 +20,12 @@ public class UsersGraph {
 	{
 		base = _base;
 		graph = new SingleGraph("Tweeter users relationship");
-		graph.addAttribute("ui.stylesheet", "url('file:///..//GraphStyle//stylesheet.css')");
-		graph.addAttribute("layout.stabilization-limit", 0.01);
-		graph.addAttribute("layout.quality", 0);
-		graph.addAttribute("layout.weight", 10);
-		//graph.addAttribute("ui.antialias");
-		//graph.addAttribute("ui.quality");
+		graph.setAttribute("ui.stylesheet", "url('file:///..//GraphStyle//stylesheet.css')");
+		graph.setAttribute("layout.stabilization-limit", 0.01);
+		graph.setAttribute("layout.quality", 0);
+		graph.setAttribute("layout.weight", 10);
+		//graph.setAttribute("ui.antialias");
+		//graph.setAttribute("ui.quality");
 		
 		louv = new LouvainAlgorithm(base, graph);
 	}
@@ -36,11 +36,11 @@ public class UsersGraph {
 		{
 			Random r = new Random();
 			User u = base.getUser(id);
-			//u.setCommunity(r.nextInt(4)); // 0 à 3
+			//u.setCommunity(r.nextInt(4)); // 0 ï¿½ 3
 			
 			Node n = graph.addNode(u.getId());
 			
-			n.addAttribute("ui.class", u.getCentrality());
+			n.setAttribute("ui.class", u.getCentrality());
 			//int x = r.nextInt((c[u.getCommunity()][0] + 50000 - (c[u.getCommunity()][0] - 50000)) + 1) + (c[u.getCommunity()][0] - 50000);
 			//int y = r.nextInt((c[u.getCommunity()][1] + 50000 - (c[u.getCommunity()][1] - 50000)) + 1) + (c[u.getCommunity()][1] - 50000);
 			//n.setAttribute("xyz", x, y, 0);
@@ -61,14 +61,7 @@ public class UsersGraph {
 				}
 		}
 	}
-	
 
-	
-	public void maximizeModularity()
-	{
-
-	}
-	
 	public void build()
 	{
 		buildNodes();
@@ -92,4 +85,5 @@ public class UsersGraph {
 	{
 		return graph;
 	}
+
 }

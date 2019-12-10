@@ -1,4 +1,4 @@
-BorderPane{
+BorderPane, StackPane{
 	-fx-background-color: #323232;
 }
 MenuBar, MenuBar *{
@@ -17,3 +17,4 @@ MenuBar .label {
 #statsPanel > AnchorPane .label{
 	-fx-text-fill: #ffffff;
 }
+
