@@ -21,9 +21,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 public class Main extends Application {
-
-	private static UsersBase base = new UsersBase();
-	private static UsersGraph graph = new UsersGraph(base);
 	
 	public final int THEME_DARK = 0;
 	public final int THEME_LIGHT = 1;
@@ -38,7 +35,7 @@ public class Main extends Application {
 	private FxViewer viewerGraph;
 	
 	private UsersBase base;
-  	private UsersGraph userGraph;
+  	private UsersGraph graph;
 
 	private StatsPanelController statController;
 	
@@ -73,10 +70,9 @@ public class Main extends Application {
 		// 	}
 		// }
       	
- 		// Find the maximum amount of links for 1 user
- 		base.setMaxLinks();
+        
  		// Build nodes and edges
- 		userGraph.build();
+ 		graph.build();
  		
  		// Set stats in the panel
  		statController.setStats(base);
@@ -95,10 +91,10 @@ public class Main extends Application {
 	private void initView() {
 
         base = new UsersBase();
-      	userGraph = new UsersGraph(base);
+      	graph = new UsersGraph(base);
 		
       	// Create a graph viewer, which will contains the graph
-		viewerGraph = new FxViewer(userGraph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
+		viewerGraph = new FxViewer(graph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
 		// Let graphStream manage the placement of the nodes
 		viewerGraph.enableAutoLayout();
 		
@@ -123,7 +119,7 @@ public class Main extends Application {
 
 
 	        statController = loader.getController();
-            statController.initGraph(userGraph.getGraph());
+            statController.initGraph(graph.getGraph());
             statController.initButtonText();
             
             
@@ -205,6 +201,7 @@ public class Main extends Application {
 		// Set the centrality of users based of the amount of links
 		base.setUsersCentrality();
 		// Build nodes and edges
+		System.out.println("READ DATA");
 		graph.build();
 		// Display the graph
 		//graph.displayGraph(); 

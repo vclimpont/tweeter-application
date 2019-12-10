@@ -1,12 +1,7 @@
-import java.util.Random;
+//import java.util.Random;
 
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.layout.Layout;
-import org.graphstream.ui.layout.springbox.implementations.LinLog;
-import org.graphstream.ui.swingViewer.ViewPanel;
-import org.graphstream.ui.view.View;
-import org.graphstream.ui.view.Viewer;
 
 public class UsersGraph {
 
@@ -14,13 +9,13 @@ public class UsersGraph {
 	private UsersBase base;	
 	private LouvainAlgorithm louv;
 	
-	private int[][] c = {{-100000,-100000},{-100000,100000},{100000,-100000},{100000,100000}};
+	//private int[][] c = {{-100000,-100000},{-100000,100000},{100000,-100000},{100000,100000}};
 	
 	public UsersGraph(UsersBase _base)
 	{
 		base = _base;
 		graph = new SingleGraph("Tweeter users relationship");
-		graph.setAttribute("ui.stylesheet", "url('file:///..//GraphStyle//stylesheet.css')");
+		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//stylesheet.css')");
 		graph.setAttribute("layout.stabilization-limit", 0.01);
 		graph.setAttribute("layout.quality", 0);
 		graph.setAttribute("layout.weight", 10);
@@ -34,7 +29,7 @@ public class UsersGraph {
 	{
 		for(String id : base.getUsers().keySet())
 		{
-			Random r = new Random();
+			//Random r = new Random();
 			User u = base.getUser(id);
 			//u.setCommunity(r.nextInt(4)); // 0 � 3
 			
@@ -70,7 +65,7 @@ public class UsersGraph {
 		louv.iterate();
 	}
 	
-	public void displayGraph()
+	/*public void displayGraph()
 	{
 		Viewer viewer = graph.display();
 		ViewPanel view = viewer.getDefaultView();
@@ -79,7 +74,7 @@ public class UsersGraph {
 		//view.getCamera().setViewCenter(0, 0, 0);
 		//view.getCamera().setViewPercent(0.5);
 		view.requestFocusInWindow();
-	}
+	}*/
 	
 	public Graph getGraph()
 	{

@@ -31,8 +31,9 @@ public class LouvainAlgorithm {
 		int m = graph.getEdgeCount();
 		double s_ij = 0;
 		
-		for(Edge e : graph.getEdgeSet())
+		for(int k = 0; k < graph.getEdgeCount(); k++)
 		{
+			Edge e = graph.getEdge(k);
 			User ui = base.getUser(e.getNode0().getId());
 			setCommunity(ui);
 			User uj = base.getUser(e.getNode1().getId());
