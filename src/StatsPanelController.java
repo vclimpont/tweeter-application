@@ -52,10 +52,15 @@ public class StatsPanelController {
 		buttonText = shrinkButton.getText().split("\\s+")[0];
 	}
 	
-	public void setStats(UsersBase base) {
-		setOrder(base.getUsers().size());
+	public void resetStats() {
+		setVolume(graph.getEdgeCount());
+		setOrder(graph.getNodeCount());
 		setDegree(Toolkit.averageDegree(graph));
 		setDiameter(Toolkit.diameter(graph));
+	}
+	
+	private void setVolume(int volume) {
+		label_volume.setText(Integer.toString(volume));
 	}
 	
 	private void setOrder(int order) {

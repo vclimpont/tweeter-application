@@ -1,29 +1,54 @@
 node.blue {
 	fill-color : blue;
+	z-index : 4;
+	size : 10px;
+}
+node.blue_transparent {
+	fill-color : #0000FF22;
 	z-index : 2;
 	size : 10px;
 }
 
 node.green {
 	fill-color : green;
+	z-index : 6;
+	size : 15px;
+}
+node.green_transparent {
+	fill-color : #00FF0022;
 	z-index : 3;
 	size : 15px;
 }
 
 node.yellow {
 	fill-color : yellow;
+	z-index : 8;
+	size : 25px;
+}
+node.yellow_transparent {
+	fill-color : #FFFF0022;
 	z-index : 4;
 	size : 25px;
 }
 
 node.orange {
 	fill-color : orange;
-	z-index : 5;
+	z-index : 10;
+	size : 35px;
+}
+node.orange_transparent {
+	fill-color : #FFA50022;
+	z-index : 6;
 	size : 35px;
 }
 
 node.red {
 	fill-color : red;
+	z-index : 12;
+	size : 45px;
+}
+node.red_transparent {
+	fill-color : #FF000022;
 	z-index : 6;
 	size : 45px;
 }
@@ -32,5 +57,12 @@ edge {
 	shape: line;
 	fill-color : #222;
 	arrow-size : 1px, 1px;
+	z-index : 1;
+}
+edge.transparent {
+	shape: line;
+	fill-color : #22222210;
+	arrow-size : 1px, 1px;
+	z-index : 2;
 }
 

@@ -1,19 +1,27 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Random;
+import java.util.Arrays;
+import java.util.EnumSet;
 
+import org.graphstream.algorithm.Toolkit;
+import org.graphstream.graph.Node;
 import org.graphstream.ui.fx_viewer.FxViewPanel;
 import org.graphstream.ui.fx_viewer.FxViewer;
+import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.javafx.FxGraphRenderer;
+import org.graphstream.ui.view.ViewerPipe;
+import org.graphstream.ui.view.util.InteractiveElement;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
@@ -38,6 +46,9 @@ public class Main extends Application {
   	private UsersGraph graph;
 
 	private StatsPanelController statController;
+	
+	private boolean updateViewer = true;
+	private boolean isHiddenNode = false;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -70,14 +81,35 @@ public class Main extends Application {
 		viewerGraph = new FxViewer(graph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
 		// Let graphStream manage the placement of the nodes
 		viewerGraph.enableAutoLayout();
-		
+				
 		panelGraph = (FxViewPanel) viewerGraph.addDefaultView(false, new FxGraphRenderer());
 		
         mainViewLayout.getChildren().add(panelGraph);
         mainViewLayout.setAlignment(Pos.CENTER);
         
         panelGraph.setPrefHeight(mainViewLayout.getHeight());
-
+        
+        panelGraph.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<Event>() {
+			@Override
+			public void handle(Event event) {
+				MouseEvent me = ((MouseEvent) event);
+				// Find the node we click on
+				Node n = (Node) panelGraph.findGraphicElementAt(EnumSet.of(InteractiveElement.NODE), me.getX(), me.getY());
+				// IF n == null -> means we did'nt click on a node
+				if(n != null) {
+					System.out.println(n);
+					graph.hideUnselectedNode(n);
+					isHiddenNode = true;
+				} else {
+					if(isHiddenNode == true) {
+						graph.showAllNode();
+					}
+					isHiddenNode = false;
+				}
+			}
+		});
+        
+        
 		Scene scene = new Scene(rootLayout);
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -151,16 +183,15 @@ public class Main extends Application {
     }
 
 	public static void main(String[] args) {
-		
 		System.setProperty("org.graphstream.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
 		launch(args);
 	}
 	
-	public void readData(String filename) {
+	public void readData(String filePath) {
 		BufferedReader csvReader;
 		String row;
 		try {
-			csvReader = new BufferedReader(new FileReader("./Data/"+filename));
+			csvReader = new BufferedReader(new FileReader(filePath));
 			while ((row = csvReader.readLine()) != null) {
 			    String[] data = row.split("\t");
 			    
@@ -178,7 +209,7 @@ public class Main extends Application {
 		// Display the graph
 		//graph.displayGraph();
  		// Set stats in the panel
- 		statController.setStats(base);
+ 		statController.resetStats();
 	}
 	
 	public void changeTheme(int theme) {
@@ -195,6 +226,7 @@ public class Main extends Application {
 	}
 	
 	public void quit() {
+		updateViewer = false;
 		primaryStage.close();
         Platform.exit();
         System.exit(0);
