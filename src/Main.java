@@ -1,25 +1,23 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.EnumSet;
 
-import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.fx_viewer.FxViewPanel;
 import org.graphstream.ui.fx_viewer.FxViewer;
-import org.graphstream.ui.geom.Point3;
 import org.graphstream.ui.javafx.FxGraphRenderer;
-import org.graphstream.ui.view.ViewerPipe;
 import org.graphstream.ui.view.util.InteractiveElement;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -46,8 +44,9 @@ public class Main extends Application {
   	private UsersGraph graph;
 
 	private StatsPanelController statController;
+	private FXMLLoader infoUserLoader;
+	private AnchorPane userPane;
 	
-	private boolean updateViewer = true;
 	private boolean isHiddenNode = false;
 	
 	@Override
@@ -89,30 +88,10 @@ public class Main extends Application {
         
         panelGraph.setPrefHeight(mainViewLayout.getHeight());
         
-        panelGraph.addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<Event>() {
-			@Override
-			public void handle(Event event) {
-				MouseEvent me = ((MouseEvent) event);
-				// Find the node we click on
-				Node n = (Node) panelGraph.findGraphicElementAt(EnumSet.of(InteractiveElement.NODE), me.getX(), me.getY());
-				// IF n == null -> means we did'nt click on a node
-				if(n != null) {
-					System.out.println(n);
-					graph.hideUnselectedNode(n);
-					isHiddenNode = true;
-				} else {
-					if(isHiddenNode == true) {
-						graph.showAllNode();
-					}
-					isHiddenNode = false;
-				}
-			}
-		});
-        
+        panelGraph.addEventFilter(MouseEvent.MOUSE_PRESSED, new MousePressGraph());
         
 		Scene scene = new Scene(rootLayout);
 		primaryStage.setScene(scene);
-		primaryStage.show();
 	}
 	
 	private void initStatsPanelView() {
@@ -205,9 +184,7 @@ public class Main extends Application {
 		// Set the centrality of users based of the amount of links
 		base.setUsersCentrality();
 		// Build nodes and edges
-		graph.build();
-		// Display the graph
-		//graph.displayGraph();
+		graph.build();	
  		// Set stats in the panel
  		statController.resetStats();
 	}
@@ -226,9 +203,48 @@ public class Main extends Application {
 	}
 	
 	public void quit() {
-		updateViewer = false;
 		primaryStage.close();
         Platform.exit();
         System.exit(0);
+	}
+	
+
+	class MousePressGraph implements EventHandler<MouseEvent> {
+
+		@Override
+		public void handle(MouseEvent event) {
+			MouseEvent me = ((MouseEvent) event);
+			// Find the node we click on
+			Node n = (Node) panelGraph.findGraphicElementAt(EnumSet.of(InteractiveElement.NODE), me.getX(), me.getY());
+			// IF n == null -> means we did'nt click on a node
+			if(n != null) {
+
+				if(userPane != null) {
+					panelGraph.getChildren().remove(userPane);
+				}
+				
+		        try {
+		    		infoUserLoader = new FXMLLoader();
+		            infoUserLoader.setLocation(Main.class.getResource("InfoUserView.fxml"));
+					userPane = (AnchorPane) infoUserLoader.load();
+					FxViewPanel.positionInArea(userPane, me.getX(), me.getY(), 0, 0, 0, Insets.EMPTY, HPos.LEFT, VPos.CENTER, true);
+			        InfoUserController iuc = (InfoUserController) infoUserLoader.getController();
+					iuc.initInfoUser(n);
+					panelGraph.getChildren().add(userPane);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				graph.hideUnselectedNode(n);
+				isHiddenNode = true;
+			} else {
+				panelGraph.getChildren().remove(userPane);
+				userPane = null;
+				if(isHiddenNode == true) {
+					graph.showAllNode();
+				}
+				isHiddenNode = false;
+			}
+		}
+		
 	}
 }

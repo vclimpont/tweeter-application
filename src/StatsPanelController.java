@@ -1,8 +1,6 @@
 import org.graphstream.algorithm.Toolkit;
 import org.graphstream.graph.Graph;
 
-import javafx.animation.Animation;
-import javafx.animation.Transition;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
