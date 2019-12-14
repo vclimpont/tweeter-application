@@ -5,26 +5,26 @@ public class LNode {
 
 	private ArrayList<User> users;
 	private int community;
-	private ArrayList<LEdge> edgesOut;
+	private ArrayList<LEdge> edges;
 	
 	public LNode(int _community)
 	{
 		community = _community;
 		users = new ArrayList<User>();
-		edgesOut = new ArrayList<LEdge>();
+		edges = new ArrayList<LEdge>();
 	}
 	
 	public LNode(int _community, ArrayList<User> _users)
 	{
 		community = _community;
 		users = _users;
-		edgesOut = new ArrayList<LEdge>();
+		edges = new ArrayList<LEdge>();
 	}
 	
 	public int[] getSumWeightLinkedToCommunity(int _community)
 	{
 		int[] w = {0,0}; // in, tot / kin, ki
-		for(LEdge e : edgesOut)
+		for(LEdge e : edges)
 		{
 			if(e.getJ().getCommunity() == _community)
 			{
@@ -38,7 +38,7 @@ public class LNode {
 	public int getSumWeight()
 	{
 		int w = 0; // ki
-		for(LEdge e : edgesOut)
+		for(LEdge e : edges)
 		{
 			w += e.getWeight();
 		}
@@ -47,7 +47,7 @@ public class LNode {
 	
 	public void mergeEdges(HashMap<Integer, Integer> mergedEdges)
 	{
-		for(LEdge e : edgesOut)
+		for(LEdge e : edges)
 		{
 			int commJ = e.getJ().getCommunity();
 			Integer w = mergedEdges.get(commJ);
@@ -74,7 +74,7 @@ public class LNode {
 	
 	public void addLEdge(LNode j, int w)
 	{
-		edgesOut.add(new LEdge(this, j, w));
+		edges.add(new LEdge(this, j, w));
 	}
 
 	public ArrayList<User> getUsers() {
@@ -98,11 +98,11 @@ public class LNode {
 	}
 
 	public ArrayList<LEdge> getEdges() {
-		return edgesOut;
+		return edges;
 	}
 
 	public void setEdges(ArrayList<LEdge> edges) {
-		this.edgesOut = edges;
+		this.edges = edges;
 	}
 	
 }
