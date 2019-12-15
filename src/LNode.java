@@ -85,6 +85,7 @@ public class LNode {
 			else
 			{
 				w += e.getWeight();
+				mergedEdges.put(commJ, w);
 			}
 		}
 	}
@@ -106,9 +107,24 @@ public class LNode {
 		return edge;
 	}
 	
-	public void addLEdgeIn(LEdge edge)
+	public LEdge addLEdgeIn(LNode i, int w)
 	{
+		LEdge edge = new LEdge(i, this, w);
 		edgesIn.add(edge);
+		return edge;
+	}
+	
+	public LEdge getLEdgeTowards(LNode lj)
+	{
+		for(LEdge edge : edgesOut)
+		{
+			if(edge.getJ().equals(lj))
+			{
+				return edge;
+			}
+		}
+		
+		return null;
 	}
 	
 
@@ -134,6 +150,10 @@ public class LNode {
 
 	public ArrayList<LEdge> getEdges() {
 		return edgesOut;
+	}
+	
+	public ArrayList<LEdge> getEdgesIn() {
+		return edgesIn;
 	}
 
 	public void setEdges(ArrayList<LEdge> edges) {

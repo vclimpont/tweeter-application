@@ -37,17 +37,21 @@ public class LouvainAlgorithm {
 			User ui = base.getUser(e.getNode0().getId());
 			initCommunity(ui);
 			User uj = base.getUser(e.getNode1().getId());
-			initCommunity(uj);
 			
-			createLEdge(ui.getLNode(), uj.getLNode(), 1);
+			if(uj.getId().equals(ui.getId())) // it's a loop edge
+			{
+				createLEdge(ui.getLNode(), ui.getLNode(), 1);
+			}
+			else
+			{
+				initCommunity(uj);
+				createLEdge(ui.getLNode(), uj.getLNode(), 1);
+			}
 			
-			double di_in = ui.getInternalLinksNumber() * 1.0; // degree in of i
-			double dj_out = uj.getExternalLinksNumber() * 1.0; // degree out of j 
-			
-			boolean delta = ui.getCommunity() == uj.getCommunity();
-			double df = delta ? 1 : 0;
-			
-			s_ij += (1 - ((di_in * dj_out)/m)) * df;
+			if(ui.getCommunity() == uj.getCommunity()) // actually if ui == uj on initialization
+			{
+				s_ij += (1.0 - (e.getNode0().getInDegree() * e.getNode1().getOutDegree()/m));
+			}
 		}
 		
 		modularity = (1/m) * s_ij;
@@ -61,18 +65,28 @@ public class LouvainAlgorithm {
 		
 		for(Integer i : communities.keySet())
 		{
-			for(LNode ln : communities.get(i)) // Pour chaque node dans chaque communauté
+			for(LNode li : communities.get(i)) // Pour chaque node dans chaque communauté
 			{
-				for(LEdge edge : ln.getEdges())
+				for(Integer j : communities.keySet())
 				{
-					LNode lj = edge.getJ();
-					double di_in = ln.getSumWeightIn() * 1.0;
-					double dj_out = lj.getSumWeight() * 1.0;
-					
-					boolean delta = ln.getCommunity() == lj.getCommunity();
-					double df = delta ? 1.0 : 0.0;
-					
-					s_ij += ((edge.getWeight() - ((di_in * dj_out)/m)) * df);
+					for(LNode lj : communities.get(j))
+					{
+						if(li.getCommunity() == lj.getCommunity())
+						{
+							LEdge edge = li.getLEdgeTowards(lj);
+							if(!li.equals(lj) || edge != null) // to consider li == lj only if there is a loop edge
+							{
+								double arc = (edge == null ? 0 : edge.getWeight());
+								double di_in = li.getSumWeightIn() * 1.0;
+								double dj_out = lj.getSumWeight() * 1.0;
+								//System.out.println(arc + " " +li.getUsers().get(0).getId()+ " " +lj.getUsers().get(0).getId());
+							
+								double ij = (arc - ((di_in * dj_out)/m));
+								//System.out.println("ij : " + ij);
+								s_ij += ij;
+							}
+						}
+					}
 				}
 			}	
 		}
@@ -115,8 +129,8 @@ public class LouvainAlgorithm {
 	
 	private void createLEdge(LNode li, LNode lj, int weight)
 	{
-		LEdge e = li.addLEdge(lj, weight);
-		lj.addLEdgeIn(e);
+		li.addLEdge(lj, weight);
+		lj.addLEdgeIn(li, weight);
 	}
 	
 	
@@ -129,19 +143,16 @@ public class LouvainAlgorithm {
 	
 	public void iterate()
 	{
-		double m2 = graph.getEdgeCount() * 2.0;
-		
 		double maxDelta = 0;
 		int maxCommunity = -1;
 		int up = 0;
 		int cap = 0;
 		ArrayList<LNode> nodesIterated = new ArrayList<LNode>();
 		
-		while(cap < 2)
+		while(cap < 3)
 		{
 			System.out.println("NEW ITERATION");
-			maxDelta = 0;
-			
+
 			do
 			{
 				nodesIterated.clear();
@@ -152,13 +163,14 @@ public class LouvainAlgorithm {
 			        while (itr.hasNext()) 
 			        { 
 			            LNode ln = (LNode)itr.next(); 
-			            if(!nodesIterated.contains(ln))
+			            if(!nodesIterated.contains(ln)) // already iterated on this node
 			            {
 			            	nodesIterated.add(ln);
 			            	//System.out.println(ln.getUsers().get(0).getId() + " community : " + ln.getCommunity() + " edges : " + ln.getEdges().size());
 							for(LEdge e : ln.getEdges())
 							{
-								double delta = calculateDeltaModularity(ln, e.getJ().getCommunity(), m2);
+								double delta = calculateDeltaModularity(ln, e.getJ().getCommunity());
+								//System.out.println("Delta value : " + delta);
 								if(delta > maxDelta)
 								{
 									maxDelta = delta;
@@ -170,7 +182,8 @@ public class LouvainAlgorithm {
 							{
 								removeFromCommunity(itr, ln);
 								addToCommunity(maxCommunity, ln);
-								calculateModularity();
+								//calculateModularity();
+								//System.out.println(cap	);
 								up++;
 							}
 							//System.out.println("----- \n");
@@ -179,8 +192,10 @@ public class LouvainAlgorithm {
 			           
 			        } 
 				}
+				System.out.println(up);
 			}while(up > 0);
 
+			calculateModularity();
 			mergeCommunities();
 			cap++;
 		}
@@ -188,47 +203,28 @@ public class LouvainAlgorithm {
 		System.out.println("DONE");
 		System.out.println("communities : " + communities.size());
 		System.out.println("edges : " + graph.getEdgeCount());
+		calculateModularity();
 	}
 	
-	private double calculateDeltaModularity(LNode li, int targetCommunity, double m2)
+	
+	private double calculateDeltaModularity(LNode li, int targetCommunity)
 	{
-		double delta = 0;
-		
-		/*if(li.getCommunity() == targetCommunity) // it's part of this community already
+		double delta = 0.0;
+		if(li.getCommunity() == targetCommunity)
 		{
 			return delta;
-		}*/
+		}
 		
-		/*double s_in = 0;
-		double ki_in = 0;
-		double s_tot = 0;
-		double ki = 0;
+		double after = calculateDeltaModularityOnCommunity(li, targetCommunity);
+		double before = calculateDeltaModularityOnCommunity(li, li.getCommunity());
 		
-		int[] li_w = li.getSumWeightLinkedToCommunity(targetCommunity);
-		
-				
-		ki_in = li_w[0];
-		ki = li_w[1];
-		System.out.println(li.getUsers().get(0).getId() + " ki_in : " + ki_in + " | ki : " + ki);
-		
-			for(LNode lj : communities.get(targetCommunity))
-			{
-				int[] lj_w = lj.getSumWeightLinkedToCommunity(targetCommunity);
-				s_in += lj_w[0];
-				s_tot += lj_w[1];
-			}
-
-		s_in = s_in * 1.0;
-		s_tot = s_tot *1.0;
-		ki = ki * 1.0;
-		ki_in = ki_in * 1.0;
-			
-		System.out.println("s_in : " + s_in + " | s_tot : " + s_tot);
-		double aft = (((s_in + 2*ki_in) / m2) - Math.pow((s_tot + ki) / m2, 2));
-		double bfr = ((s_in / m2) - Math.pow(s_tot / m2, 2) - Math.pow(ki / m2, 2));
-		delta = aft - bfr;
-		System.out.println("before : " + bfr);
-		System.out.println("after : " + aft);*/
+		return after - before;
+	}
+	
+	
+	private double calculateDeltaModularityOnCommunity(LNode li, int targetCommunity)
+	{
+		double delta = 0;
 		
 		double m = graph.getEdgeCount() * 1.0;
 		
@@ -244,12 +240,17 @@ public class LouvainAlgorithm {
 		
 		for(LNode lj : communities.get(targetCommunity))
 		{
-			s_tot_out += lj.getSumWeight();
-			s_tot_in += lj.getSumWeightIn();
+			if(!lj.equals(li) || li.getCommunity() != targetCommunity)
+			{
+				s_tot_out += lj.getSumWeight();
+				s_tot_in += lj.getSumWeightIn();
+			}
 		}
 		
-		delta = (di_c / m) - (((di_out * s_tot_in) + (di_in * s_tot_out)) / Math.pow(m, 2));
+		//System.out.println("di_c : " + di_c + " di_out : " + di_out + " di_in : " + di_in);
+		//System.out.println("s_tot_in : " + s_tot_in + " s_tot_out : " + s_tot_out);
 		
+		delta = (di_c / m) - (((di_out * s_tot_in) + (di_in * s_tot_out)) / Math.pow(m, 2));
 		
 		//System.out.println(delta + " to community " + targetCommunity + "\n");
 		return delta;
@@ -262,7 +263,7 @@ public class LouvainAlgorithm {
 		HashMap<Integer, HashMap<Integer,Integer>> mergedEdgesPerCommunity = new HashMap<Integer, HashMap<Integer,Integer>>();
 		HashMap<Integer, LNode> mergedNodes = new HashMap<Integer, LNode>();
 		
-		for(Integer i : communities.keySet())
+		for(Integer i : communities.keySet()) // for all non empty communities
 		{
 			mergeNodesAndEdges(communities.get(i), i, mergedEdgesPerCommunity, mergedNodes);
 		}
@@ -272,7 +273,7 @@ public class LouvainAlgorithm {
 			LNode ln = mergedNodes.get(i); // super node in community i
 			HashMap<Integer, Integer> edges = mergedEdgesPerCommunity.get(ln.getCommunity());
 			for(Integer comm : edges.keySet())
-			{
+			{	
 				createLEdge(ln, mergedNodes.get(comm), edges.get(comm)); // j , weight
 			}
 		}
@@ -282,6 +283,25 @@ public class LouvainAlgorithm {
 			communities.get(i).clear();
 			communities.get(i).add(mergedNodes.get(i));
 		}
+		
+		/*for(Integer i : communities.keySet())
+		{
+			System.out.println("Community : " + i + " size : " + communities.get(i).size());
+			LNode node = communities.get(i).get(0);
+			for(User u : node.getUsers())
+			{
+				System.out.print("\t" + u.getId());
+			}
+			System.out.println();
+			for(LEdge out : node.getEdges())
+			{
+				System.out.println("\t out : " + out.getI().getCommunity() + " -> " + out.getJ().getCommunity() + " : "+ out.getWeight());
+			}
+			for(LEdge in : node.getEdgesIn())
+			{
+				System.out.println("\t in : " + in.getJ().getCommunity() + " <- " + in.getI().getCommunity() + " : "+ in.getWeight());
+			}
+		}*/
 		
 	}
 	
@@ -307,7 +327,7 @@ public class LouvainAlgorithm {
 		
 		for(LNode ln : lnodes)
 		{
-			users.addAll(ln.getUsers());
+			users.addAll(ln.getUsers()); // merge all users from all nodes in this community
 			ln.mergeEdges(mergedEdges);
 		}
 		
