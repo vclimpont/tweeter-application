@@ -177,6 +177,16 @@ public class LouvainAlgorithm {
 									maxCommunity = e.getJ().getCommunity();
 								}
 							}
+							for(LEdge e : ln.getEdgesIn())
+							{
+								double delta = calculateDeltaModularity(ln, e.getI().getCommunity());
+								//System.out.println("Delta value : " + delta);
+								if(delta > maxDelta)
+								{
+									maxDelta = delta;
+									maxCommunity = e.getI().getCommunity();
+								}
+							}
 							
 							if(maxDelta > 0 && maxCommunity != ln.getCommunity())
 							{
@@ -284,7 +294,7 @@ public class LouvainAlgorithm {
 			communities.get(i).add(mergedNodes.get(i));
 		}
 		
-		/*for(Integer i : communities.keySet())
+		for(Integer i : communities.keySet())
 		{
 			System.out.println("Community : " + i + " size : " + communities.get(i).size());
 			LNode node = communities.get(i).get(0);
@@ -301,7 +311,7 @@ public class LouvainAlgorithm {
 			{
 				System.out.println("\t in : " + in.getJ().getCommunity() + " <- " + in.getI().getCommunity() + " : "+ in.getWeight());
 			}
-		}*/
+		}
 		
 	}
 	
