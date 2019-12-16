@@ -1,8 +1,8 @@
 BorderPane, StackPane{
-	-fx-background-color: #323232;
+	-fx-background-color: #282828;
 }
 MenuBar, MenuBar *{
-	-fx-background-color: #000;
+	-fx-background-color: #121212;
 }
 MenuBar .label {
 	-fx-text-fill: #ffffff;
@@ -12,9 +12,15 @@ MenuBar .label {
 	-fx-background-color: transparent;
 }
 #statsPanel > AnchorPane{
-	-fx-background-color: #424242;
+	-fx-background-color: #282828;
 }
 #statsPanel > AnchorPane .label{
 	-fx-text-fill: #ffffff;
 }
+.userInfoPane .label{
+	-fx-text-fill: #ffffff;
+	-fx-background-color: #282828;
+	-fx-padding: 10px;
+}
+
 

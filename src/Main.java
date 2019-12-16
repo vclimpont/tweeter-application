@@ -192,12 +192,13 @@ public class Main extends Application {
 	public void changeTheme(int theme) {
 
 		rootLayout.getStylesheets().clear();
-		statsPanelLayout.getStylesheets().clear();
 		
 		if(theme == THEME_DARK) {
 			rootLayout.getStylesheets().add("/Resources/darkTheme.css");
+			graph.getGraph().setAttribute("ui.stylesheet", "url('file://.//GraphStyle//darkGraph.css')");
 		} else if(theme == THEME_LIGHT) {
 			rootLayout.getStylesheets().add("/Resources/lightTheme.css");
+			graph.getGraph().setAttribute("ui.stylesheet", "url('file://.//GraphStyle//lightGraph.css')");
 		}
 		
 	}

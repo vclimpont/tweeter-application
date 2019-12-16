@@ -1,3 +1,6 @@
+graph{
+	fill-color: #fff;
+}
 
 node.blue {
 	fill-color : blue;
@@ -59,6 +62,7 @@ edge {
 	fill-color : #222;
 	arrow-size : 1px, 1px;
 	z-index : 1;
+	size : 1px;
 }
 edge.transparent {
 	shape: line;

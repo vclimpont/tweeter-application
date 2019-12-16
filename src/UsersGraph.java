@@ -14,7 +14,7 @@ public class UsersGraph {
 	{
 		base = _base;
 		graph = new SingleGraph("Tweeter users relationship");
-		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//stylesheet.css')");
+		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//lightGraph.css')");
 		graph.setAttribute("layout.stabilization-limit", 0.01);
 		graph.setAttribute("layout.quality", 0);
 		graph.setAttribute("layout.weight", 10);
