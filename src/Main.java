@@ -36,6 +36,7 @@ public class Main extends Application {
 	
 	private UsersBase base;
   	private UsersGraph graph;
+  	private CommunitiesGraph communitiesGraph;
 
 	private StatsPanelController statController;
 	
@@ -65,9 +66,10 @@ public class Main extends Application {
 
         base = new UsersBase();
       	graph = new UsersGraph(base);
+      	communitiesGraph = new CommunitiesGraph(graph.getLouv().getCommunities());
 		
       	// Create a graph viewer, which will contains the graph
-		viewerGraph = new FxViewer(graph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
+		viewerGraph = new FxViewer(communitiesGraph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
 		// Let graphStream manage the placement of the nodes
 		viewerGraph.enableAutoLayout();
 		
@@ -92,7 +94,7 @@ public class Main extends Application {
 
 
 	        statController = loader.getController();
-            statController.initGraph(graph.getGraph());
+            statController.initGraph(communitiesGraph.getGraph());
             statController.initButtonText();
             
             
@@ -175,8 +177,8 @@ public class Main extends Application {
 		base.setUsersCentrality();
 		// Build nodes and edges
 		graph.build();
-		// Display the graph
-		//graph.displayGraph();
+		communitiesGraph.setCommunities(graph.getLouv().getCommunities());
+		communitiesGraph.build();
  		// Set stats in the panel
  		statController.setStats(base);
 	}

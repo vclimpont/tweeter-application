@@ -9,38 +9,35 @@ public class UsersGraph {
 	private UsersBase base;	
 	private LouvainAlgorithm louv;
 	
-	//private int[][] c = {{-100000,-100000},{-100000,100000},{100000,-100000},{100000,100000}};
-	
 	public UsersGraph(UsersBase _base)
 	{
 		base = _base;
-		graph = new SingleGraph("Tweeter users relationship");
-		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//stylesheet.css')");
+		initGraph("Tweeter users relationship", "url('file://.//GraphStyle//stylesheet.css')");
+		
+		louv = new LouvainAlgorithm(base, graph);
+	}
+	
+	public void initGraph(String name, String stylesheet)
+	{
+		graph = new SingleGraph(name);
+		graph.setAttribute("ui.stylesheet", stylesheet);
 		graph.setAttribute("layout.stabilization-limit", 0.01);
 		graph.setAttribute("layout.quality", 0);
 		graph.setAttribute("layout.weight", 10);
 		graph.removeAttribute("ui.antialias");
 		graph.removeAttribute("ui.quality");
-		
-		louv = new LouvainAlgorithm(base, graph);
 	}
 
 	public void buildNodes()
 	{
 		for(String id : base.getUsers().keySet())
 		{
-			//Random r = new Random();
 			User u = base.getUser(id);
-			//u.setCommunity(r.nextInt(4)); // 0 � 3
 			if(!u.getCentrality().equals("blue"))
 			{
 				Node n = graph.addNode(u.getId());
 				
 				n.setAttribute("ui.class", u.getCentrality());
-				//int x = r.nextInt((c[u.getCommunity()][0] + 50000 - (c[u.getCommunity()][0] - 50000)) + 1) + (c[u.getCommunity()][0] - 50000);
-				//int y = r.nextInt((c[u.getCommunity()][1] + 50000 - (c[u.getCommunity()][1] - 50000)) + 1) + (c[u.getCommunity()][1] - 50000);
-				//n.setAttribute("xyz", x, y, 0);
-				//System.out.println("Added node : " + u.getId() + " at x = "+x+" | y = "+y);
 			}
 		}
 	}
@@ -87,6 +84,11 @@ public class UsersGraph {
 	public Graph getGraph()
 	{
 		return graph;
+	}
+	
+	public LouvainAlgorithm getLouv()
+	{
+		return louv;
 	}
 
 }

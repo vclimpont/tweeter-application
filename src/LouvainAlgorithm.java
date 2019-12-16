@@ -241,7 +241,7 @@ public class LouvainAlgorithm {
 		int din[] = li.getSumWeightLinkedToCommunityIn(targetCommunity);
 		int dout[] = li.getSumWeightLinkedToCommunity(targetCommunity);
 		
-		double di_c = (din[0] + dout[0]) * 1.0;
+		double di_c = (din[0] + dout[0]) * 1.0; // sum of in-degrees and out-degrees of edges linked to the targetCommunity
 		double di_out = dout[1] * 1.0;
 		double di_in = din[1] * 1.0;
 		
@@ -349,6 +349,9 @@ public class LouvainAlgorithm {
 	{
 		return modularity;
 	}
-	
-	
+
+	public HashMap<Integer, ArrayList<LNode>> getCommunities() {
+		return communities;
+	}
+		
 }
