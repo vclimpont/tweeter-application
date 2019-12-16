@@ -58,6 +58,7 @@ public class LNode {
 			else
 			{
 				w += e.getWeight();
+				mergedEdges.put(commJ, w);
 			}
 		}
 	}

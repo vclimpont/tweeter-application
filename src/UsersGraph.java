@@ -69,7 +69,7 @@ public class UsersGraph {
 	{
 		buildNodes();
 		buildEdges();
-		louv.initModularity();
+		louv.initCommunities();
 		louv.iterate();
 	}
 	
