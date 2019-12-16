@@ -26,7 +26,6 @@ public class CommunitiesGraph {
 		for(Integer i : communities.keySet()) // for each community 
 		{
 			graph.addNode(""+i); // add a node in the graph 
-			System.out.println("Node added : " +i);
 		}
 	}
 	
@@ -43,7 +42,6 @@ public class CommunitiesGraph {
 					if(e == null)
 					{
 						graph.addEdge(id, ""+i, ""+le.getJ().getCommunity(), true);
-						System.out.println("Edge added : "+i+" --> "+le.getJ().getCommunity());
 					}
 				}
 			}
