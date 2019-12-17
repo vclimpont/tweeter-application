@@ -45,7 +45,7 @@ public class LouvainAlgorithm {
 			communities.get(i).initSums();
 		}
 		
-		displayCommunities();
+		//displayCommunities();
 		calculateModularity();
 	}
 	
@@ -54,6 +54,7 @@ public class LouvainAlgorithm {
 		for(Integer i : communities.keySet())
 		{
 			System.out.println("Community : " + i);
+			System.out.println("s_tot : " + communities.get(i).getSomme_tot() + " s_in : " + communities.get(i).getSomme_in());
 			for(LNode ln : communities.get(i).getLNodes())
 			{
 				for(User u : ln.getUsers())
@@ -81,7 +82,7 @@ public class LouvainAlgorithm {
 			Q += (intra_w - inter_w);
 		}
 		modularity = Q;
-		System.out.println("MODULARITY : " + modularity);
+		//System.out.println("MODULARITY : " + modularity);
 	}
 	
 	private void addToCommunity(int community, LNode ln)
@@ -99,7 +100,7 @@ public class LouvainAlgorithm {
 	{
 		community.addLNode(ln);
 		ln.setCommunity(community);
-		System.out.println(ln.getUsers().get(0).getId() + " : "+community.getNumber());
+		//System.out.println(ln.getUsers().get(0).getId() + " : "+community.getNumber());
 	}
 	
 
@@ -134,16 +135,18 @@ public class LouvainAlgorithm {
 		double m = graph.getEdgeCount();		
 		double maxDelta = 0;
 		int maxCommunity = -1;
-		int cap = 0;
+		int up = 1;
 		
-		while(cap < 3)
+		while(up > 0)
 		{
 			System.out.println("NEW ITERATION");
 			double Q = 0;
+			up = -1;
 			calculateModularity();
 			do
 			{
 				Q = modularity;
+				up++;
 				for(Integer i : communities.keySet())
 				{
 			        Iterator<?> itr = communities.get(i).getLNodes().iterator(); // for all nodes of community i
@@ -155,7 +158,7 @@ public class LouvainAlgorithm {
 						int kiMax = wi[1];
 						maxCommunity = i;
 						maxDelta = calculateDeltaModularity(ln, i, wi[0], wi[1], m);
-		            	System.out.println(ln.getUsers().get(0).getId() + " community : " + ln.getCommunity().getNumber() + " edges : " + ln.getEdges().size());
+		            	//System.out.println(ln.getUsers().get(0).getId() + " community : " + ln.getCommunity().getNumber() + " edges : " + ln.getEdges().size());
 
 						int[] w = {0,0};
 						
@@ -198,9 +201,8 @@ public class LouvainAlgorithm {
 				calculateModularity();
 				System.out.println(modularity);
 			}while(modularity > Q);
-
+			
 			mergeCommunities();
-			cap++;
 		}
 		
 		System.out.println("DONE");

@@ -58,7 +58,7 @@ public class UsersGraph {
 					if(!lu.getCentrality().equals("blue"))
 					{
 						graph.addEdge(u.getId()+"."+lu.getId(), u.getId(), lu.getId(), true);
-						System.out.println("Added edge " + u.getId() + " --> " + lu.getId());
+						//System.out.println("Added edge " + u.getId() + " --> " + lu.getId());
 					}
 				}	
 			}

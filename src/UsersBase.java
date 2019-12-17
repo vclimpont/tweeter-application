@@ -49,7 +49,7 @@ public class UsersBase {
 	public void addUser(User _user)
 	{
 		users.put(_user.getId(), _user);
-		System.out.println("User " + _user.getId() + " added.");
+		//System.out.println("User " + _user.getId() + " added.");
 	}
 		
 	public User getUser(String id)

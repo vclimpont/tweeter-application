@@ -16,6 +16,8 @@ public class Community {
 	}
 	
 	public void initSums() {
+		somme_in = 0;
+		somme_tot = 0;
 		for(LNode ln : lnodes)
 		{
 			int[] w = ln.getSumWeightLinkedToCommunity(number);
