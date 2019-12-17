@@ -12,6 +12,16 @@ public class Community {
 	public Community(int _number)
 	{
 		number = _number;
+		lnodes = new ArrayList<LNode>();
+	}
+	
+	public void initSums() {
+		for(LNode ln : lnodes)
+		{
+			int[] w = ln.getSumWeightLinkedToCommunity(number);
+			somme_in += w[0];
+			somme_tot += w[1];
+		}
 	}
 	
 	public void addLNode(LNode ln)
@@ -27,15 +37,14 @@ public class Community {
 	public void removeLNodeItr(Iterator<?> itr, LNode ln)
 	{
 		itr.remove();
-		//System.out.println("Node has been removed with itr");
-		ln.setCommunity(-1);
+		ln.setCommunity(null);
 	}
 
-	public ArrayList<LNode> getLnodes() {
+	public ArrayList<LNode> getLNodes() {
 		return lnodes;
 	}
 
-	public void setLnodes(ArrayList<LNode> lnodes) {
+	public void setLNodes(ArrayList<LNode> lnodes) {
 		this.lnodes = lnodes;
 	}
 

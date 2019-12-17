@@ -9,7 +9,7 @@ public class User {
 	private ArrayList<Tweet> tweets;
 	private String centrality;
 	private LNode lnode;
-	private int community;
+	private Community community;
 	private boolean hidden;
 	
 	public User(String _id)
@@ -20,7 +20,7 @@ public class User {
 		tweets = new ArrayList<Tweet>();
 		hidden = false;
 		centrality = "blue";
-		community = -1; 
+		community = null; 
 	}
 	
 	public void addExternalLink(User _user)
@@ -108,11 +108,11 @@ public class User {
 		this.centrality = centrality;
 	}
 
-	public int getCommunity() {
+	public Community getCommunity() {
 		return community;
 	}
 
-	public void setCommunity(int community) {
+	public void setCommunity(Community community) {
 		this.community = community;
 	}
 
