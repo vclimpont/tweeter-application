@@ -118,10 +118,7 @@ public class LouvainAlgorithm {
 	private void createLEdge(LNode li, LNode lj, int weight)
 	{
 		li.addLEdge(lj, weight);
-		//if(!li.equals(lj))
-		//{
-			lj.addLEdge(li, weight);
-		//}
+		lj.addLEdge(li, weight);
 	}
 	
 	
@@ -140,8 +137,6 @@ public class LouvainAlgorithm {
 		int up = 0;
 		int cap = 0;
 		
-		ArrayList<LNode> nodesIterated = new ArrayList<LNode>();
-		
 		while(cap < 3)
 		{
 			System.out.println("NEW ITERATION");
@@ -150,7 +145,6 @@ public class LouvainAlgorithm {
 			do
 			{
 				Q = modularity;
-				nodesIterated.clear();
 				up = 0;
 				for(Integer i : communities.keySet())
 				{
@@ -158,38 +152,34 @@ public class LouvainAlgorithm {
 			        while (itr.hasNext()) 
 			        { 
 			            LNode ln = (LNode)itr.next(); 
-			            if(!nodesIterated.contains(ln))
-			            {
-			            	nodesIterated.add(ln);
-				            
-			            	//System.out.println(ln.getUsers().get(0).getId() + " community : " + ln.getCommunity() + " edges : " + ln.getEdges().size());
-							maxDelta = calculateDeltaModularity(ln, i, m);
-							maxCommunity = i;
-				            for(LEdge e : ln.getEdges()) // for each neighbor of ln i 
-							{
-				            	if(e.getJ().getCommunity() != i)
-				            	{
-									double delta = calculateDeltaModularity(ln, e.getJ().getCommunity(), m);
-									if(delta > maxDelta)
-									{
-										maxDelta = delta;
-										maxCommunity = e.getJ().getCommunity();
-									}
-				            	}
-							}
-							
-							if(maxDelta > 0 && maxCommunity != ln.getCommunity())
-							{
-								removeFromCommunity(itr, ln);
-								addToCommunity(maxCommunity, ln);
-								calculateModularity();
-								up++;
-							}
-							//System.out.println("----- \n");
-							maxDelta = 0;
-			            }			           
+						maxCommunity = i;
+			            
+		            	//System.out.println(ln.getUsers().get(0).getId() + " community : " + ln.getCommunity() + " edges : " + ln.getEdges().size());
+						maxDelta = calculateDeltaModularity(ln, i, m);
+			            for(LEdge e : ln.getEdges()) // for each neighbor of ln i 
+						{
+			            	if(e.getJ().getCommunity() != i)
+			            	{
+								double delta = calculateDeltaModularity(ln, e.getJ().getCommunity(), m);
+								if(delta > maxDelta)
+								{
+									maxDelta = delta;
+									maxCommunity = e.getJ().getCommunity();
+								}
+			            	}
+						}
+						
+						if(maxDelta > 0 && maxCommunity != ln.getCommunity())
+						{
+							removeFromCommunity(itr, ln);
+							addToCommunity(maxCommunity, ln);
+							calculateModularity();
+							up++;
+						}
+						//System.out.println("----- \n");
+						maxDelta = 0;
+		            }			           
 			        } 
-				}
 				calculateModularity();
 				System.out.println(up);
 				System.out.println(modularity);
