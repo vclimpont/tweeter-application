@@ -4,40 +4,44 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.graphstream.graph.Edge;
-import org.graphstream.graph.Graph;
-
 public class LouvainAlgorithm {
 	
 	private UsersBase base;
-	private Graph graph;
 	private HashMap<Integer, Community> communities;
 
 	private double modularity;
 	private int nbCommunities;
+	private double m;
 	
-	public LouvainAlgorithm(UsersBase _base, Graph _graph)
+	public LouvainAlgorithm(UsersBase _base)
 	{
 		base = _base;
-		graph = _graph;
 		communities = new HashMap<Integer, Community>();
 		modularity = 0;
 		nbCommunities = 1;
+		m = 0.0;
 	}
-	
 	public void initCommunities()
-	{
-		double m = graph.getEdgeCount();
-		
-		for(int k = 0; k < m; k++)
+	{		
+		for(String id : base.getUsers().keySet()) // for every users in the base
 		{
-			Edge e = graph.getEdge(k);
-			User ui = base.getUser(e.getNode0().getId());
-			initCommunity(ui);
-			User uj = base.getUser(e.getNode1().getId());
-			initCommunity(uj);
+			User ui = base.getUser(id);
 			
-			createLEdge(ui.getLNode(), uj.getLNode(), 1);
+			if(!ui.getCentrality().equals("blue"))
+			{
+				for(String idj : ui.getExternalLinks().keySet())
+				{
+					User uj = ui.getExternalLinks().get(idj);
+					if(!uj.getCentrality().equals("blue"))
+					{
+						initCommunity(ui);
+						initCommunity(uj);
+						createLEdge(ui.getLNode(), uj.getLNode(), 1);
+						
+						m++;
+					}
+				}
+			}
 		}
 		
 		for(Integer i : communities.keySet())
@@ -72,7 +76,6 @@ public class LouvainAlgorithm {
 	
 	private void calculateModularity()
 	{
-		double m = graph.getEdgeCount() * 1.0; //  sum of the weights from all edges in the entire graph
 		double Q = 0;
 		for(Integer i : communities.keySet())
 		{
@@ -131,15 +134,13 @@ public class LouvainAlgorithm {
 	
 	
 	public void iterate()
-	{
-		double m = graph.getEdgeCount();		
+	{	
 		double maxDelta = 0;
 		int maxCommunity = -1;
 		int up = 1;
 		
 		while(up > 0)
 		{
-			System.out.println("NEW ITERATION");
 			double Q = 0;
 			up = -1;
 			calculateModularity();
@@ -199,15 +200,18 @@ public class LouvainAlgorithm {
 		            }			           
 		        } 
 				calculateModularity();
-				System.out.println(modularity);
 			}while(modularity > Q);
 			
 			mergeCommunities();
 		}
 		
-		System.out.println("DONE");
+		for(Integer i : communities.keySet())
+		{
+			communities.get(i).setCentrality();
+		}
+		
 		System.out.println("communities : " + communities.size());
-		System.out.println("edges : " + graph.getEdgeCount());
+		System.out.println("edges : " + m);
 		System.out.println("Modularity : " + modularity);
 	}
 	
@@ -294,6 +298,9 @@ public class LouvainAlgorithm {
 	public double getModularity()
 	{
 		return modularity;
+	}
+	public HashMap<Integer, Community> getCommunities() {
+		return communities;
 	}
 	
 	

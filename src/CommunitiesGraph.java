@@ -1,6 +1,7 @@
 import java.util.HashMap;
 
 import org.graphstream.graph.Graph;
+import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 
 public class CommunitiesGraph {
@@ -11,6 +12,12 @@ public class CommunitiesGraph {
 	public CommunitiesGraph(HashMap<Integer, Community> _communities)
 	{
 		graph = new SingleGraph("Communities Graph");
+		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//stylesheet.css')");
+		graph.setAttribute("layout.stabilization-limit", 0.01);
+		graph.setAttribute("layout.quality", 0);
+		graph.setAttribute("layout.weight", 10);
+		graph.removeAttribute("ui.antialias");
+		graph.removeAttribute("ui.quality");
 		communities = _communities;
 	}
 	
@@ -18,7 +25,9 @@ public class CommunitiesGraph {
 	{
 		for(Integer i : communities.keySet())
 		{
-			graph.addNode(""+i);
+			Node n = graph.addNode(""+i);
+			n.setAttribute("ui.class", "community, "+communities.get(i).getCentrality());
+			n.setAttribute("layout.weight", 10);
 		}
 	}
 	
@@ -33,7 +42,7 @@ public class CommunitiesGraph {
 					String cj = "" + e.getJ().getCommunity().getNumber();					
 					if(graph.getEdge(cj+"."+i) == null)
 					{
-						graph.addEdge(i+"."+cj, ""+i, ""+cj);
+						graph.addEdge(i+"."+cj, ""+i, ""+cj).setAttribute("layout.weight", 10);;
 					}
 				}
 			}

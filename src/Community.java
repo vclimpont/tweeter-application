@@ -5,6 +5,7 @@ public class Community {
 	
 	private ArrayList<LNode> lnodes;
 	private int number;
+	private String centrality;
 	
 	private int somme_in;
 	private int somme_tot;
@@ -72,6 +73,47 @@ public class Community {
 
 	public void setSomme_tot(int somme_tot) {
 		this.somme_tot = somme_tot;
+	}
+	
+	public int getNbOfUsers()
+	{
+		int s = 0;
+		for(LNode ln : lnodes)
+		{
+			s += ln.getUsers().size();
+		}
+		
+		return s;
+	}
+	
+	public void setCentrality()
+	{
+		int nbUsers = getNbOfUsers();
+		if(nbUsers < 5)
+		{
+			centrality = "blue";
+		}
+		else if(nbUsers < 30)
+		{
+			centrality = "green";
+		}
+		else if(nbUsers < 100)
+		{
+			centrality = "yellow";
+		}
+		else if(nbUsers < 300)
+		{
+			centrality = "orange";
+		}
+		else
+		{
+			centrality = "red";
+		}
+	}
+	
+	public String getCentrality()
+	{
+		return centrality;
 	}
 	
 }

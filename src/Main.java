@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Random;
 
 import org.graphstream.ui.fx_viewer.FxViewPanel;
 import org.graphstream.ui.fx_viewer.FxViewer;
@@ -35,7 +34,8 @@ public class Main extends Application {
 	private FxViewer viewerGraph;
 	
 	private UsersBase base;
-  	private UsersGraph graph;
+  	private CommunitiesGraph graph;
+  	private LouvainAlgorithm louv;
 
 	private StatsPanelController statController;
 	
@@ -64,7 +64,8 @@ public class Main extends Application {
 	private void initView() {
 
         base = new UsersBase();
-      	graph = new UsersGraph(base);
+        louv = new LouvainAlgorithm(base);
+      	graph = new CommunitiesGraph(louv.getCommunities());
 		
       	// Create a graph viewer, which will contains the graph
 		viewerGraph = new FxViewer(graph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
@@ -173,10 +174,12 @@ public class Main extends Application {
 		
 		// Set the centrality of users based of the amount of links
 		base.setUsersCentrality();
-		// Build nodes and edges
-		graph.build();
-		// Display the graph
-		//graph.displayGraph();
+		// Find communities
+		louv.initCommunities();
+		louv.iterate();
+		// Set communities found to the communitiesGraph and build graph
+		graph.setCommunities(louv.getCommunities());
+		graph.buildGraph();
  		// Set stats in the panel
  		statController.setStats(base);
 	}

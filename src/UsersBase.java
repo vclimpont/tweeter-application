@@ -4,10 +4,12 @@ import java.util.HashMap;
 public class UsersBase {
 	
 	private HashMap<String,User> users;
+	private int[] nbUsersPerCentrality;
 
 	public UsersBase()
 	{
 		users = new HashMap<String,User>();
+		nbUsersPerCentrality = new int[5];
 	}
 	
 	public void rowDataToUser(String[] data)
@@ -66,29 +68,44 @@ public class UsersBase {
 			if(i < 10)
 			{
 				u.setCentrality("blue");
+				nbUsersPerCentrality[0] += 1;
 			}
 			else if(i < 100)
 			{
 				u.setCentrality("green");
+				nbUsersPerCentrality[1] += 1;
 			}
 			else if(i < 1000)
 			{
 				u.setCentrality("yellow");
+				nbUsersPerCentrality[2] += 1;
 			}
 			else if(i < 10000)
 			{
 				u.setCentrality("orange");
+				nbUsersPerCentrality[3] += 1;
 			}
 			else
 			{
 				u.setCentrality("red");
+				nbUsersPerCentrality[4] += 1;
 			}
 		}
+	}
+	
+	public int getNumberOfUsers()
+	{
+		return users.size();
 	}
 		
 	public HashMap<String,User> getUsers()
 	{
 		return users;
+	}
+	
+	public int[] getNumberOfUsersPerCentrality()
+	{
+		return nbUsersPerCentrality;
 	}
 	
 }
