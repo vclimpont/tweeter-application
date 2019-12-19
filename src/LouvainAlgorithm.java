@@ -22,7 +22,7 @@ public class LouvainAlgorithm {
 		m = 0.0;
 	}
 	public void initCommunities()
-	{		
+	{			
 		for(String id : base.getUsers().keySet()) // for every users in the base
 		{
 			User ui = base.getUser(id);

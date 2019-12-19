@@ -12,13 +12,15 @@ public class CommunitiesGraph {
 	public CommunitiesGraph(HashMap<Integer, Community> _communities)
 	{
 		graph = new SingleGraph("Communities Graph");
+		initAttributes();
+		communities = _communities;
+	}
+	
+	private void initAttributes()
+	{
 		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//stylesheet.css')");
 		graph.setAttribute("layout.stabilization-limit", 0.01);
 		graph.setAttribute("layout.quality", 0);
-		graph.setAttribute("layout.weight", 10);
-		graph.removeAttribute("ui.antialias");
-		graph.removeAttribute("ui.quality");
-		communities = _communities;
 	}
 	
 	private void buildNodes()
@@ -55,6 +57,12 @@ public class CommunitiesGraph {
 		buildEdges();
 	}
 	
+	public void clear()
+	{
+		graph.clear();
+		initAttributes();
+		communities.clear();
+	}
 
 	public Graph getGraph() {
 		return graph;
@@ -71,6 +79,5 @@ public class CommunitiesGraph {
 	public void setCommunities(HashMap<Integer, Community> communities) {
 		this.communities = communities;
 	}
-	
 	
 }

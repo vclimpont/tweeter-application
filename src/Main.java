@@ -158,6 +158,10 @@ public class Main extends Application {
 	}
 	
 	public void readData(String filename) {
+        base = new UsersBase();
+        louv = new LouvainAlgorithm(base);
+      	graph.clear();
+		
 		BufferedReader csvReader;
 		String row;
 		try {
