@@ -40,10 +40,7 @@ public class InfoCommunityController {
 		//TODO : Check if the node is a community node, or a user node
 		//		>Open the user graph of the community if it's a community Node
 		//		>Return to the community graph if it's a user Node
-		
-		// Temporary : get an other graph
-		
-		
+	
 		if(isCommunityOpened) {
 			main.setCommunityGraph();
 		} else {

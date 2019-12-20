@@ -47,9 +47,6 @@ public class Main extends Application {
   	private UsersGraph communityGraph;
 
 	private StatsPanelController statController;
-	//private FXMLLoader infoUserLoader;
-	//private FXMLLoader infoCommunityLoader;
-	//private BorderPane userInfoPane;
 	private BorderPane communityInfoPane;
 	private BorderPane infoPane;
 	
@@ -238,7 +235,7 @@ public class Main extends Application {
 	}
 	
 	public void changeTheme(int theme) {
-
+		
 		this.theme = theme;
 		
 		rootLayout.getStylesheets().clear();
@@ -262,7 +259,6 @@ public class Main extends Application {
 				communityInfoPane.getStylesheets().add("/Resources/lightTheme.css");
 			graph.getGraph().setAttribute("ui.stylesheet", "url('file://.//GraphStyle//lightGraph.css')");
 		}
-		
 	}
 	
 	public void quit() {
