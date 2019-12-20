@@ -112,20 +112,13 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
 	        loader.setLocation(Main.class.getResource("StatsPanelView.fxml"));
 	        statsPanelLayout = (AnchorPane) loader.load();
-	        statsPanelLayout.setPrefHeight(rootLayout.getPrefWidth());
 
 	        statController = loader.getController();
             statController.initGraph(graph.getGraph());
             statController.initButtonText();
               
             mainViewLayout.getChildren().add(statsPanelLayout);
-            mainViewLayout.setAlignment(Pos.CENTER_RIGHT);
-
-            // Listener which check when the rootLayout height change
-            rootLayout.heightProperty().addListener((InvalidationListener) observable -> {
-            	// Set the statsPanelLayout height depending on rootLayout
-            	statsPanelLayout.setPrefHeight(rootLayout.getHeight());
-            });
+            mainViewLayout.setAlignment(Pos.TOP_RIGHT);
             
 		} catch (IOException e) {
             e.printStackTrace();
