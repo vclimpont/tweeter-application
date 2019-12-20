@@ -38,6 +38,10 @@ public class Main extends Application {
   	private LouvainAlgorithm louv;
 
 	private StatsPanelController statController;
+	private BorderPane communityInfoPane;
+	private BorderPane infoPane;
+	
+	private boolean isHiddenNode = false;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -189,7 +193,9 @@ public class Main extends Application {
 	}
 	
 	public void changeTheme(int theme) {
-
+		
+		this.theme = theme;
+		
 		rootLayout.getStylesheets().clear();
 		statsPanelLayout.getStylesheets().clear();
 		
@@ -198,7 +204,6 @@ public class Main extends Application {
 		} else if(theme == THEME_LIGHT) {
 			rootLayout.getStylesheets().add("/Resources/lightTheme.css");
 		}
-		
 	}
 	
 	public void quit() {
