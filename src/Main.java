@@ -43,6 +43,7 @@ public class Main extends Application {
 
 	private UsersBase base;
   	private CommunitiesGraph graph;
+  	private UsersGraph usersGraph;
   	private LouvainAlgorithm louv;
 	/*private UsersBase base;
   	private UsersGraph graph;
@@ -204,16 +205,18 @@ public class Main extends Application {
  		statController.resetStats();
 	}
 	
-	public void resetGraph(UsersBase b, UsersGraph g) {
+	public void resetGraph(UsersBase b, AbstractGraph g) {
 
 		// Update data based on those from the community
 		this.base = b;
-		this.graph = g;
+		//this.graph = g;
+		this.usersGraph = (UsersGraph) g;
+		System.out.println(usersGraph);
 		
 		// Remove old panel which contains graph 
 		mainViewLayout.getChildren().remove(panelGraph);
 		
-		viewerGraph = new FxViewer(graph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
+		viewerGraph = new FxViewer(usersGraph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
 		viewerGraph.enableAutoLayout();
 				
 		panelGraph = (FxViewPanel) viewerGraph.addDefaultView(false, new FxGraphRenderer());
@@ -287,6 +290,12 @@ public class Main extends Application {
 		}
 		return false;
 	}
+	
+	
+	public CommunitiesGraph getCommunitiesGraph()
+	{
+		return graph;
+	}
 
 	class MousePressGraph implements EventHandler<MouseEvent> {
 
@@ -313,7 +322,7 @@ public class Main extends Application {
 					FXMLLoader loader = new FXMLLoader();
 					
 					// if the selected node represents a community
-					if(!isNodeCommunity(n)) {
+					if(isNodeCommunity(n)) {
 						loader.setLocation(Main.class.getResource("InfoCommunityView.fxml"));
 						infoPane = loader.load();
 						InfoCommunityController communityController = (InfoCommunityController) loader.getController();
@@ -338,13 +347,13 @@ public class Main extends Application {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				graph.hideUnselectedNode(n);
+				//graph.hideUnselectedNode(n, base);
 				isHiddenNode = true;
 			} else {
 				panelGraph.getChildren().remove(infoPane);
 				infoPane = null;
 				if(isHiddenNode == true) {
-					graph.showAllNode();
+					//graph.showAllNode(base);
 				}
 				isHiddenNode = false;
 			}

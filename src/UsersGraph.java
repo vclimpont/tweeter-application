@@ -1,23 +1,15 @@
 //import java.util.Random;
 
 import org.graphstream.graph.*;
-import org.graphstream.graph.implementations.SingleGraph;
 
-public class UsersGraph {
+public class UsersGraph extends AbstractGraph{
 
-	private Graph graph;
 	private Community community;
 	
 	public UsersGraph(Community _community)
 	{
+		super("Community "+_community.getNumber()+" Users");
 		community = _community;
-		graph = new SingleGraph("Community Graph");
-		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//stylesheet.css')");
-		graph.setAttribute("layout.stabilization-limit", 0.01);
-		graph.setAttribute("layout.quality", 0);
-		graph.setAttribute("layout.weight", 10);
-		graph.removeAttribute("ui.antialias");
-		graph.removeAttribute("ui.quality");
 	}
 
 	public void buildNodes()
@@ -76,11 +68,6 @@ public class UsersGraph {
 	{
 		buildNodes();
 		buildEdges();
-	}
-	
-	public Graph getGraph()
-	{
-		return graph;
 	}
 
 	public Community getCommunity() {

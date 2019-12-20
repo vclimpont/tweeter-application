@@ -1,26 +1,15 @@
 import java.util.HashMap;
 
-import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
-import org.graphstream.graph.implementations.SingleGraph;
 
-public class CommunitiesGraph {
+public class CommunitiesGraph extends AbstractGraph {
 	
-	private Graph graph;
 	private HashMap<Integer, Community> communities;
 
 	public CommunitiesGraph(HashMap<Integer, Community> _communities)
 	{
-		graph = new SingleGraph("Communities Graph");
-		initAttributes();
+		super("Communities Graph");
 		communities = _communities;
-	}
-	
-	private void initAttributes()
-	{
-		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//stylesheet.css')");
-		graph.setAttribute("layout.stabilization-limit", 0.01);
-		graph.setAttribute("layout.quality", 0);
 	}
 	
 	private void buildNodes()
@@ -62,14 +51,6 @@ public class CommunitiesGraph {
 		graph.clear();
 		initAttributes();
 		communities.clear();
-	}
-
-	public Graph getGraph() {
-		return graph;
-	}
-	
-	public void setGraph(Graph graph) {
-		this.graph = graph;
 	}
 
 	public HashMap<Integer, Community> getCommunities() {

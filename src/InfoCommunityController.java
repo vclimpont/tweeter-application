@@ -18,13 +18,15 @@ public class InfoCommunityController {
 	private Button openButton;
 	private Main main;
 	private UsersBase base;
-	private UsersGraph graph;
+	private AbstractGraph graph;
+	private Node clickedNode;
 	
 	private boolean isCommunityOpened = false;
 
 	public void initInfoCommunity(Main m, Node n) {
 		this.main = m;
 		if(n != null)
+			clickedNode = n;
 			communityLabel.setText(n.getId());
 	}
 	
@@ -44,35 +46,15 @@ public class InfoCommunityController {
 		if(isCommunityOpened) {
 			main.setCommunityGraph();
 		} else {
-			readCsv("C:\\Users\\Valentin L\\Desktop\\climat_.csv");
+			
+			Community c = main.getCommunitiesGraph().getCommunities().get(Integer.parseInt(clickedNode.getId()));
+			UsersGraph graph = new UsersGraph(c);
+			graph.build();
+			
 			main.resetGraph(base, graph);
 			main.setCommunityInfoPanel(communityLabel.getText());
 		}
 
         main.changeTheme(main.getTheme());
-	}
-	
-	private void readCsv(String filePath) {
-		base = new UsersBase();
-		graph = new UsersGraph(base);
-		
-		BufferedReader csvReader;
-		String row;
-		try {
-			csvReader = new BufferedReader(new FileReader(filePath));
-			while ((row = csvReader.readLine()) != null) {
-			    String[] data = row.split("\t");
-			    
-			    base.rowDataToUser(data);
-			}
-			csvReader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		// Set the centrality of users based of the amount of links
-		base.setUsersCentrality();
-		// Build nodes and edges
-		graph.build();	
 	}
 }
