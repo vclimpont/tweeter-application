@@ -1,4 +1,8 @@
 
+graph{
+	fill-color: #393939;
+}
+
 node.blue {
 	fill-color : blue;
 	z-index : 4;
@@ -7,7 +11,7 @@ node.blue {
 node.blue_transparent {
 	fill-color : #0000FF22;
 	z-index : 2;
-	size : 20px;
+	size : 10px;
 }
 
 node.green {
@@ -18,7 +22,7 @@ node.green {
 node.green_transparent {
 	fill-color : #00FF0022;
 	z-index : 3;
-	size : 25px;
+	size : 15px;
 }
 
 node.yellow {
@@ -29,7 +33,7 @@ node.yellow {
 node.yellow_transparent {
 	fill-color : #FFFF0022;
 	z-index : 4;
-	size : 30px;
+	size : 25px;
 }
 
 node.orange {
@@ -51,32 +55,19 @@ node.red {
 node.red_transparent {
 	fill-color : #FF000022;
 	z-index : 6;
-	size : 40px;
-}
-
-node.community {
-	shape : diamond;
+	size : 45px;
 }
 
 edge {
 	shape: line;
-	size : 0.5px;
-	fill-color : #222;
+	fill-color : #e2e2e2;
 	arrow-size : 1px, 1px;
 	z-index : 1;
 }
-
-edge.community {
-	shape : line;
-	fill-color : grey;
-	size : 1px;
-	z-index : 0;
-}
-
 edge.transparent {
 	shape: line;
-	fill-color : #22222210;
+	fill-color : #e2e2e210;
 	arrow-size : 1px, 1px;
-	z-index : 1;
+	z-index : 2;
 }
 
