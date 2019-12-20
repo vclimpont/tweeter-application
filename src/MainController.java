@@ -29,7 +29,7 @@ public class MainController {
 		File selectedFile = fileChooser.showOpenDialog(new Stage());
 		
 		if(selectedFile != null) {
-			main.readData(selectedFile.getName());
+			main.readData(selectedFile.getPath());
 			lastOpened = selectedFile.getParentFile();
 		}
     }

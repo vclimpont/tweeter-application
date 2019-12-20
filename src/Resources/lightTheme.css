@@ -1,3 +1,13 @@
-#statsPanel > AnchorPane{
+#statsPanel > AnchorPane {
 	-fx-background-color: #e2e2e2;
+}
+
+/* USER INFO PANEL */
+#userPane > .username, #communityPane .communityName {
+	-fx-background-color: #e2e2e2;
+	-fx-padding: 10px;
+}
+#userPane > HBox, #communityPane > HBox {
+	-fx-padding: 10px;
+	-fx-background-color: white;
 }
