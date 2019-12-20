@@ -60,14 +60,13 @@ node.red_transparent {
 
 edge {
 	shape: line;
-	fill-color : #222;
+	fill-color : #e2e2e2;
 	arrow-size : 1px, 1px;
 	z-index : 1;
-	size : 2px;
 }
 edge.transparent {
 	shape: line;
-	fill-color : #22222210;
+	fill-color : #e2e2e210;
 	arrow-size : 1px, 1px;
 	z-index : 2;
 }

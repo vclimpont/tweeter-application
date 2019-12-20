@@ -31,21 +31,27 @@ public class Main extends Application {
 	public final int THEME_DARK = 0;
 	public final int THEME_LIGHT = 1;
 	
+	private int theme = THEME_LIGHT;
+	
 	private Stage primaryStage;
     private BorderPane rootLayout;
     private StackPane mainViewLayout;
     private AnchorPane statsPanelLayout;
     
-
 	private FxViewPanel panelGraph;
 	private FxViewer viewerGraph;
-	
+
 	private UsersBase base;
   	private UsersGraph graph;
+	private UsersBase communityBase;
+  	private UsersGraph communityGraph;
 
 	private StatsPanelController statController;
-	private FXMLLoader infoUserLoader;
-	private AnchorPane userPane;
+	//private FXMLLoader infoUserLoader;
+	//private FXMLLoader infoCommunityLoader;
+	//private BorderPane userInfoPane;
+	private BorderPane communityInfoPane;
+	private BorderPane infoPane;
 	
 	private boolean isHiddenNode = false;
 	
@@ -71,27 +77,34 @@ public class Main extends Application {
 		primaryStage.show();
 	}
 	
-	private void initView() {
+	public void initView() {
 
-        base = new UsersBase();
-      	graph = new UsersGraph(base);
+		communityBase = base = new UsersBase();
+		communityGraph = graph = new UsersGraph(base);
 		
-      	// Create a graph viewer, which will contains the graph
+      	setCommunityGraph();
+        
+		Scene scene = new Scene(rootLayout);
+		primaryStage.setScene(scene);
+	}
+	
+	public void setCommunityGraph() {
+
+		base = communityBase;
+		graph = communityGraph;
+		
+		// Create a graph viewer, which will contains the graph
 		viewerGraph = new FxViewer(graph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
 		// Let graphStream manage the placement of the nodes
 		viewerGraph.enableAutoLayout();
 				
 		panelGraph = (FxViewPanel) viewerGraph.addDefaultView(false, new FxGraphRenderer());
-		
-        mainViewLayout.getChildren().add(panelGraph);
-        mainViewLayout.setAlignment(Pos.CENTER);
-        
         panelGraph.setPrefHeight(mainViewLayout.getHeight());
         
-        panelGraph.addEventFilter(MouseEvent.MOUSE_PRESSED, new MousePressGraph());
+        panelGraph.addEventFilter(MouseEvent.MOUSE_PRESSED, new MousePressGraph(this));
         
-		Scene scene = new Scene(rootLayout);
-		primaryStage.setScene(scene);
+		mainViewLayout.getChildren().add(panelGraph);
+        mainViewLayout.setAlignment(Pos.CENTER);
 	}
 	
 	private void initStatsPanelView() {
@@ -101,12 +114,10 @@ public class Main extends Application {
 	        statsPanelLayout = (AnchorPane) loader.load();
 	        statsPanelLayout.setPrefHeight(rootLayout.getPrefWidth());
 
-
 	        statController = loader.getController();
             statController.initGraph(graph.getGraph());
             statController.initButtonText();
-            
-            
+              
             mainViewLayout.getChildren().add(statsPanelLayout);
             mainViewLayout.setAlignment(Pos.CENTER_RIGHT);
 
@@ -167,8 +178,10 @@ public class Main extends Application {
 	}
 	
 	public void readData(String filePath) {
+
 		BufferedReader csvReader;
 		String row;
+
 		try {
 			csvReader = new BufferedReader(new FileReader(filePath));
 			while ((row = csvReader.readLine()) != null) {
@@ -189,15 +202,71 @@ public class Main extends Application {
  		statController.resetStats();
 	}
 	
+	public void resetGraph(UsersBase b, UsersGraph g) {
+
+		// Update data based on those from the community
+		this.base = b;
+		this.graph = g;
+		
+		// Remove old panel which contains graph 
+		mainViewLayout.getChildren().remove(panelGraph);
+		
+		viewerGraph = new FxViewer(graph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
+		viewerGraph.enableAutoLayout();
+				
+		panelGraph = (FxViewPanel) viewerGraph.addDefaultView(false, new FxGraphRenderer());
+
+        panelGraph.addEventFilter(MouseEvent.MOUSE_PRESSED, new MousePressGraph(this));
+        
+		mainViewLayout.getChildren().add(panelGraph);
+        mainViewLayout.setAlignment(Pos.CENTER);
+        
+        // Set the theme for the new panel
+        changeTheme(this.theme);
+	}
+	
+	public void setCommunityInfoPanel(String communityName) {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("InfoCommunityView.fxml"));
+			communityInfoPane = (BorderPane) loader.load();
+			FxViewPanel.positionInArea(communityInfoPane, 10, 10, 0, 0, 0, Insets.EMPTY, HPos.LEFT, VPos.CENTER, true);
+			InfoCommunityController icc = (InfoCommunityController) loader.getController();
+			icc.initInfoCommunity(this, communityName);
+			panelGraph.getChildren().add(communityInfoPane);
+	        changeTheme(this.theme);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public int getTheme() {
+		return this.theme;
+	}
+	
 	public void changeTheme(int theme) {
 
+		this.theme = theme;
+		
 		rootLayout.getStylesheets().clear();
+		if(infoPane != null)
+			infoPane.getStylesheets().clear();
+		if(communityInfoPane != null)
+			communityInfoPane.getStylesheets().clear();
 		
 		if(theme == THEME_DARK) {
 			rootLayout.getStylesheets().add("/Resources/darkTheme.css");
+			if(infoPane != null)
+				infoPane.getStylesheets().add("/Resources/darkTheme.css");
+			if(communityInfoPane != null)
+				communityInfoPane.getStylesheets().add("/Resources/darkTheme.css");
 			graph.getGraph().setAttribute("ui.stylesheet", "url('file://.//GraphStyle//darkGraph.css')");
 		} else if(theme == THEME_LIGHT) {
 			rootLayout.getStylesheets().add("/Resources/lightTheme.css");
+			if(infoPane != null)
+				infoPane.getStylesheets().add("/Resources/lightTheme.css");
+			if(communityInfoPane != null)
+				communityInfoPane.getStylesheets().add("/Resources/lightTheme.css");
 			graph.getGraph().setAttribute("ui.stylesheet", "url('file://.//GraphStyle//lightGraph.css')");
 		}
 		
@@ -209,8 +278,22 @@ public class Main extends Application {
         System.exit(0);
 	}
 	
+	private boolean isNodeCommunity(Node n) {
+		String nodeClass;
+		if(n != null) {
+			nodeClass = (String) n.getAttribute("ui.class");
+			return nodeClass.contains("community");
+		}
+		return false;
+	}
 
 	class MousePressGraph implements EventHandler<MouseEvent> {
+
+		private Main m;
+		
+		public MousePressGraph(Main main) {
+			m = main;
+		}
 
 		@Override
 		public void handle(MouseEvent event) {
@@ -220,32 +303,50 @@ public class Main extends Application {
 			// IF n == null -> means we did'nt click on a node
 			if(n != null) {
 
-				if(userPane != null) {
-					panelGraph.getChildren().remove(userPane);
+				if(infoPane != null) {
+					panelGraph.getChildren().remove(infoPane);
 				}
 				
 		        try {
-		    		infoUserLoader = new FXMLLoader();
-		            infoUserLoader.setLocation(Main.class.getResource("InfoUserView.fxml"));
-					userPane = (AnchorPane) infoUserLoader.load();
-					FxViewPanel.positionInArea(userPane, me.getX(), me.getY(), 0, 0, 0, Insets.EMPTY, HPos.LEFT, VPos.CENTER, true);
-			        InfoUserController iuc = (InfoUserController) infoUserLoader.getController();
-					iuc.initInfoUser(n);
-					panelGraph.getChildren().add(userPane);
+
+					FXMLLoader loader = new FXMLLoader();
+					
+					// if the selected node represents a community
+					if(!isNodeCommunity(n)) {
+						loader.setLocation(Main.class.getResource("InfoCommunityView.fxml"));
+						infoPane = loader.load();
+						InfoCommunityController communityController = (InfoCommunityController) loader.getController();
+						communityController.initInfoCommunity(m, n);
+					} else { // if not, it represents a user
+						loader.setLocation(Main.class.getResource("InfoUserView.fxml"));
+						infoPane = loader.load();
+						InfoUserController userController = (InfoUserController) loader.getController();
+						userController.initInfoUser(n);
+					}
+					FxViewPanel.positionInArea(infoPane, me.getX(), me.getY(), 0, 0, 0, Insets.EMPTY, HPos.LEFT, VPos.CENTER, true);
+					
+					panelGraph.getChildren().add(infoPane);
+					
+					infoPane.getStylesheets().clear();
+					if(theme == THEME_DARK) {
+						infoPane.getStylesheets().add("/Resources/darkTheme.css");
+					} else if(theme == THEME_LIGHT) {
+						infoPane.getStylesheets().add("/Resources/lightTheme.css");
+					}
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 				graph.hideUnselectedNode(n);
 				isHiddenNode = true;
 			} else {
-				panelGraph.getChildren().remove(userPane);
-				userPane = null;
+				panelGraph.getChildren().remove(infoPane);
+				infoPane = null;
 				if(isHiddenNode == true) {
 					graph.showAllNode();
 				}
 				isHiddenNode = false;
 			}
 		}
-		
 	}
 }

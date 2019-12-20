@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" styleClass="userInfoPane" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InfoUserController">
-   <children>
-      <Label fx:id="usernameLabel" layoutX="9.0" layoutY="7.0" />
-   </children>
-</AnchorPane>
+<BorderPane id="userPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@Resources/lightTheme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="InfoUserController">
+   <top>
+      <Label fx:id="usernameLabel" alignment="BOTTOM_LEFT" maxWidth="1.7976931348623157E308" styleClass="username" BorderPane.alignment="CENTER" />
+   </top>
+   <center>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <VBox>
+               <children>
+                  <Label text="Degré entrant :" />
+                  <Label text="Degré sortant :" />
+               </children>
+            </VBox>
+            <VBox>
+               <children>
+                  <Label fx:id="degreEntrant_Label" />
+                  <Label fx:id="degreSortant_Label" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
+</BorderPane>
