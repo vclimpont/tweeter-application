@@ -4,17 +4,17 @@ import java.util.HashMap;
 public class LNode {
 
 	private ArrayList<User> users;
-	private int community;
+	private Community community;
 	private ArrayList<LEdge> edges;
 	
-	public LNode(int _community)
+	public LNode(Community _community)
 	{
 		community = _community;
 		users = new ArrayList<User>();
 		edges = new ArrayList<LEdge>();
 	}
 	
-	public LNode(int _community, ArrayList<User> _users)
+	public LNode(Community _community, ArrayList<User> _users)
 	{
 		community = _community;
 		users = _users;
@@ -26,7 +26,7 @@ public class LNode {
 		int[] w = {0,0}; // in, tot / kin, ki
 		for(LEdge e : edges)
 		{
-			if(e.getJ().getCommunity() == _community)
+			if(e.getJ().getCommunity().getNumber() == _community)
 			{
 				w[0] += e.getWeight();
 			}
@@ -37,7 +37,7 @@ public class LNode {
 	
 	public int getSumWeight()
 	{
-		int w = 0; // in, tot / kin, ki
+		int w = 0; // ki
 		for(LEdge e : edges)
 		{
 			w += e.getWeight();
@@ -49,7 +49,7 @@ public class LNode {
 	{
 		for(LEdge e : edges)
 		{
-			int commJ = e.getJ().getCommunity();
+			int commJ = e.getJ().getCommunity().getNumber();
 			Integer w = mergedEdges.get(commJ);
 			if(w == null)
 			{
@@ -58,6 +58,7 @@ public class LNode {
 			else
 			{
 				w += e.getWeight();
+				mergedEdges.put(commJ, w);
 			}
 		}
 	}
@@ -85,12 +86,16 @@ public class LNode {
 		this.users = users;
 	}
 
-	public int getCommunity() {
+	public Community getCommunity() {
 		return community;
 	}
 
-	public void setCommunity(int community) {
+	public void setCommunity(Community community) {
 		this.community = community;
+		for(User u : this.users)
+		{
+			u.setCommunity(community);
+		}
 	}
 
 	public ArrayList<LEdge> getEdges() {

@@ -42,9 +42,12 @@ public class Main extends Application {
 	private FxViewer viewerGraph;
 
 	private UsersBase base;
+  	private CommunitiesGraph graph;
+  	private LouvainAlgorithm louv;
+	/*private UsersBase base;
   	private UsersGraph graph;
 	private UsersBase communityBase;
-  	private UsersGraph communityGraph;
+  	private UsersGraph communityGraph;*/
 
 	private StatsPanelController statController;
 	private BorderPane communityInfoPane;
@@ -76,8 +79,9 @@ public class Main extends Application {
 	
 	public void initView() {
 
-		communityBase = base = new UsersBase();
-		communityGraph = graph = new UsersGraph(base);
+        base = new UsersBase();
+        louv = new LouvainAlgorithm(base);
+      	graph = new CommunitiesGraph(louv.getCommunities());
 		
       	setCommunityGraph();
         
@@ -87,8 +91,8 @@ public class Main extends Application {
 	
 	public void setCommunityGraph() {
 
-		base = communityBase;
-		graph = communityGraph;
+		/*base = communityBase;
+		graph = communityGraph;*/
 		
 		// Create a graph viewer, which will contains the graph
 		viewerGraph = new FxViewer(graph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		
@@ -169,6 +173,10 @@ public class Main extends Application {
 	
 	public void readData(String filePath) {
 
+        base = new UsersBase();
+        louv = new LouvainAlgorithm(base);
+      	graph.clear();
+      	
 		BufferedReader csvReader;
 		String row;
 
@@ -186,8 +194,12 @@ public class Main extends Application {
 		
 		// Set the centrality of users based of the amount of links
 		base.setUsersCentrality();
-		// Build nodes and edges
-		graph.build();	
+		// Find communities
+		louv.initCommunities();
+		louv.iterate();
+		// Set communities found to the communitiesGraph and build graph
+		graph.setCommunities(louv.getCommunities());
+		graph.buildGraph();
  		// Set stats in the panel
  		statController.resetStats();
 	}
