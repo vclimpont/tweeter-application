@@ -15,7 +15,7 @@ public abstract class AbstractGraph {
 	
 	public void initAttributes()
 	{
-		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//stylesheet.css')");
+		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//lightGraph.css')");
 		graph.setAttribute("layout.stabilization-limit", 0.01);
 		graph.setAttribute("layout.quality", 0);
 		graph.setAttribute("layout.weight", 10);

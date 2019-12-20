@@ -57,17 +57,27 @@ node.red_transparent {
 	size : 45px;
 }
 
+node.community {
+	shape : diamond;
+}
+
 edge {
 	shape: line;
 	fill-color : #222;
 	arrow-size : 1px, 1px;
 	z-index : 1;
+	size : 0.5px;
+}
+edge.community {
+	shape : line;
+	fill-color : grey;
 	size : 1px;
+	z-index : 0;
 }
 edge.transparent {
 	shape: line;
 	fill-color : #22222210;
 	arrow-size : 1px, 1px;
-	z-index : 2;
+	z-index : 1;
 }
 
