@@ -181,7 +181,7 @@ public class Main extends Application {
 		// Find communities
 		louv.initCommunities();
 		louv.iterate();
-		// Set communities found to the communitiesGraph and build graph
+		// Set communities found to the communitiesGraph and build the graph
 		graph.setCommunities(louv.getCommunities());
 		graph.buildGraph();
  		// Set stats in the panel
