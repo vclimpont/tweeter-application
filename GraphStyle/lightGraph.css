@@ -64,7 +64,7 @@ node.community {
 edge {
 	shape: line;
 	fill-color : #222;
-	arrow-size : 1px, 1px;
+	/*arrow-size : 1px, 1px;*/
 	z-index : 1;
 	size : 0.5px;
 }
@@ -80,4 +80,3 @@ edge.transparent {
 	arrow-size : 1px, 1px;
 	z-index : 1;
 }
-

@@ -33,7 +33,7 @@ public class CommunitiesGraph extends AbstractGraph {
 					String cj = "" + e.getJ().getCommunity().getNumber();					
 					if(graph.getEdge(cj+"."+i) == null)
 					{
-						graph.addEdge(i+"."+cj, ""+i, ""+cj).setAttribute("layout.weight", 10);;
+						graph.addEdge(i+"."+cj, ""+i, ""+cj, true).setAttribute("layout.weight", 10);
 					}
 				}
 			}

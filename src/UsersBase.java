@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class UsersBase {
 	
-	private HashMap<String,User> users;
+	public HashMap<String,User> users;
 
 	public UsersBase()
 	{

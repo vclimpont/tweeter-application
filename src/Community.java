@@ -114,6 +114,5 @@ public class Community {
 	public String getCentrality()
 	{
 		return centrality;
-	}
-	
+	}	
 }

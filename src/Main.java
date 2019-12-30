@@ -75,6 +75,7 @@ public class Main extends Application {
  		    }
  		});
  		
+ 		primaryStage.setMaximized(true);
 		primaryStage.show();
 	}
 	
@@ -230,14 +231,15 @@ public class Main extends Application {
         changeTheme(this.theme);
 	}
 	
-	public void setCommunityInfoPanel(String communityName) {
+	public void setCommunityInfoPanel(Node n) {
 		try {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("InfoCommunityView.fxml"));
 			communityInfoPane = (BorderPane) loader.load();
 			FxViewPanel.positionInArea(communityInfoPane, 10, 10, 0, 0, 0, Insets.EMPTY, HPos.LEFT, VPos.CENTER, true);
 			InfoCommunityController icc = (InfoCommunityController) loader.getController();
-			icc.initInfoCommunity(this, communityName);
+			icc.initInfoCommunity(this, n);
+			icc.setCommunityOpened(true);
 			panelGraph.getChildren().add(communityInfoPane);
 	        changeTheme(this.theme);
 		} catch (IOException e) {
@@ -282,7 +284,7 @@ public class Main extends Application {
         System.exit(0);
 	}
 	
-	private boolean isNodeCommunity(Node n) {
+	public boolean isNodeCommunity(Node n) {
 		String nodeClass;
 		if(n != null) {
 			nodeClass = (String) n.getAttribute("ui.class");
@@ -321,12 +323,13 @@ public class Main extends Application {
 
 					FXMLLoader loader = new FXMLLoader();
 					
-					// if the selected node represents a community
+					// if the selected node represents a community (not a user)
 					if(isNodeCommunity(n)) {
 						loader.setLocation(Main.class.getResource("InfoCommunityView.fxml"));
 						infoPane = loader.load();
 						InfoCommunityController communityController = (InfoCommunityController) loader.getController();
 						communityController.initInfoCommunity(m, n);
+						communityController.setCommunityOpened(false);
 					} else { // if not, it represents a user
 						loader.setLocation(Main.class.getResource("InfoUserView.fxml"));
 						infoPane = loader.load();
@@ -347,7 +350,7 @@ public class Main extends Application {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				//graph.hideUnselectedNode(n, base);
+				graph.hideUnselectedNode(n, base);
 				isHiddenNode = true;
 			} else {
 				panelGraph.getChildren().remove(infoPane);

@@ -15,7 +15,7 @@ public class InfoUserController {
 	
 	public void initInfoUser(Node n) {
 		usernameLabel.setText("@" + n.getId());
-		degreEntrant_Label.setText(Integer.toString(n.getInDegree()));
-		degreSortant_Label.setText(Integer.toString(n.getOutDegree()));
+		degreEntrant_Label.setText(Long.toString(n.enteringEdges().count()));
+		degreSortant_Label.setText(Long.toString(n.leavingEdges().count()));
 	}
 }

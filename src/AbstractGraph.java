@@ -28,12 +28,12 @@ public abstract class AbstractGraph {
 	 * @param isTransparent : should this element be transparent ?
 	 */
 	public void setNodeTransparency(Node elem, boolean isTransparent, UsersBase base) {
-		String centrality = base.getUser(elem.getId()).getCentrality(); 
+		/*String centrality = base.getUser(elem.getId()).getCentrality();
 		if(isTransparent == true) {
 			elem.setAttribute("ui.class", centrality + "_transparent");
 		} else {
 			elem.setAttribute("ui.class", centrality);
-		}
+		}*/
 	}
 
 	/**

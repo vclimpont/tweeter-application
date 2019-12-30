@@ -65,7 +65,7 @@ node.community {
 edge {
 	shape: line;
 	fill-color : #e2e2e2;
-	arrow-size : 1px, 1px;
+	/*arrow-size : 1px, 1px;*/
 	z-index : 1;
 	size : 0.5px;
 }
