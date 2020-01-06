@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -14,9 +15,12 @@
          <children>
             <VBox>
                <children>
-                  <Label text="Degré entrant :" />
-                  <Label text="Degré sortant :" />
+                  <Label text="Degré entrant : " />
+                  <Label text="Degré sortant : " />
                </children>
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
             </VBox>
             <VBox>
                <children>

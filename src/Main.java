@@ -2,6 +2,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.Map;
 
 import org.graphstream.graph.Node;
 import org.graphstream.ui.fx_viewer.FxViewPanel;
@@ -207,12 +209,9 @@ public class Main extends Application {
 	}
 	
 	public void resetGraph(UsersBase b, AbstractGraph g) {
-
 		// Update data based on those from the community
-		this.base = b;
-		//this.graph = g;
+		//this.base = b;
 		this.usersGraph = (UsersGraph) g;
-		System.out.println(usersGraph);
 		
 		// Remove old panel which contains graph 
 		mainViewLayout.getChildren().remove(panelGraph);
@@ -252,7 +251,6 @@ public class Main extends Application {
 	}
 	
 	public void changeTheme(int theme) {
-		
 		this.theme = theme;
 		
 		rootLayout.getStylesheets().clear();
@@ -301,12 +299,15 @@ public class Main extends Application {
 
 	class MousePressGraph implements EventHandler<MouseEvent> {
 
-		private Main m;
+		private Main main;
 		
-		public MousePressGraph(Main main) {
-			m = main;
+		public MousePressGraph(Main m) {
+			main = m;
 		}
 
+		/**
+		 * function called when pressing the mouse button on the view
+		 */
 		@Override
 		public void handle(MouseEvent event) {
 			MouseEvent me = ((MouseEvent) event);
@@ -328,7 +329,7 @@ public class Main extends Application {
 						loader.setLocation(Main.class.getResource("InfoCommunityView.fxml"));
 						infoPane = loader.load();
 						InfoCommunityController communityController = (InfoCommunityController) loader.getController();
-						communityController.initInfoCommunity(m, n);
+						communityController.initInfoCommunity(main, n);
 						communityController.setCommunityOpened(false);
 					} else { // if not, it represents a user
 						loader.setLocation(Main.class.getResource("InfoUserView.fxml"));
@@ -350,13 +351,17 @@ public class Main extends Application {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				graph.hideUnselectedNode(n, base);
+				graph.hideUnselectedNode(n);
+				if(usersGraph != null)
+					usersGraph.hideUnselectedNode(n);
 				isHiddenNode = true;
 			} else {
 				panelGraph.getChildren().remove(infoPane);
 				infoPane = null;
 				if(isHiddenNode == true) {
-					//graph.showAllNode(base);
+					graph.showAllNode();
+					if(usersGraph != null)
+						usersGraph.showAllNode();
 				}
 				isHiddenNode = false;
 			}

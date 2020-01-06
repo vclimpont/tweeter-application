@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -27,13 +32,22 @@ public abstract class AbstractGraph {
 	 * @param elem : a Node
 	 * @param isTransparent : should this element be transparent ?
 	 */
-	public void setNodeTransparency(Node elem, boolean isTransparent, UsersBase base) {
-		/*String centrality = base.getUser(elem.getId()).getCentrality();
+	public void setNodeTransparency(Node elem, boolean isTransparent) {
+		boolean isCommunity = false;
+		String color;
+		
+		ArrayList<String> classes = new ArrayList<>(Arrays.asList(((String)(elem.getAttribute("ui.class"))).split(", ")));
+		
+		if(classes.contains("community")) {
+			classes.remove("community");
+			isCommunity = true;
+		}
+		color = classes.get(0).split("_")[0];
 		if(isTransparent == true) {
-			elem.setAttribute("ui.class", centrality + "_transparent");
+			elem.setAttribute("ui.class", (isCommunity ? "community, ":"") + color + "_transparent");
 		} else {
-			elem.setAttribute("ui.class", centrality);
-		}*/
+			elem.setAttribute("ui.class", (isCommunity ? "community, ":"") + color);
+		}
 	}
 
 	/**
@@ -49,40 +63,34 @@ public abstract class AbstractGraph {
 		}
 	}
 	
-	public void hideUnselectedNode(Node selectedNode, UsersBase base) {
-		User selectedUser = base.getUser(selectedNode.getId());
+	public void hideUnselectedNode(Node selectedNode) {
+		HashMap<String, Node> neighbours = new HashMap<>();
 		
-		// Set the selected node to visible
-		setNodeTransparency(selectedNode, false, base);
+		graph.edges().forEach((Edge e)->{
+			setEdgeTransparency(e, true);
+		});
 		
-		// For each nodes in the graph
-		graph.nodes().forEach((Node n)->{
-			if(!n.getId().equals(selectedNode.getId())) {
-				User u = base.getUser(n.getId());
-				if(!selectedUser.getInternalLinks().containsKey(u.getId()) &&
-					!selectedUser.getExternalLinks().containsKey(u.getId())) {
-					setNodeTransparency(n, true, base);
-				} else {
-					setNodeTransparency(n, false, base);
-				}
+		// Loop over linked edges
+		selectedNode.edges().forEach(e->{
+			setEdgeTransparency(e, false);
+			if(e.getNode0().getId() == selectedNode.getId()) {
+				neighbours.put(e.getNode1().getId(), e.getNode1());
+			} else {
+				neighbours.put(e.getNode0().getId(), e.getNode0());
 			}
 		});
-
-		graph.edges().forEach((Edge e)->{
-			// Hide edges if they aren't linked to the selected node
-			if(!e.getSourceNode().getId().equals(selectedNode.getId()) &&
-				!e.getTargetNode().getId().equals(selectedNode.getId())) {
-				setEdgeTransparency(e, true);
-			} else {
-				setEdgeTransparency(e, false);
-			}
+		graph.nodes().forEach((Node n)->{
+			if(n.getId() == selectedNode.getId() || neighbours.get(n.getId()) != null)
+				setNodeTransparency(n, false);
+			else
+				setNodeTransparency(n, true);
 		});
 	}
 	
-	public void showAllNode(UsersBase base) {
+	public void showAllNode() {
 		// For each nodes
 		graph.nodes().forEach((Node n)->{
-			setNodeTransparency(n, false, base);
+			setNodeTransparency(n, false);
 		});
 		// Remove the class attribute for each edges
 		graph.edges().forEach(e->setEdgeTransparency(e, false));
