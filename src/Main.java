@@ -41,6 +41,7 @@ public class Main extends Application {
     private StackPane mainViewLayout;
     private AnchorPane statsPanelLayout;
     private HBox helpLayout;
+    private HBox legendLayout;
     
 	private FxViewPanel panelGraph;
 	private FxViewer viewerGraph;
@@ -56,6 +57,7 @@ public class Main extends Application {
 
 	private boolean isHiddenNode = false;
 	private boolean isHelpOpen = false;
+	private boolean isLegendOpen = false;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -308,6 +310,7 @@ public class Main extends Application {
             mainViewLayout.getChildren().add(helpLayout);
             StackPane.setAlignment(helpLayout, Pos.CENTER);
             isHelpOpen = true;
+            hideLegend();
 		} catch (IOException e) {
             e.printStackTrace();
         }
@@ -316,6 +319,27 @@ public class Main extends Application {
 	private void hideHelp() {
 		mainViewLayout.getChildren().remove(helpLayout);
 		isHelpOpen = false;
+	}
+
+	public void showLegend() {
+		if(isLegendOpen)
+			return;
+		try {
+			FXMLLoader loader = new FXMLLoader();
+	        loader.setLocation(Main.class.getResource("LegendView.fxml"));
+	        legendLayout = (HBox) loader.load();
+            mainViewLayout.getChildren().add(legendLayout);
+            StackPane.setAlignment(legendLayout, Pos.CENTER);
+            isLegendOpen = true;
+            hideHelp();
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	private void hideLegend() {
+		mainViewLayout.getChildren().remove(legendLayout);
+		isLegendOpen = false;
 	}
 
 	class MousePressGraph implements EventHandler<MouseEvent> {

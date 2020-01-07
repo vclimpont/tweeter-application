@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox>
+         <children>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Carrés">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Rond">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+      <VBox>
+         <children>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Communauté">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Bleu">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Vert">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Jaune">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Orange">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Rouge">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Utilisateur">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Vert">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Jaune">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Orange">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Rouge">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+      <VBox>
+         <children>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Moins de 5 utilisateurs">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Entre 5 et 30 utilisateurs">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Entre 30 et 100 utilisateurs">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Entre 100 et 300 utilisateurs">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Plus de 300 utilisateurs">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Entre 10 et 100 liens">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Entre 100 et 1000 utilisateurs">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Entre 1000 et 10000 utilisateurs">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Plus de 10000 utilisateurs">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</HBox>

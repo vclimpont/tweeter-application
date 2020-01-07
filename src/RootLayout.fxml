@@ -33,6 +33,7 @@
             <Menu mnemonicParsing="false" text="Aide">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#showHelp" text="Commandes" />
+                  <MenuItem mnemonicParsing="false" onAction="#showlegend" text="Légende" />
               </items>
             </Menu>
       </menus>

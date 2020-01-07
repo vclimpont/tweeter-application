@@ -56,9 +56,13 @@ public class MainController {
 	private void setLightTheme() {
 		main.changeTheme(main.THEME_LIGHT);
 	}
-	
+
 	@FXML
 	private void showHelp() {
 	    main.showHelp();
+	}
+	@FXML
+	private void showlegend() {
+	    main.showLegend();
 	}
 }
