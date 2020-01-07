@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.ui.fx_viewer.FxViewPanel;
 import org.graphstream.ui.fx_viewer.FxViewer;
@@ -47,6 +48,7 @@ public class Main extends Application {
   	private CommunitiesGraph graph;
   	private UsersGraph usersGraph;
   	private LouvainAlgorithm louv;
+  	private Graph modelGraph;
 	/*private UsersBase base;
   	private UsersGraph graph;
 	private UsersBase communityBase;
@@ -200,6 +202,7 @@ public class Main extends Application {
 		base.setUsersCentrality();
 		// Find communities
 		louv.initCommunities();
+		modelGraph = louv.getModelGraph();
 		louv.iterate();
 		// Set communities found to the communitiesGraph and build graph
 		graph.setCommunities(louv.getCommunities());

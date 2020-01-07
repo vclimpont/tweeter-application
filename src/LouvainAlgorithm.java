@@ -4,10 +4,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+
 public class LouvainAlgorithm {
 	
 	private UsersBase base;
 	private HashMap<Integer, Community> communities;
+	private Graph modelGraph;
 
 	private double modularity;
 	private int nbCommunities;
@@ -16,6 +20,7 @@ public class LouvainAlgorithm {
 	public LouvainAlgorithm(UsersBase _base)
 	{
 		base = _base;
+		modelGraph = new SingleGraph("model");
 		communities = new HashMap<Integer, Community>();
 		modularity = 0;
 		nbCommunities = 1;
@@ -26,6 +31,7 @@ public class LouvainAlgorithm {
 		for(String id : base.getUsers().keySet()) // for every users in the base
 		{
 			User ui = base.getUser(id);
+			modelGraph.addNode(ui.getId());
 			
 			if(!ui.getCentrality().equals("blue"))
 			{
@@ -40,6 +46,14 @@ public class LouvainAlgorithm {
 						
 						m++;
 					}
+				}
+			}
+			else
+			{
+				for(String idj : ui.getExternalLinks().keySet())
+				{
+					User uj = ui.getExternalLinks().get(idj);
+					modelGraph.addEdge(ui.getId()+"."+uj.getId(), ui.getId(), uj.getId(), true);
 				}
 			}
 		}
@@ -303,5 +317,8 @@ public class LouvainAlgorithm {
 		return communities;
 	}
 	
-	
+	public Graph getModelGraph()
+	{
+		return modelGraph;
+	}
 }
