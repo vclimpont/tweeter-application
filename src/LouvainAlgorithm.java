@@ -26,6 +26,10 @@ public class LouvainAlgorithm {
 		nbCommunities = 1;
 		m = 0.0;
 	}
+	
+	/**
+	 * create the graph based on users relationships and initialize users communities excluding blue centrality's users 
+	 */
 	public void initCommunities()
 	{			
 		for(String id : base.getUsers().keySet()) // for every users in the base
@@ -33,48 +37,53 @@ public class LouvainAlgorithm {
 			User ui = base.getUser(id);
 			
 			try {
-				modelGraph.addNode(ui.getId());
+				modelGraph.addNode(ui.getId()); // try to add the user in the model graph
 			}
 			catch(Exception e){}
 			
-			if(!ui.getCentrality().equals("blue"))
+			if(!ui.getCentrality().equals("blue")) // if the user is not "blue" centralized
 			{
-				for(String idj : ui.getExternalLinks().keySet())
+				for(String idj : ui.getExternalLinks().keySet()) 
 				{
 					User uj = ui.getExternalLinks().get(idj);
+					// initialize this user's community and the community of every users linked to him who are not "blue" centralized
 					if(!uj.getCentrality().equals("blue"))
 					{
 						initCommunity(ui);
 						initCommunity(uj);
 						createLEdge(ui.getLNode(), uj.getLNode(), 1);
 						
+						// increments the number of edges
 						m++;
 					}
 				}
 			}
-			else
+			
+			// try to add every users linked to this user to the model graph and add edges
+			for(String idj : ui.getExternalLinks().keySet()) 
 			{
-				for(String idj : ui.getExternalLinks().keySet())
-				{
-					User uj = ui.getExternalLinks().get(idj);
-					try {
-						modelGraph.addNode(uj.getId());
-					}
-					catch(Exception e){}
-					modelGraph.addEdge(ui.getId()+"."+uj.getId(), ui.getId(), uj.getId(), true);
+				User uj = ui.getExternalLinks().get(idj);
+				try {
+					modelGraph.addNode(uj.getId());
 				}
+				catch(Exception e){}
+				modelGraph.addEdge(ui.getId()+"."+uj.getId(), ui.getId(), uj.getId(), true);
 			}
 		}
 		
+		// for every communities (basically every users who are not "blue" centralized here)
 		for(Integer i : communities.keySet())
 		{
 			communities.get(i).initSums();
 		}
 		
-		//displayCommunities();
 		calculateModularity();
 	}
 	
+	
+	/**
+	 * print each community
+	 */
 	public void displayCommunities()
 	{
 		for(Integer i : communities.keySet())
@@ -96,6 +105,9 @@ public class LouvainAlgorithm {
 		}
 	}
 	
+	/**
+	 * calculates modularity based on the given formula : https://pdfs.semanticscholar.org/9fa0/3cde48aee448bef4de225cc1f4943ab72095.pdf
+	 */
 	private void calculateModularity()
 	{
 		double Q = 0;
@@ -107,9 +119,13 @@ public class LouvainAlgorithm {
 			Q += (intra_w - inter_w);
 		}
 		modularity = Q;
-		//System.out.println("MODULARITY : " + modularity);
 	}
 	
+	/**
+	 * add a LNode to a community represented by his number id
+	 * @param community : number of the community
+	 * @param ln : LNode to add in the community
+	 */
 	private void addToCommunity(int community, LNode ln)
 	{
 		Community c = communities.get(community);
@@ -121,6 +137,11 @@ public class LouvainAlgorithm {
 		addToCommunity(communities.get(community), ln);
 	}
 	
+	/**
+	 * add LNode to the given community
+	 * @param community : the community
+	 * @param ln : LNode to add in the community
+	 */
 	private void addToCommunity(Community community, LNode ln)
 	{
 		community.addLNode(ln);
@@ -129,7 +150,11 @@ public class LouvainAlgorithm {
 	}
 	
 
-	private void initCommunity(User u) // initialize community of each user
+	/**
+	 * Initialize the community of the given user
+	 * @param u : a user
+	 */
+	private void initCommunity(User u)
 	{
 		if(u.getCommunity() == null) // community is not set yet
 		{
@@ -140,6 +165,11 @@ public class LouvainAlgorithm {
 		}
 	}
 	
+	/**
+	 * Create a new LNode from a user
+	 * @param community : the community that contains the new LNode
+	 * @param u : a user
+	 */
 	private void createLNode(Community community, User u)
 	{
 		LNode ln = new LNode(community);
@@ -148,13 +178,27 @@ public class LouvainAlgorithm {
 		addToCommunity(community.getNumber(), ln);
 	}
 	
+	/**
+	 * create a new LEdge
+	 * @param li : an origin LNode
+	 * @param lj : a target LNode
+	 * @param weight : weight of the LEdge
+	 */
 	private void createLEdge(LNode li, LNode lj, int weight)
 	{
 		li.addLEdge(lj, weight);
 		lj.addLEdge(li, weight);
 	}
 	
-	
+	/**
+	 * main Louvain algorithm iteration
+	 * each iteration picks up a node and tries to improve global modularity by removing it from his community
+	 * and by adding it to the community of one of its neighbors.
+	 * If improvements happen (basically if the delta modularity calculated is > 0) then the node is moved to the community
+	 * that maximizes the modularity.
+	 * When the modularity can't be improved anymore, nodes of the same community are merged into super node that represents the community.
+	 * Edges linked to other communities are also weighted are merged, and edges linked to same communities create loops.
+	 */
 	public void iterate()
 	{	
 		double maxDelta = 0;
@@ -170,19 +214,20 @@ public class LouvainAlgorithm {
 			{
 				Q = modularity;
 				up++;
-				for(Integer i : communities.keySet())
+				for(Integer i : communities.keySet()) // for each community
 				{
 			        Iterator<?> itr = communities.get(i).getLNodes().iterator(); // for all nodes of community i
 			        while (itr.hasNext()) 
 			        { 
 			            LNode ln = (LNode)itr.next(); 
+			            
+			            // Calculates the delta modularity lost if ln i is removed from its current community
 			            int[] wi = ln.getSumWeightLinkedToCommunity(i);
 						int kinMax = wi[0];
 						int kiMax = wi[1];
 						maxCommunity = i;
 						maxDelta = calculateDeltaModularity(ln, i, wi[0], wi[1], m);
-		            	//System.out.println(ln.getUsers().get(0).getId() + " community : " + ln.getCommunity().getNumber() + " edges : " + ln.getEdges().size());
-
+						
 						int[] w = {0,0};
 						
 			            for(LEdge e : ln.getEdges()) // for each neighbor of ln i 
@@ -190,9 +235,11 @@ public class LouvainAlgorithm {
 			            	int edgeCommunityNb = e.getJ().getCommunity().getNumber();
 			            	if(edgeCommunityNb != i)
 			            	{
+			            		// Calculates the delta modularity obtained by moving ln i into an other community
 			            		w = ln.getSumWeightLinkedToCommunity(edgeCommunityNb);
 								double delta = calculateDeltaModularity(ln, edgeCommunityNb, w[0], w[1], m);
 								
+								// If there is a positive gain
 								if(delta > maxDelta)
 								{
 									maxDelta = delta;
@@ -208,6 +255,7 @@ public class LouvainAlgorithm {
 							Community c_old = communities.get(i);
 							Community c_new = communities.get(maxCommunity);
 							
+							// Remove ln i from its current community and add it to the community that maximizes to modularity
 							c_old.removeLNodeItr(itr, ln);
 							addToCommunity(c_new, ln);
 							
@@ -217,7 +265,6 @@ public class LouvainAlgorithm {
 							c_new.setSomme_in(c_new.getSomme_in() + (2*kinMax));
 							c_new.setSomme_tot(c_new.getSomme_tot() + kiMax);
 						}
-						//System.out.println("----- \n");
 						maxDelta = 0;
 		            }			           
 		        } 
@@ -238,6 +285,15 @@ public class LouvainAlgorithm {
 		System.out.println("Modularity : " + modularity);
 	}
 	
+	/**
+	 * returns the delta modularity obtained by moving li into the targetCommunity (source of the formula : https://perso.uclouvain.be/vincent.blondel/publications/08BG.pdf)
+	 * @param li : the node to move
+	 * @param targetCommunity : the community to move into
+	 * @param kin : sum of the degrees of nodes in targetCommunity and linked to nodes in targetCommuntiy
+	 * @param ki : sum of the degrees of nodes in targetCommunity
+	 * @param m : number of edges in the graph
+	 * @return delta modularity obtained
+	 */
 	private double calculateDeltaModularity(LNode li, int targetCommunity, int kin, int ki, double m)
 	{
 		double delta = 0;
@@ -256,11 +312,18 @@ public class LouvainAlgorithm {
 		return delta;
 	}
 	
+	/**
+	 * Merge communities by merging every nodes of a community into one super node, then merging edges into new weighted edges.
+	 * At the end of the process, each community is represented by one super node, edges and merged and weighted, and edges linked to a same community are represented by loops.
+	 */
 	private void mergeCommunities()
 	{
 		removeEmptyCommunities();
 		
+		// HashMap of <Community origin number, <Community target number, Weight of the edge>>
 		HashMap<Integer, HashMap<Integer,Integer>> mergedEdgesPerCommunity = new HashMap<Integer, HashMap<Integer,Integer>>();
+		
+		// HashMap of <Community number, Super node of merged nodes>
 		HashMap<Integer, LNode> mergedNodes = new HashMap<Integer, LNode>();
 		
 		for(Integer i : communities.keySet())
@@ -286,9 +349,11 @@ public class LouvainAlgorithm {
 			c.initSums();
 		}
 		
-		//displayCommunities();
 	}
 	
+	/**
+	 * Remove empty communities from the communities HashMap
+	 */
 	private void removeEmptyCommunities()
 	{
 		// Remove empty communities
@@ -303,6 +368,15 @@ public class LouvainAlgorithm {
         }
 	}
 	
+	/**
+	 * Merge every nodes in lnodes into a super node.
+	 * Merge edges from lnodes into mergedEdges HashMap.
+	 * Save the merged edges of the given community into mergedEdgesPerCommunity HashMap.
+	 * @param lnodes : list of the nodes in this community
+	 * @param community : the community to deal with
+	 * @param mergedEdgesPerCommunity : Hashmap of merged edges linked to the given community
+	 * @param mergedNodes : the super node that represents the community
+	 */
 	private void mergeNodesAndEdges(ArrayList<LNode> lnodes, int community, HashMap<Integer, HashMap<Integer,Integer>> mergedEdgesPerCommunity, HashMap<Integer,LNode> mergedNodes)
 	{
 		ArrayList<User> users = new ArrayList<User>();
@@ -322,10 +396,14 @@ public class LouvainAlgorithm {
 	{
 		return modularity;
 	}
+	
 	public HashMap<Integer, Community> getCommunities() {
 		return communities;
 	}
 	
+	/**
+	 * @return graph based on every users (including "blue" centralized ones)
+	 */
 	public Graph getModelGraph()
 	{
 		return modelGraph;
