@@ -143,7 +143,7 @@ public class Community {
 			}
 		}
 		
-		name = "Communauté de " + uId;
+		name = "CommunautÃ© de " + uId;
 	}
 	
 	public String getName()

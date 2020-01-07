@@ -120,7 +120,7 @@ public class Main extends Application {
 	        statsPanelLayout = (AnchorPane) loader.load();
 
 	        statController = loader.getController();
-            statController.initGraph(graph.getGraph());
+            statController.initGraph(modelGraph);
             statController.initButtonText();
               
             mainViewLayout.getChildren().add(statsPanelLayout);
@@ -209,7 +209,7 @@ public class Main extends Application {
 		graph.setCommunities(louv.getCommunities());
 		graph.buildGraph();
  		// Set stats in the panel
- 		statController.resetStats();
+ 		statController.resetStats(modelGraph);
 	}
 	
 	public void resetGraph(UsersBase b, AbstractGraph g) {
