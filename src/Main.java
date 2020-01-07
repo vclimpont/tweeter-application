@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -39,6 +40,7 @@ public class Main extends Application {
     private BorderPane rootLayout;
     private StackPane mainViewLayout;
     private AnchorPane statsPanelLayout;
+    private HBox helpLayout;
     
 	private FxViewPanel panelGraph;
 	private FxViewer viewerGraph;
@@ -47,16 +49,13 @@ public class Main extends Application {
   	private CommunitiesGraph graph;
   	private UsersGraph usersGraph;
   	private LouvainAlgorithm louv;
-	/*private UsersBase base;
-  	private UsersGraph graph;
-	private UsersBase communityBase;
-  	private UsersGraph communityGraph;*/
 
 	private StatsPanelController statController;
 	private BorderPane communityInfoPane;
 	private BorderPane infoPane;
-	
+
 	private boolean isHiddenNode = false;
+	private boolean isHelpOpen = false;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -123,7 +122,9 @@ public class Main extends Application {
             statController.initButtonText();
               
             mainViewLayout.getChildren().add(statsPanelLayout);
-            mainViewLayout.setAlignment(Pos.TOP_RIGHT);
+
+            StackPane.setAlignment(statsPanelLayout, Pos.TOP_RIGHT);
+            //mainViewLayout.setAlignment(Pos.TOP_RIGHT);
             
 		} catch (IOException e) {
             e.printStackTrace();
@@ -297,6 +298,26 @@ public class Main extends Application {
 		return graph;
 	}
 
+	public void showHelp() {
+		if(isHelpOpen)
+			return;
+		try {
+			FXMLLoader loader = new FXMLLoader();
+	        loader.setLocation(Main.class.getResource("HelpView.fxml"));
+	        helpLayout = (HBox) loader.load();
+            mainViewLayout.getChildren().add(helpLayout);
+            StackPane.setAlignment(helpLayout, Pos.CENTER);
+            isHelpOpen = true;
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	private void hideHelp() {
+		mainViewLayout.getChildren().remove(helpLayout);
+		isHelpOpen = false;
+	}
+
 	class MousePressGraph implements EventHandler<MouseEvent> {
 
 		private Main main;
@@ -365,6 +386,7 @@ public class Main extends Application {
 				}
 				isHiddenNode = false;
 			}
+			hideHelp();
 		}
 	}
 }

@@ -1,7 +1,13 @@
 import java.io.File;
+import java.io.IOException;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -13,7 +19,6 @@ public class MainController {
 	@FXML
 	private MenuItem theme_lightDefault;
 	
-
 
 	private Main main;
 	private FileChooser fileChooser;
@@ -50,5 +55,10 @@ public class MainController {
 	@FXML
 	private void setLightTheme() {
 		main.changeTheme(main.THEME_LIGHT);
+	}
+	
+	@FXML
+	private void showHelp() {
+	    main.showHelp();
 	}
 }
