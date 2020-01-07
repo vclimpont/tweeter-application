@@ -31,7 +31,11 @@ public class LouvainAlgorithm {
 		for(String id : base.getUsers().keySet()) // for every users in the base
 		{
 			User ui = base.getUser(id);
-			modelGraph.addNode(ui.getId());
+			
+			try {
+				modelGraph.addNode(ui.getId());
+			}
+			catch(Exception e){}
 			
 			if(!ui.getCentrality().equals("blue"))
 			{
@@ -53,6 +57,10 @@ public class LouvainAlgorithm {
 				for(String idj : ui.getExternalLinks().keySet())
 				{
 					User uj = ui.getExternalLinks().get(idj);
+					try {
+						modelGraph.addNode(uj.getId());
+					}
+					catch(Exception e){}
 					modelGraph.addEdge(ui.getId()+"."+uj.getId(), ui.getId(), uj.getId(), true);
 				}
 			}
@@ -222,6 +230,7 @@ public class LouvainAlgorithm {
 		for(Integer i : communities.keySet())
 		{
 			communities.get(i).setCentrality();
+			communities.get(i).setName();
 		}
 		
 		System.out.println("communities : " + communities.size());

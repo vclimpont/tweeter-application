@@ -6,6 +6,7 @@ public class Community {
 	private ArrayList<LNode> lnodes;
 	private int number;
 	private String centrality;
+	private String name;
 	
 	private int somme_in;
 	private int somme_tot;
@@ -14,8 +15,12 @@ public class Community {
 	{
 		number = _number;
 		lnodes = new ArrayList<LNode>();
+		name = "";
 	}
 	
+	/**
+	 * initialize somme_in (sum of degrees of each node linked to this community) and somme_tot (sum of degrees of each node in this community)
+	 */
 	public void initSums() {
 		somme_in = 0;
 		somme_tot = 0;
@@ -75,6 +80,9 @@ public class Community {
 		this.somme_tot = somme_tot;
 	}
 	
+	/**
+	 * returns the number of users in this community
+	 */
 	public int getNbOfUsers()
 	{
 		int s = 0;
@@ -86,6 +94,9 @@ public class Community {
 		return s;
 	}
 	
+	/**
+	 * Set the centrality of the community depending on the number of users in it
+	 */
 	public void setCentrality()
 	{
 		int nbUsers = getNbOfUsers();
@@ -109,6 +120,35 @@ public class Community {
 		{
 			centrality = "red";
 		}
+	}
+	
+	/**
+	 * Set the name of this community depending on the most centralized user in the community.
+	 */
+	public void setName()
+	{
+		String uId = "";
+		int maxLinks = 0;
+		
+		for(LNode ln : lnodes)
+		{
+			for(User u : ln.getUsers())
+			{
+				int uLinks = u.getInternalLinksNumber();
+				if(uLinks > maxLinks)
+				{
+					maxLinks = uLinks;
+					uId = u.getId();
+				}
+			}
+		}
+		
+		name = "Communauté de " + uId;
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 	
 	public String getCentrality()

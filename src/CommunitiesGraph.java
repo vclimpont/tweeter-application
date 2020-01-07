@@ -4,7 +4,7 @@ import org.graphstream.graph.Node;
 
 public class CommunitiesGraph extends AbstractGraph {
 	
-	private HashMap<Integer, Community> communities;
+	private HashMap<Integer, Community> communities; // associate each community to a number
 
 	public CommunitiesGraph(HashMap<Integer, Community> _communities)
 	{
@@ -12,16 +12,24 @@ public class CommunitiesGraph extends AbstractGraph {
 		communities = _communities;
 	}
 	
+	/**
+	 * Add a node to the graph for each community in communities
+	 */
 	private void buildNodes()
 	{
 		for(Integer i : communities.keySet())
 		{
 			Node n = graph.addNode(""+i);
+			
+			// Set the class of the node in the css file
 			n.setAttribute("ui.class", "community, "+communities.get(i).getCentrality());
 			n.setAttribute("layout.weight", 10);
 		}
 	}
 	
+	/**
+	 * Build an edge for each LEdge in each community
+	 */
 	private void buildEdges()
 	{
 		for(Integer i : communities.keySet())
@@ -40,12 +48,18 @@ public class CommunitiesGraph extends AbstractGraph {
 		}
 	}
 	
+	/**
+	 * Build nodes and edges of the graph
+	 */
 	public void buildGraph()
 	{
 		buildNodes();
 		buildEdges();
 	}
 	
+	/**
+	 * clear the communities graph
+	 */
 	public void clear()
 	{
 		graph.clear();

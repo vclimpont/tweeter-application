@@ -2,8 +2,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.EnumSet;
-import java.util.Iterator;
-import java.util.Map;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -49,10 +47,6 @@ public class Main extends Application {
   	private UsersGraph usersGraph;
   	private LouvainAlgorithm louv;
   	private Graph modelGraph;
-	/*private UsersBase base;
-  	private UsersGraph graph;
-	private UsersBase communityBase;
-  	private UsersGraph communityGraph;*/
 
 	private StatsPanelController statController;
 	private BorderPane communityInfoPane;

@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -14,15 +12,19 @@ public abstract class AbstractGraph {
 	
 	public AbstractGraph(String name)
 	{
-		graph = new SingleGraph(name);
+		graph = new SingleGraph(name); // 1-graph
 		initAttributes();
 	}
 	
 	public void initAttributes()
 	{
+		// Set the css file (according to the given url) 
 		graph.setAttribute("ui.stylesheet", "url('file://.//GraphStyle//lightGraph.css')");
+		// Set the duration allowed to stabilize nodes during the visualization process
 		graph.setAttribute("layout.stabilization-limit", 0.01);
+		// Set the graph rendering quality to 0
 		graph.setAttribute("layout.quality", 0);
+		// Set the value of repulsion of each nodes to 10
 		graph.setAttribute("layout.weight", 10);
 	}
 	

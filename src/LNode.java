@@ -21,6 +21,10 @@ public class LNode {
 		edges = new ArrayList<LEdge>();
 	}
 	
+	/**
+	 * returns the total degree of this node and the degree of this node linked to nodes in the given community
+	 * @param _community : a community number
+	 */
 	public int[] getSumWeightLinkedToCommunity(int _community)
 	{
 		int[] w = {0,0}; // in, tot / kin, ki
@@ -35,6 +39,9 @@ public class LNode {
 		return w;
 	}
 	
+	/**
+	 * returns the total degree of this node
+	 */
 	public int getSumWeight()
 	{
 		int w = 0; // ki
@@ -45,6 +52,10 @@ public class LNode {
 		return w;
 	}
 	
+	/**
+	 * merge Ledges of this node with L
+	 * @param elem : an Edge
+	 */
 	public void mergeEdges(HashMap<Integer, Integer> mergedEdges)
 	{
 		for(LEdge e : edges)
