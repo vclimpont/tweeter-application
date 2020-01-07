@@ -40,7 +40,7 @@ public class InfoCommunityController {
 		label_degreMoyen.setText(Double.toString(Toolkit.averageDegree(graphUsers.getGraph())));
 		label_diametre.setText(Double.toString(Toolkit.diameter(graphUsers.getGraph())));
 		
-		communityLabel.setText(n.getId());
+		communityLabel.setText(community.getName());
 	}
 	
 	public void setCommunityOpened(boolean isOpened) {

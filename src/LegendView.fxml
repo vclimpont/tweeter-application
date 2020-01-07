@@ -9,7 +9,7 @@
    <children>
       <VBox>
          <children>
-            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Carrés">
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Losange">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
@@ -167,17 +167,17 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Entre 100 et 1000 utilisateurs">
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Entre 100 et 1000 liens">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Entre 1000 et 10000 utilisateurs">
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Entre 1000 et 10000 liens">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Plus de 10000 utilisateurs">
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Plus de 10000 liens">
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
