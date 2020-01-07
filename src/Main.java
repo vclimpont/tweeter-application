@@ -411,6 +411,7 @@ public class Main extends Application {
 				isHiddenNode = false;
 			}
 			hideHelp();
+			hideLegend();
 		}
 	}
 }
