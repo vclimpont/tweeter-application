@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox>
+         <children>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Déplacement">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Déplacement rapide">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Zoom">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Dézoom">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+      <VBox>
+         <children>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Flèches">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Shift + Flèches">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Haut de page ⇟">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+            <Label maxWidth="1.7976931348623157E308" style="-fx-border-color: black;" text="Bas de page ⇞">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+         </children>
+      </VBox>
+   </children>
+</HBox>

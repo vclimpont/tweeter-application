@@ -23,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -38,6 +39,8 @@ public class Main extends Application {
     private BorderPane rootLayout;
     private StackPane mainViewLayout;
     private AnchorPane statsPanelLayout;
+    private HBox helpLayout;
+    private HBox legendLayout;
     
 	private FxViewPanel panelGraph;
 	private FxViewer viewerGraph;
@@ -51,8 +54,10 @@ public class Main extends Application {
 	private StatsPanelController statController;
 	private BorderPane communityInfoPane;
 	private BorderPane infoPane;
-	
+
 	private boolean isHiddenNode = false;
+	private boolean isHelpOpen = false;
+	private boolean isLegendOpen = false;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -119,7 +124,9 @@ public class Main extends Application {
             statController.initButtonText();
               
             mainViewLayout.getChildren().add(statsPanelLayout);
-            mainViewLayout.setAlignment(Pos.TOP_RIGHT);
+
+            StackPane.setAlignment(statsPanelLayout, Pos.TOP_RIGHT);
+            //mainViewLayout.setAlignment(Pos.TOP_RIGHT);
             
 		} catch (IOException e) {
             e.printStackTrace();
@@ -294,6 +301,48 @@ public class Main extends Application {
 		return graph;
 	}
 
+	public void showHelp() {
+		if(isHelpOpen)
+			return;
+		try {
+			FXMLLoader loader = new FXMLLoader();
+	        loader.setLocation(Main.class.getResource("HelpView.fxml"));
+	        helpLayout = (HBox) loader.load();
+            mainViewLayout.getChildren().add(helpLayout);
+            StackPane.setAlignment(helpLayout, Pos.CENTER);
+            isHelpOpen = true;
+            hideLegend();
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	private void hideHelp() {
+		mainViewLayout.getChildren().remove(helpLayout);
+		isHelpOpen = false;
+	}
+
+	public void showLegend() {
+		if(isLegendOpen)
+			return;
+		try {
+			FXMLLoader loader = new FXMLLoader();
+	        loader.setLocation(Main.class.getResource("LegendView.fxml"));
+	        legendLayout = (HBox) loader.load();
+            mainViewLayout.getChildren().add(legendLayout);
+            StackPane.setAlignment(legendLayout, Pos.CENTER);
+            isLegendOpen = true;
+            hideHelp();
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	private void hideLegend() {
+		mainViewLayout.getChildren().remove(legendLayout);
+		isLegendOpen = false;
+	}
+
 	class MousePressGraph implements EventHandler<MouseEvent> {
 
 		private Main main;
@@ -362,6 +411,8 @@ public class Main extends Application {
 				}
 				isHiddenNode = false;
 			}
+			hideHelp();
+			hideLegend();
 		}
 	}
 }

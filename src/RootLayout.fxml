@@ -30,6 +30,12 @@
                   <MenuItem fx:id="theme_lightDefault" mnemonicParsing="false" onAction="#setLightTheme" text="Light Theme" />
           </items>
         </Menu>
+            <Menu mnemonicParsing="false" text="Aide">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#showHelp" text="Commandes" />
+                  <MenuItem mnemonicParsing="false" onAction="#showlegend" text="Légende" />
+              </items>
+            </Menu>
       </menus>
     </MenuBar>
    </top>
