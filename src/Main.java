@@ -95,9 +95,6 @@ public class Main extends Application {
 	}
 	
 	public void setCommunityGraph() {
-
-		/*base = communityBase;
-		graph = communityGraph;*/
 		
 		// Create a graph viewer, which will contains the graph
 		viewerGraph = new FxViewer(graph.getGraph(), FxViewer.ThreadingModel.GRAPH_IN_GUI_THREAD);		

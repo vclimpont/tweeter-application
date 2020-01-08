@@ -53,8 +53,8 @@ public class LNode {
 	}
 	
 	/**
-	 * merge Ledges of this node with L
-	 * @param elem : an Edge
+	 * merge LEdges of this node by adding the weight of each LEdge in the given mergedEdges hashmap
+	 * @param mergedEdges : Hashmap of <community number (Integer), weight associated to this community (Integer)>
 	 */
 	public void mergeEdges(HashMap<Integer, Integer> mergedEdges)
 	{

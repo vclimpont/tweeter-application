@@ -10,7 +10,6 @@ public class User {
 	private String centrality;
 	private LNode lnode;
 	private Community community;
-	private boolean hidden;
 	
 	public User(String _id)
 	{
@@ -18,11 +17,14 @@ public class User {
 		externalLinks = new HashMap<String,User>();
 		internalLinks = new HashMap<String,User>();
 		tweets = new ArrayList<Tweet>();
-		hidden = false;
 		centrality = "blue";
 		community = null; 
 	}
 	
+	/**
+	 * Add the value <IdUser, User> to the externalLinks hashmap 
+	 * @param _user : the user to add
+	 */
 	public void addExternalLink(User _user)
 	{
 		if(!isExtLinkedTo(_user))
@@ -32,6 +34,10 @@ public class User {
 		}
 	}
 	
+	/**
+	 * Add the value <IdUser, User> to the internalLinks hashmap 
+	 * @param _user : the user to add
+	 */
 	public void addInternalLink(User _user)
 	{
 		if(!isIntLinkedTo(_user))
@@ -40,6 +46,10 @@ public class User {
 		}
 	}
 	
+	/**
+	 * Add a tweet to the tweets list relative to this user
+	 * @param _tweet : the tweet to add
+	 */
 	public void addTweet(Tweet _tweet)
 	{
 		tweets.add(_tweet);
@@ -91,7 +101,6 @@ public class User {
 			}
 		}
 		
-		System.out.println("Tweet introuvable");
 		return null;
 	}
 	
@@ -114,16 +123,6 @@ public class User {
 
 	public void setCommunity(Community community) {
 		this.community = community;
-	}
-
-	public boolean isHidden()
-	{
-		return hidden;
-	}
-	
-	public void setHidden(boolean h)
-	{
-		hidden = h;
 	}
 
 	public LNode getLNode() {

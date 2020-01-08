@@ -64,6 +64,9 @@ public class Community {
 		this.number = number;
 	}
 
+	/**
+	 * returns sum of the degrees of nodes in this community and linked to nodes in this community
+	 */
 	public int getSomme_in() {
 		return somme_in;
 	}
@@ -72,6 +75,9 @@ public class Community {
 		this.somme_in = somme_in;
 	}
 
+	/**
+	 * returns sum of the degrees of nodes in this community 
+	 */
 	public int getSomme_tot() {
 		return somme_tot;
 	}

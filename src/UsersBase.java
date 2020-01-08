@@ -10,6 +10,10 @@ public class UsersBase {
 		users = new HashMap<String,User>();
 	}
 	
+	/**
+	 * find the user in the given row of datas and add it to the base 
+	 * @param data : a row a data string[]
+	 */
 	public void rowDataToUser(String[] data)
 	{
 		if(data.length == 4)
@@ -46,17 +50,28 @@ public class UsersBase {
 		}
 	}
 	
+	/**
+	 * Add the given user in the base
+	 * @param _user : the user to add
+	 */
 	public void addUser(User _user)
 	{
 		users.put(_user.getId(), _user);
 		System.out.println("User " + _user.getId() + " added.");
 	}
 		
+	/**
+	 * returns a user from the base depending on his id
+	 * @param id : the user's id 
+	 */
 	public User getUser(String id)
 	{
 		return users.get(id);
 	}
 	
+	/**
+	 * Set the centrality of each user depending on their amount of internal links
+	 */
 	public void setUsersCentrality()
 	{	
 		for(String id : users.keySet())
