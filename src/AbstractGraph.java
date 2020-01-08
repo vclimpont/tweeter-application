@@ -58,10 +58,16 @@ public abstract class AbstractGraph {
 	 * @param isTransparent : should this element be transparent ?
 	 */
 	public void setEdgeTransparency(Edge elem, boolean isTransparent) {
-		if(isTransparent == true) {
-			elem.setAttribute("ui.class", "transparent");
+		ArrayList<String> classes;
+		if(elem.getAttribute("ui.class") != null) {
+			classes = new ArrayList<>(Arrays.asList(((String)(elem.getAttribute("ui.class"))).split(", ")));
 		} else {
-			elem.removeAttribute("ui.class");
+			classes = new ArrayList<>();
+		}
+		if(isTransparent == true) {
+			elem.setAttribute("ui.class", "transparent, " + (classes.contains("community") ? "community" : ""));
+		} else {
+			elem.setAttribute("ui.class", "" + (classes.contains("community") ? "community" : ""));
 		}
 	}
 	

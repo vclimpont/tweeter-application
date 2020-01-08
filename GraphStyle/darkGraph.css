@@ -6,23 +6,23 @@ graph{
 node.blue {
 	fill-color : blue;
 	z-index : 4;
-	size : 10px;
+	size : 15px;
 }
 node.blue_transparent {
 	fill-color : #0000FF22;
 	z-index : 2;
-	size : 10px;
+	size : 15px;
 }
 
 node.green {
 	fill-color : green;
 	z-index : 6;
-	size : 15px;
+	size : 20px;
 }
 node.green_transparent {
 	fill-color : #00FF0022;
 	z-index : 3;
-	size : 15px;
+	size : 20px;
 }
 
 node.yellow {
@@ -39,23 +39,23 @@ node.yellow_transparent {
 node.orange {
 	fill-color : orange;
 	z-index : 10;
-	size : 35px;
+	size : 30px;
 }
 node.orange_transparent {
 	fill-color : #FFA50022;
 	z-index : 6;
-	size : 35px;
+	size : 30px;
 }
 
 node.red {
 	fill-color : red;
 	z-index : 12;
-	size : 45px;
+	size : 35px;
 }
 node.red_transparent {
 	fill-color : #FF000022;
 	z-index : 6;
-	size : 45px;
+	size : 35px;
 }
 
 node.community {
