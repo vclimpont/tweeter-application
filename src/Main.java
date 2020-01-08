@@ -110,7 +110,13 @@ public class Main extends Application {
         panelGraph.addEventFilter(MouseEvent.MOUSE_PRESSED, new MousePressGraph(this));
         
 		mainViewLayout.getChildren().add(panelGraph);
-        mainViewLayout.setAlignment(Pos.CENTER);
+		StackPane.setAlignment(panelGraph, Pos.CENTER);
+
+		// The stats panel have to be in front of the graph panel
+		if(statsPanelLayout != null)
+			statsPanelLayout.toFront();
+        // Set the theme for the new panel
+        changeTheme(this.theme);
 	}
 	
 	private void initStatsPanelView() {
@@ -214,7 +220,6 @@ public class Main extends Application {
 	
 	public void resetGraph(UsersBase b, AbstractGraph g) {
 		// Update data based on those from the community
-		//this.base = b;
 		this.usersGraph = (UsersGraph) g;
 		
 		// Remove old panel which contains graph 
@@ -228,8 +233,9 @@ public class Main extends Application {
         panelGraph.addEventFilter(MouseEvent.MOUSE_PRESSED, new MousePressGraph(this));
         
 		mainViewLayout.getChildren().add(panelGraph);
-        mainViewLayout.setAlignment(Pos.CENTER);
-        
+		StackPane.setAlignment(panelGraph, Pos.CENTER);
+		// The stats panel have to be in front of the graph panel
+		statsPanelLayout.toFront();
         // Set the theme for the new panel
         changeTheme(this.theme);
 	}
