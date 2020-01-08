@@ -19,58 +19,61 @@
                <children>
                   <VBox>
                      <children>
-                        <Label prefHeight="30.0" prefWidth="150.0" text="Volume">
+                        <Label text="Volume">
                            <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </Label>
-                        <Label prefHeight="30.0" prefWidth="150.0" text="Ordre">
+                        <Label text="Ordre">
                            <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label prefHeight="30.0" prefWidth="150.0" text="Diamètre">
+                        <Label text="Diamètre">
                            <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label prefHeight="30.0" prefWidth="150.0" text="Degré moyen">
+                        <Label text="Degré moyen">
                            <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
                      </children>
                   </VBox>
                   <VBox AnchorPane.leftAnchor="150.0">
                      <children>
-                        <Label fx:id="label_volume" prefHeight="30.0" prefWidth="150.0">
+                        <Label fx:id="label_volume">
                            <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="label_ordre" prefHeight="30.0" prefWidth="150.0">
+                        <Label fx:id="label_ordre">
                            <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="label_diametre" prefHeight="30.0" prefWidth="150.0">
+                        <Label fx:id="label_diametre">
                            <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="label_degreMoyen" prefHeight="30.0" prefWidth="150.0">
+                        <Label fx:id="label_degreMoyen">
                            <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
                         </Label>
                      </children>
                   </VBox>
                </children>
             </AnchorPane>
-            <Button fx:id="openButton" mnemonicParsing="false" onAction="#openCommunity" text="Ouvrir" />
+            <Button fx:id="openButton" mnemonicParsing="false" onAction="#openCommunity" text="Ouvrir">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
    </center>
