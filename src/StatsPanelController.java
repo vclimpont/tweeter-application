@@ -95,25 +95,6 @@ public class StatsPanelController {
 		});
 
 		setDiameterLoaderThread.start();
-		
-
-		/*new Thread( () -> {
-			setDiameter(Toolkit.diameter(graph));
-			isLoadingDiameter = false;
-		}).start();
-		
-		new Thread( () -> {
-			while(isLoadingDiameter) {
-				try {
-					if(diameterLoaderString.length() > 3) {
-						diameterLoaderString = "";
-					}
-					diameterLoaderString = diameterLoaderString + ".";
-					label_diametre.setText(diameterLoaderString);
-					Thread.sleep(100);
-				} catch (InterruptedException e) {}
-			}
-		}).start();*/
 	}
 	
 	private void setVolume(int volume) {
