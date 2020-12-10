@@ -15,11 +15,11 @@ communities is displayed. Communities are represented by diamonds of different s
 It also displays statistical data about the graph, and the user can click on a community to get more information and even enter it. In this case, a graph representing the users of this community and their relationships is displayed. He can then click on a user to get information about the latter.
 
 ### Focus on a community
-[!Community focus](https://github.com/vclimpont/tweeter-application/blob/master/Images/commufocus.png)
+![Community focus](https://github.com/vclimpont/tweeter-application/blob/master/Images/commufocus.png)
 
 ### Focus on users
-[!Users graph](https://github.com/vclimpont/tweeter-application/blob/master/Images/usersgraph.png)
-[!User focus](https://github.com/vclimpont/tweeter-application/blob/master/Images/userfocus.png)
+![Users graph](https://github.com/vclimpont/tweeter-application/blob/master/Images/usersgraph.png)
+![User focus](https://github.com/vclimpont/tweeter-application/blob/master/Images/userfocus.png)
 
 
 ### Sources
